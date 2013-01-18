@@ -23,6 +23,10 @@
 				location = 'debug.html';
 			}
 			new App().renderInto(document.body);
+			
+			if(window.PalmSystem) {
+				PalmSystem.stageReady();
+			}
 		</script>
 	</body>
 </html>
