@@ -1,7 +1,0 @@
-.more-arrangers-perspective {
-	-webkit-perspective: 2000px;
-}
-
-.more-arrangers-bfhidden > * {
-	-webkit-backface-visibility: hidden;
-}
