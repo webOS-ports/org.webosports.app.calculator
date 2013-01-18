@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Panels App Test</title>
+	<!-- -->
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="viewport" content="width=device-width initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<!-- -->
+	<link rel="stylesheet" href="http://nightly.enyojs.com/latest/enyo-nightly/enyo.css">
+	<script src="http://nightly.enyojs.com/latest/enyo-nightly/enyo.js"></script>
+	<script src="http://nightly.enyojs.com/latest/lib/onyx/package.js"></script>
+	<script src="http://nightly.enyojs.com/latest/lib/layout/package.js"></script>
+	<script src="./package.js"></script>
+	<!-- -->
+	<style>
+		.panels > * {
+			border: 4px solid orange;
+			font-size: 5em;
+			text-align: center;
+			width: 320px;
+		}
+
+
+	</style>
+</head>
+<body>
+	<script>
+		enyo.kind({
+			name: "App",
+			classes: "enyo-unselectable",
+			layoutKind: "FittableRowsLayout",
+			panelArrangers: [
+				{name: "BoxTurnArranger", arrangerKind: "BoxTurnArranger"},
+				{name: "HFlipArranger", arrangerKind: "HFlipArranger"},
+				{name: "PageSpinArranger", arrangerKind: "PageSpinArranger"},
+				{name: "PageTurnArranger", arrangerKind: "PageTurnArranger"},
+				{name: "PushPopArranger", arrangerKind: "PushPopArranger"},
+				{name: "SladeArranger", arrangerKind: "SladeArranger"},
+			],
+			components: [
+				{kind: "onyx.Toolbar", components:[
+					{content: "More Arrangers Demo"},
+					{kind: "onyx.MenuDecorator", components: [
+						{content:"Arranger"},
+						{name:"arrangerPicker", kind: "onyx.Menu", floating:true, onSelect:"arrangerSelected"}
+					]},
+				]},
+				{name: "Panels",
+				kind: "Panels",
+				classes: "panels",
+				style: "margin:5%; overflow:visible;",
+				fit: true,
+				components:[
+					{name: "left", style: "background: beige;", components: [
+						{content: "Left"}
+					]},
+					{name: "middle", style: "background: tomato;", components: [
+						{content: "Middle"}
+					]},
+					{name: "body", style: "background: lightblue;", components: [
+						{content: "Body"}
+					]},
+				]}
+			],
+			create: function() {
+				this.inherited(arguments);
+				for (var i=0; i<this.panelArrangers.length; i++) {
+					this.$.arrangerPicker.createComponent({content:this.panelArrangers[i].name});
+				}
+			},
+			arrangerSelected: function(inSender, inEvent) {
+				var sp = this.$.Panels;
+				var p = this.panelArrangers[inEvent.originator.indexInContainer()-1];
+				if (this.currentClass) {
+					sp.removeClass(this.currentClass)
+				}
+				if (p.classes) {
+					sp.addClass(p.classes);
+					this.currentClass = p.classes;
+				}
+				sp.setArrangerKind(p.arrangerKind);
+				if (enyo.Panels.isScreenNarrow()) {
+					this.setIndex(1);
+				}
+			},
+		});
+		new App({fit: true}).write();
+	</script>
+</body>
+</html>
+

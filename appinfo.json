@@ -1,0 +1,12 @@
+{
+	"title": "Calculator",
+	"id": "org.webosports.app.calculator",
+	"version": "0.1.0",
+	"vendor": "WebOS Ports",
+	"vendor_url": "https://github.com/webOS-ports/org.webosports.app.calculator",
+	"type": "web",
+	"main": "index.html",
+	"icon": "icon.png",
+	"uiRevision": "2"
+}
+
