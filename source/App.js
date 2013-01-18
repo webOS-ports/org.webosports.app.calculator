@@ -17,7 +17,7 @@ enyo.kind({
 			]},
 			{kind: "FittableColumns", style: "margin-bottom: 5px;", components:[
 				{kind: "onyx.Toolbar",
-					style: "width: 75%; height: 48px; margin-left: 12.5%; margin-right: 5px; padding: 2px; text-align: right;",
+					style: "width: 75%; height: 48px; margin-left: 12.5%; margin-right: 5px; text-align: right;",
 				fit: true,
 				components:[
 					{name: "Formula", style: "font-size: 12pt;"}
@@ -28,11 +28,11 @@ enyo.kind({
 			fit: true,
 			defaultKind: enyo.kind({
 				kind: "FittableColumns",
-				style: "height: 19%; margin-bottom: 1%;",
+				style: "height: 19%; margin: 0.5%;",
 				defaultKind: enyo.kind({
 					kind: "onyx.Button",
 					classes: "onyx-toolbar",
-					style: "width: 24%; margin-right: 1%; border-radius: 8px; font-size: 24pt; font-weight: bold;",
+					style: "width: 24%; margin: 0.5%; border-radius: 8px; font-size: 24pt; font-weight: bold;",
 					ontap: "keyTapped"
 				}),
 			}),
