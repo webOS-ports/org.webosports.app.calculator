@@ -81,20 +81,25 @@ enyo.kind({
 	],
 	//Action Handlers
 	keyTapped: function(inSender, inEvent) {
-		var formula = this.$.Formula;	
+		var formula = this.$.Formula;
 		formula.setContent(formula.getContent() + inSender.getContent());
 		
 	},
 	equalsTapped: function() {
+		this.$.Result.setContent(this.calculate(this.$.Formula.getContent()));
+	},
+	calculate: function(formula) {
 		try {
-			var formula = this.$.Formula;
-			formula2.setContent(formula.replace('sqrt', 'Math.sqrt'));
-			var result = eval(formula2.getContent());
+			// Replace mathematical notation with JS here
+			var parsed;
+			parsed = formula.replace('sqrt', 'Math.sqrt');
+			
+			return eval(parsed);
 		}
 		catch(err) {
-			result = "Invalid Input";
+			enyo.log(err);
+			return "Invalid Input";
 		}
-		this.$.Result.setContent(result);
 	},
 	cancelTapped: function() {
 		this.$.Result.setContent("");
