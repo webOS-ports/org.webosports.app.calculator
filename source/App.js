@@ -28,7 +28,7 @@ enyo.kind({
 			fit: true,
 			defaultKind: enyo.kind({
 				kind: "FittableColumns",
-				style: "height: 19%; margin: 0.5%;",
+				style: "height: 15.5%; margin: 0.5%;",
 				defaultKind: enyo.kind({
 					kind: "onyx.Button",
 					classes: "onyx-toolbar",
@@ -38,11 +38,19 @@ enyo.kind({
 			}),
 			components:[
 				{components:[
-					{style: "visibility: hidden;"},
+					/**{style: "visibility: hidden;"},*/
+    					{content: "Square Root", ontap: "sqrtTapped"},		
 					{content: "("},
 					{content: ")"},
 					{content: "C", style: "margin-right: 0;", ontap: "cancelTapped"},
 				]},
+ {components:[
+                                        {content: "ln", ontap: "lnTapped"},
+                                        {content: "log", ontap: "logTapped"},
+                                        {content: "^2"},
+                                        {content: ""},
+                                ]},
+
 				{components:[
 					{content: "7", classes: "number-button"},
 					{content: "8", classes: "number-button"},
@@ -75,10 +83,13 @@ enyo.kind({
 	keyTapped: function(inSender, inEvent) {
 		var formula = this.$.Formula;	
 		formula.setContent(formula.getContent() + inSender.getContent());
+		
 	},
 	equalsTapped: function() {
 		try {
-			var result = eval(this.$.Formula.getContent());
+			var formula = this.$.Formula;
+			formula2.setContent(formula.replace('sqrt', 'Math.sqrt'));
+			var result = eval(formula2.getContent());
 		}
 		catch(err) {
 			result = "Invalid Input";
@@ -88,6 +99,18 @@ enyo.kind({
 	cancelTapped: function() {
 		this.$.Result.setContent("");
 		this.$.Formula.setContent("");
+	},
+	sqrtTapped: function() {
+		this.$.Result.setContent("");
+		this.$.Formula.setContent("sqrt(");
+	},
+	lnTapped: function() {
+		this.$.Result.setContent("");
+		this.$.Formula.setContent("ln(");
+	},
+	logTapped: function() {
+		this.$.Result.setContent("");
+		this.$.Formula.setContent("log(");
 	},
 	backspaceTapped: function() {
 		var formula = this.$.Formula;
