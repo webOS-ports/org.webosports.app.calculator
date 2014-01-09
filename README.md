@@ -1,6 +1,5 @@
 bootplate
 =========
 
-Application template for packaged Enyo
+Calculator application for webos-ports
 
-Refer to the [Wiki](https://github.com/enyojs/enyo/wiki/Bootplate) for how to get started.
