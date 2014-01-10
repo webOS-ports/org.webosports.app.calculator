@@ -1,5 +1,5 @@
-bootplate
+Calculator
 =========
 
-Calculator application for webos-ports
+A basic calculator application for webos-ports
 
