@@ -17,20 +17,22 @@ enyo.kind({
 	//* Size of the corners of the indicator
 	cornerSize: 6,
 	classes: "enyo-thumb",
-	create: function() {
-		this.inherited(arguments);
-		var v = this.axis == "v";
-		this.dimension = v ? "height" : "width";
-		this.offset = v ? "top" : "left";
-		this.translation = v ? "translateY" : "translateX";
-		this.positionMethod = v ? "getScrollTop" : "getScrollLeft";
-		this.sizeDimension = v ? "clientHeight" : "clientWidth";
-		this.addClass("enyo-" + this.axis + "thumb");
-		this.transform = enyo.dom.canTransform();
-		if (enyo.dom.canAccelerate()) {
-			enyo.dom.transformValue(this, "translateZ", 0);
-		}
-	},
+	create: enyo.inherit(function (sup) {
+		return function() {
+			sup.apply(this, arguments);
+			var v = this.axis == "v";
+			this.dimension = v ? "height" : "width";
+			this.offset = v ? "top" : "left";
+			this.translation = v ? "translateY" : "translateX";
+			this.positionMethod = v ? "getScrollTop" : "getScrollLeft";
+			this.sizeDimension = v ? "clientHeight" : "clientWidth";
+			this.addClass("enyo-" + this.axis + "thumb");
+			this.transform = enyo.dom.canTransform();
+			if (enyo.dom.canAccelerate()) {
+				enyo.dom.transformValue(this, "translateZ", 0);
+			}
+		};
+	}),
 	//* Syncs the scroll indicator bar to the scroller size and position,
 	//* as determined by the passed-in scroll strategy.
 	sync: function(inStrategy) {
@@ -83,7 +85,7 @@ enyo.kind({
 			}
 		}
 	},
-	// implement set because showing is not changed while 
+	// implement set because showing is not changed while
 	// we delayHide but we want to cancel the hide.
 	setShowing: function(inShowing) {
 		if (inShowing && inShowing != this.showing) {
@@ -102,7 +104,7 @@ enyo.kind({
 	},
 	delayHide: function(inDelay) {
 		if (this.showing) {
-			enyo.job(this.id + "hide", enyo.bind(this, "hide"), inDelay || 0);
+			enyo.job(this.id + "hide", this.bindSafely("hide"), inDelay || 0);
 		}
 	},
 	cancelDelayHide: function() {

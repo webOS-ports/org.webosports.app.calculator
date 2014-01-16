@@ -26,7 +26,7 @@
 */
 enyo.kind({
 	name: "enyo.Selection",
-	kind: enyo.Component,
+	kind: "enyo.Component",
 	published: {
 		//* If true, multiple selections are allowed
 		multi: false
@@ -42,7 +42,7 @@ enyo.kind({
 
 			_inEvent.key_ is whatever key was used to register the selection
 			(usually a row index).
-			
+
 			_inEvent.data_ references data registered with this key by the code
 			that made the original selection.
 		*/
@@ -57,7 +57,7 @@ enyo.kind({
 
 			_inEvent.key_ is whatever key was used to request the deselection
 			(usually a row index).
-			
+
 			_inEvent.data_ references data registered with this key by the code
 			that made the selection.
 		*/
@@ -66,17 +66,19 @@ enyo.kind({
 		onChange: ""
 	},
 	//* @protected
-	create: function() {
-		this.clear();
-		this.inherited(arguments);
-	},
+	create: enyo.inherit(function (sup) {
+		return function() {
+			this.clear();
+			sup.apply(this, arguments);
+		};
+	}),
 	multiChanged: function() {
 		if (!this.multi) {
 			this.clear();
 		}
 		this.doChange();
 	},
-	highlander: function(inKey) {
+	highlander: function() {
 		if (!this.multi) {
 			this.deselect(this.lastSelected);
 		}

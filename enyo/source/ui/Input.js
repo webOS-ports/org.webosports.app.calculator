@@ -1,21 +1,20 @@
 /**
 	_enyo.Input_ implements an HTML &lt;input&gt; element with cross-platform
-	support for	change events.
+	support for change events.
 
 	You can listen for _oninput_ and _onchange_ DOM events from this control
 	to know when the text inside has been modified. _oninput_ fires immediately,
 	while _onchange_ fires when the text has changed and the input subsequently
 	loses focus.
 
-	For more information, see the documentation on
-	[Text Fields](https://github.com/enyojs/enyo/wiki/Text-Fields) in the Enyo
-	Developer Guide.
+	For more information, see the documentation on [Text
+	Fields](building-apps/controls/text-fields.html) in the Enyo Developer Guide.
 */
 enyo.kind({
 	name: "enyo.Input",
 	published: {
 		/**
-			Value of the input.  Use this property only to initialize the value.
+			Value of the input. Use this property only to initialize the value.
 			Call _getValue_ and _setValue_ to manipulate the value at runtime.
 		*/
 		value: "",
@@ -50,33 +49,40 @@ enyo.kind({
 		onclear: "clear",
 		ondragstart: "dragstart"
 	},
-	create: function() {
-		if (enyo.platform.ie) {
-			this.handlers.onkeyup = "iekeyup";
-		}
-		this.inherited(arguments);
-		this.placeholderChanged();
-		// prevent overriding a custom attribute with null
-		if (this.type) {
-			this.typeChanged();
-		}
-		this.valueChanged();
-	},
-	rendered: function() {
-		this.inherited(arguments);
+	create: enyo.inherit(function (sup) {
+		return function() {
+			if (enyo.platform.ie) {
+				this.handlers.onkeyup = "iekeyup";
+			}
+			if (enyo.platform.windowsPhone) {
+				this.handlers.onkeydown = "iekeydown";
+			}
+			sup.apply(this, arguments);
+			this.placeholderChanged();
+			// prevent overriding a custom attribute with null
+			if (this.type) {
+				this.typeChanged();
+			}
+			this.valueChanged();
+		};
+	}),
+	rendered: enyo.inherit(function (sup) {
+		return function() {
+			sup.apply(this, arguments);
 
-		enyo.makeBubble(this, "focus", "blur");
+			enyo.makeBubble(this, "focus", "blur");
 
-		//Force onchange event to be bubbled inside Enyo for IE8
-		if(enyo.platform.ie == 8){
-      		this.setAttribute("onchange", enyo.bubbler);
-      	}
+			//Force onchange event to be bubbled inside Enyo for IE8
+			if(enyo.platform.ie == 8){
+				this.setAttribute("onchange", enyo.bubbler);
+			}
 
-		this.disabledChanged();
-		if (this.defaultFocus) {
-			this.focus();
-		}
-	},
+			this.disabledChanged();
+			if (this.defaultFocus) {
+				this.focus();
+			}
+		};
+	}),
 	typeChanged: function() {
 		this.setAttribute("type", this.type);
 	},
@@ -87,12 +93,22 @@ enyo.kind({
 		this.setAttribute("disabled", this.disabled);
 		this.bubble("onDisabledChange");
 	},
-	getValue: function() {
-		return this.getNodeProperty("value", this.value);
-	},
 	valueChanged: function() {
-		this.setAttribute("value", this.value);
-		this.setNodeProperty("value", this.value);
+		var node = this.hasNode(),
+			attrs = this.attributes;
+		if (node) {
+			if (node.value !== this.value) {
+				node.value = this.value;
+			}
+			// we manually update the cached value so that the next time the
+			// attribute is requested or the control is re-rendered it will
+			// have the correct value - this is because calling setAttribute()
+			// in some cases does not receive an appropriate response from the
+			// browser
+			attrs.value = this.value;
+		} else {
+			this.setAttribute("value", this.value);
+		}
 	},
 	iekeyup: function(inSender, inEvent) {
 		var ie = enyo.platform.ie, kc = inEvent.keyCode;
@@ -101,17 +117,19 @@ enyo.kind({
 			this.bubble("oninput", inEvent);
 		}
 	},
+	iekeydown: function(inSender, inEvent) {
+		var wp = enyo.platform.windowsPhone, kc = inEvent.keyCode, dt = inEvent.dispatchTarget;
+		// onchange event fails to fire on enter key for Windows Phone 8, so we force blur
+		if (wp <= 8 && kc == 13 && this.tag == "input" && dt.hasNode()) {
+			dt.node.blur();
+		}
+	},
 	clear: function() {
 		this.setValue("");
 	},
-	focus: function() {
-		if (this.hasNode()) {
-			this.node.focus();
-		}
-	},
 	// note: we disallow dragging of an input to allow text selection on all platforms
 	dragstart: function() {
-		return true;
+		return this.hasFocus();
 	},
 	focused: function() {
 		if (this.selectOnFocus) {
@@ -128,5 +146,9 @@ enyo.kind({
 			r.expand("textedit");
 			r.select();
 		}
+	},
+	input: function() {
+		var val = this.getNodeProperty("value");
+		this.setValue(val);
 	}
 });

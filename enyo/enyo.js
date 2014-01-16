@@ -1,8 +1,9 @@
+/* global enyo:true */
 (function() {
 	// enyo can use information from the script tag that loads this bootstrap file
 	var thisScript = "enyo.js";
 
-	enyo = window.enyo || {};
+	enyo = window.enyo || {options: {}};
 
 	enyo.locateScript = function(inName) {
 		var scripts = document.getElementsByTagName("script");
@@ -22,7 +23,7 @@
 	var tag = enyo.locateScript(thisScript);
 	if (tag) {
 		// infer the framework path from the document, unless the user has specified one explicitly
-		enyo.args.root = (enyo.args.root || tag.path); /*.replace("/source", "")*/;
+		enyo.args.root = (enyo.args.root || tag.path);
 		// all attributes of the bootstrap script tag become enyo.args
 		for (var i=0, al = tag.node.attributes.length, it; (i < al) && (it = tag.node.attributes.item(i)); i++) {
 			enyo.args[it.nodeName] = it.value;
@@ -32,9 +33,13 @@
 	var root = enyo.args.root;
 
 	var script = function(inSrc) {
+		/* jshint evil: true */
 		document.write('<scri' + 'pt src="' + root + "/source/boot/" + inSrc + '"></scri' + 'pt>');
+		/* jshint evil: false */
 	};
-
+	script("version.js");
+	script("ready.js");
+	script("rendered.js");
 	script("../../loader.js");
 	script("boot.js");
 	script("../package.js");
