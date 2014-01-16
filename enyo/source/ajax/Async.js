@@ -11,12 +11,12 @@
 	encounters an error.
 
 	More information on _Async_ and its usage is available in the documentation	on
-	<a href="https://github.com/enyojs/enyo/wiki/Consuming-Web-Services">Consuming Web Services</a>
+	[Consuming Web Services](building-apps/managing-data/consuming-web-services.html)
 	in the Enyo Developer Guide.
 */
 enyo.kind({
 	name: "enyo.Async",
-	kind: enyo.Object,
+	kind: "enyo.Object",
 	published: {
 		/**
 			If set to a non-zero value, the number of milliseconds to
@@ -27,10 +27,23 @@ enyo.kind({
 	//* @protected
 	failed: false,
 	context: null,
-	constructor: function() {
-		this.responders = [];
-		this.errorHandlers = [];
-	},
+	constructor: enyo.inherit(function (sup) {
+		return function() {
+			sup.apply(this, arguments);
+			this.responders = [];
+			this.errorHandlers = [];
+			this.progressHandlers = [];
+		};
+	}),
+	destroy: enyo.inherit(function (sup) {
+		return function() {
+			if (this.timeoutJob) {
+				this.clearTimeout();
+			}
+			sup.apply(this, arguments);
+		};
+	}),
+
 	accumulate: function(inArray, inMethodArgs) {
 		var fn = (inMethodArgs.length < 2) ? inMethodArgs[0] : enyo.bind(inMethodArgs[0], inMethodArgs[1]);
 		inArray.push(fn);
@@ -39,7 +52,7 @@ enyo.kind({
 	/**
 		Registers a response function.
 		First parameter is an optional _this_ context for the response method.
-		Second (or only) parameter is the function object. 
+		Second (or only) parameter is the function object.
 	*/
 	response: function(/* [inContext], inResponder */) {
 		this.accumulate(this.responders, arguments);
@@ -48,7 +61,7 @@ enyo.kind({
 	/**
 		Registers an error handler.
 		First parameter is an optional _this_ context for the response method.
-		Second (or only) parameter is the function object. 
+		Second (or only) parameter is the function object.
 	*/
 	error: function(/* [inContext], inResponder */) {
 		this.accumulate(this.errorHandlers, arguments);
@@ -56,11 +69,11 @@ enyo.kind({
 	},
 	//* @protected
 	route: function(inAsync, inValue) {
-		var r = enyo.bind(this, "respond");
+		var r = this.bindSafely("respond");
 		inAsync.response(function(inSender, inValue) {
 			r(inValue);
 		});
-		var f = enyo.bind(this, "fail");
+		var f = this.bindSafely("fail");
 		inAsync.error(function(inSender, inValue) {
 			f(inValue);
 		});
@@ -82,14 +95,14 @@ enyo.kind({
 		}
 	},
 	startTimer: function() {
-		this.startTime = enyo.now();
+		this.startTime = enyo.perfNow();
 		if (this.timeout) {
-			this.timeoutJob = setTimeout(enyo.bind(this, "timeoutComplete"), this.timeout);
+			this.timeoutJob = setTimeout(this.bindSafely("timeoutComplete"), this.timeout);
 		}
 	},
 	endTimer: function() {
 		if (this.timeoutJob) {
-			this.endTime = enyo.now();
+			this.endTime = enyo.perfNow();
 			clearTimeout(this.timeoutJob);
 			this.timeoutJob = null;
 			this.latency = this.endTime - this.startTime;
@@ -118,9 +131,34 @@ enyo.kind({
 	recover: function() {
 		this.failed = false;
 	},
+    //* @public
+	/**
+		Registers a progress handler.
+		First parameter is an optional _this_ context for the response method.
+		Second (or only) parameter is the function object.
+		Progress handlers are called with the sender as the first argument and a progress event as the second argument.
+	*/
+	progress: function(/* [inContext], inResponder */) {
+		this.accumulate(this.progressHandlers, arguments);
+		return this;
+	},
+	//* @protected
+	//* Notifies the progress handlers
+	sendProgress: function(current, min, max, sourceEvent) {
+		var event = enyo.mixin({}, sourceEvent);
+		event.type = 'progress';
+		event.current = current;
+		event.min = min;
+		event.max = max;
+		for (var i = 0; i < this.progressHandlers.length; i++) {
+			enyo.call(this.context || this, this.progressHandlers[i], [this, event]);
+		}
+	},
 	//* Starts the async activity. Overridden in subkinds.
 	go: function(inValue) {
+		this.sendProgress(0, 0, 1);
 		enyo.asyncMethod(this, function() {
+			this.sendProgress(1, 0, 1);
 			this.respond(inValue);
 		});
 		return this;

@@ -7,7 +7,7 @@ _enyo.ScrollMath_ is not typically created in application code.
 */
 enyo.kind({
 	name: "enyo.ScrollMath",
-	kind: enyo.Component,
+	kind: "enyo.Component",
 	published: {
 		//* True if vertical scrolling is enabled
 		vertical: true,
@@ -60,14 +60,16 @@ enyo.kind({
 	x: 0,
 	y0: 0,
 	y: 0,
-	destroy: function() {
-		this.stop();
-		this.inherited(arguments);
-	},
+	destroy: enyo.inherit(function (sup) {
+		return function() {
+			this.stop();
+			sup.apply(this, arguments);
+		};
+	}),
 	/**
 		Simple Verlet integrator for simulating Newtonian motion.
 	*/
-	verlet: function(p) {
+	verlet: function() {
 		var x = this.x;
 		this.x += x - this.x0;
 		this.x0 = x;
@@ -85,7 +87,7 @@ enyo.kind({
 		//
 		// this is basically just value *= coeff (generally, coeff < 1)
 		//
-		// 'sign' and the conditional is to force the damping to only occur 
+		// 'sign' and the conditional is to force the damping to only occur
 		// on one side of the origin.
 		//
 		var dv = value - origin;
@@ -147,20 +149,20 @@ enyo.kind({
 	animate: function() {
 		this.stop();
 		// time tracking
-		var t0 = enyo.now(), t = 0;
+		var t0 = enyo.perfNow(), t = 0;
 		// delta tracking
 		var x0, y0;
 		// animation handler
-		var fn = enyo.bind(this, function() {
+		var fn = this.bindSafely(function() {
 			// wall-clock time
-			var t1 = enyo.now();
+			var t1 = enyo.perfNow();
 			// schedule next frame
 			this.job = enyo.requestAnimationFrame(fn);
 			// delta from last wall clock time
 			var dt = t1 - t0;
 			// record the time for next delta
 			t0 = t1;
-			// user drags override animation 
+			// user drags override animation
 			if (this.dragging) {
 				this.y0 = this.y = this.uy;
 				this.x0 = this.x = this.ux;
@@ -195,8 +197,13 @@ enyo.kind({
 		}
 	},
 	stop: function(inFireEvent) {
-		this.job = enyo.cancelRequestAnimationFrame(this.job);
-		inFireEvent && this.doScrollStop();
+		var job = this.job;
+		if (job) {
+			this.job = enyo.cancelRequestAnimationFrame(job);
+		}
+		if (inFireEvent) {
+			this.doScrollStop();
+		}
 	},
 	stabilize: function() {
 		this.start();
@@ -232,7 +239,7 @@ enyo.kind({
 			return true;
 		}
 	},
-	dragDrop: function(e) {
+	dragDrop: function() {
 		if (this.dragging && !window.PalmSystem) {
 			var kSimulatedFlickScalar = 0.5;
 			this.y = this.uy;
@@ -275,7 +282,7 @@ enyo.kind({
 	/**
 		Animates a scroll to the specified position.
 	*/
-	scrollTo: function(inY, inX) {
+	scrollTo: function(inX, inY) {
 		if (inY !== null) {
 			this.y = this.y0 - (inY + this.y0) * (1 - this.kFrictionDamping);
 		}
@@ -297,6 +304,7 @@ enyo.kind({
 		return Boolean(this.job);
 	},
 	isInOverScroll: function() {
-		return this.job && (this.x > this.leftBoundary || this.x < this.rightBoundary || this.y > this.topBoundary || this.y < this.bottomBoundary);
+		return this.job && (this.x > this.leftBoundary || this.x < this.rightBoundary ||
+			this.y > this.topBoundary || this.y < this.bottomBoundary);
 	}
 });

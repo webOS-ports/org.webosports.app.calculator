@@ -3,10 +3,12 @@ enyo.kind({
 	name: "enyo._DragAvatar",
 	style: "position: absolute; z-index: 10; pointer-events: none; cursor: move;",
 	showing: false,
-	showingChanged: function() {
-		this.inherited(arguments);
-		document.body.style.cursor = this.showing ? "move" : null;
-	}
+	showingChanged: enyo.inherit(function (sup) {
+		return function() {
+			sup.apply(this, arguments);
+			document.body.style.cursor = this.showing ? "move" : null;
+		};
+	})
 });
 
 //* @public
@@ -31,12 +33,12 @@ enyo.kind({
 			},
 			dragFinish: function(inSender, inEvent) {
 				this.$.dragAvatar.hide();
-			}			
+			}
 		});
 */
 enyo.kind({
 	name: "enyo.DragAvatar",
-	kind: enyo.Component,
+	kind: "enyo.Component",
 	published: {
 		//* Current visibility state of the DragAvatar
 		showing: false,
@@ -52,11 +54,13 @@ enyo.kind({
 		offsetY: 30
 	},
 	//* @protected
-	initComponents: function() {
-		this.avatarComponents = this.components;
-		this.components = null;
-		this.inherited(arguments);
-	},
+	initComponents: enyo.inherit(function (sup) {
+		return function() {
+			this.avatarComponents = this.components;
+			this.components = null;
+			sup.apply(this, arguments);
+		};
+	}),
 	requireAvatar: function() {
 		// FIXME: there is nobody to call teardownRender on this.avatar
 		// if document.body.innerHTML has been written over, his node is invalid

@@ -1,11 +1,44 @@
 enyo.kind({
 	name: "AjaxTest",
 	kind: enyo.TestSuite,
+	noDefer: true,
 	timeout: 10000,
+	testContextSuccess: function (){
+		var self = this;
+		var context = {testStatus: 'success'};
+		return new enyo.Ajax({url: "php/test1.php?format=test"})
+			.response(context, function(inSender, inValue) {
+				if (this.testStatus && this.testStatus === 'success') {
+					self.finish("");
+				} else {
+					self.finish("response context not correctly bound");
+				}
+			})
+			.error(context, function(inSender, inError) {
+				self.finish("simple request failed");
+			})
+			.go();
+	},
+	testContextFailure: function (){
+		var self = this;
+		var context = {testStatus: 'success'};
+		return new enyo.Ajax({url: "php/nowhere.php"})
+			.response(context, function(inSender, inValue) {
+				self.finish("simple request failed");
+			})
+			.error(context, function(inSender, inError) {
+				if (this.testStatus && this.testStatus === 'success') {
+					self.finish("");
+				} else {
+					self.finish("failure context not correctly bound");
+				}
+			})
+			.go();
+	},
 	_testAjax: function(inProps, inParams, inAssertFn, inAssertErrFn) {
 		return new enyo.Ajax(inProps)
 			.response(this, function(inSender, inValue) {
-				this.finish(inAssertFn.call(null, inValue) ? "" : "bad response: " + inValue);
+				this.finish(inAssertFn.call(null, inValue) ? "" : "bad response: " + JSON.stringify(inValue));
 			})
 			.error(this, function(inSender, inError) {
 				if (!inAssertErrFn) {
@@ -42,21 +75,22 @@ enyo.kind({
 			return inValue == "hello";
 		});
 	},
-    testPostRequestQuery: function() {
-        this._testAjax({url: "php/test2.php", method: "POST"}, {query: "enyo"}, function(inValue) {
-            return inValue.response == "query.enyo";
-        });
-    },
-    testPostRequestQueryWithPayload: function() {
-        this._testAjax({url: "php/test2.php", method: "POST", postBody:"data"}, {query: "enyo"}, function(inValue) {
-            return inValue.response == "query.enyo";
-        });
-    },
-    testPostRequestPayload: function() {
-        this._testAjax({url: "php/test2.php", method: "POST", postBody:"query=enyo"}, null, function(inValue) {
-            return inValue.response == "post.enyo";
-        });
-    },
+	// try a post with query object
+	testPostRequestQuery: function() {
+		this._testAjax({url: "php/test2.php", method: "POST"}, {query: "enyo"}, function(inValue) {
+			return inValue.response == "query.enyo";
+		});
+	},
+	testPostRequestQueryWithPayload: function() {
+		this._testAjax({url: "php/test2.php", method: "POST", postBody:"data"}, {query: "enyo"}, function(inValue) {
+			return inValue.response == "query.enyo";
+		});
+	},
+	testPostRequestPayload: function() {
+		this._testAjax({url: "php/test2.php", method: "POST", postBody:"query=enyo"}, null, function(inValue) {
+			return inValue.response == "post.enyo";
+		});
+	},
 	testPutRequest: function() {
 		this._testAjax({url: "php/test2.php", method: "PUT"}, null, function(inValue) {
 			return inValue.status == "put";
@@ -80,7 +114,41 @@ enyo.kind({
 	testContentType: function() {
 		var contentType = "text/plain";
 		this._testAjax({url: "php/test2.php", method: "PUT", contentType: contentType}, null, function(inValue) {
-			return inValue.ctype == contentType;
+			return (inValue.ctype === contentType);
+		});
+	},
+	testCacheControlOn: function() {
+		// skip test on non-iOS platforms, since Firefox always sends cache-control header causing
+		// false positive
+		if (!enyo.platform.ios) {
+			this.finish();
+			return;
+		}
+		this._testAjax({url: "php/test4.php", method: "POST", postBody: "data"}, null, function(inValue) {
+			if (enyo.platform.ios && enyo.platform.ios >= 6) {
+				var status = inValue.cacheCtrl && (inValue.cacheCtrl.indexOf('no-cache') === 0);
+				if (!status) {
+					enyo.log("Bad Cache-Control: " + inValue.cacheCtrl + " expected: " + "no-cache");
+				}
+				return status;
+			} else {
+				return true;
+			}
+		});
+	},
+	testCacheControlOff: function() {
+		// skip test on non-iOS platforms, since Firefox always sends cache-control header causing
+		// false positive
+		if (!enyo.platform.ios) {
+			this.finish();
+			return;
+		}
+		this._testAjax({url: "php/test4.php", method: "POST", postBody: "data", headers: {'cache-control': null} }, null, function(inValue) {
+			var status = (inValue.cacheCtrl === null);
+			if (!status) {
+				enyo.log("Bad Cache-Control: " + inValue.cacheCtrl + " expected: " + undefined);
+			}
+			return status;
 		});
 	},
 	testContentTypeDefault: function() {
@@ -99,7 +167,7 @@ enyo.kind({
 		var contentType = "multipart/form-data";
 		this._testAjax({url: "php/test4.php", method: "POST", postBody: formData}, null, function(inValue) {
 			var status = (inValue.ctype.indexOf(contentType) === 0) &&
-				    (inValue.ctype.indexOf("boundary=--") > 10);
+					(inValue.ctype.indexOf("boundary=--") > 10);
 			if (!status) {
 				enyo.log("Bad CT: " + inValue.ctype + " expected: " + contentType);
 			}
@@ -109,13 +177,13 @@ enyo.kind({
 	testContentTypeFormDataFile: function() {
 		var formData = new enyo.FormData();
 		var file = new enyo.Blob(["Some Random File Content!", "And some more..."], {
-		    name: "myFile"
+			name: "myFile"
 		});
 		formData.append('file', file);
 		var contentType = "multipart/form-data";
 		this._testAjax({url: "php/test4.php", method: "POST", postBody: formData}, null, function(inValue) {
 			var status = (inValue.ctype.indexOf(contentType) === 0) &&
-				    (inValue.ctype.indexOf("boundary=--") > 10);
+					(inValue.ctype.indexOf("boundary=--") > 10);
 			if (!status) {
 				enyo.log("Bad CT: " + inValue.ctype + " expected: " + contentType);
 			}
@@ -157,7 +225,7 @@ enyo.kind({
 			})
 			.error(this, function(inSender, inValue) {
 				// extra timeout is to make sure that timeout fail code cancels XHR
-				enyo.job("timeouttest", enyo.bind(this, function() {this.finish("");}), 4000);
+				enyo.job("timeouttest", this.bindSafely(function() {this.finish("");}), 4000);
 			})
 			.go();
 	},
@@ -167,11 +235,24 @@ enyo.kind({
 			// getting success means server sent wrong response
 			return false;
 		}, function(inError) {
-			return (inError === 500) && 
-				req.xhrResponse && 
+			return (inError === 500) &&
+				req.xhrResponse &&
 				(req.xhrResponse.status === 500) &&
 				(req.xhrResponse.headers['content-type'] === "text/plain; charset=utf-8") &&
 				(req.xhrResponse.body === "my error description");
 		});
+	},
+	testProgress: function() {
+		var progress = 0;
+		new enyo.Ajax({url: "php/test7.php"})
+			.progress(this, function(inSender, inEvent){
+				if (inEvent.max === 10) {
+					if (progress === 5 && inEvent.current === 10) {
+						this.finish();
+					}
+				}
+				progress = inEvent.current;
+			})
+			.go();
 	}
 });

@@ -6,7 +6,7 @@
 			return false;
 		}
 		var p$ = ["perspective", "WebkitPerspective", "MozPerspective", "msPerspective", "OPerspective"];
-		for (var i=0, p; p=p$[i]; i++) {
+		for (var i=0, p; (p=p$[i]); i++) {
 			if (typeof document.body.style[p] != "undefined") {
 				return true;
 			}
@@ -20,15 +20,17 @@
 			return this._cssTransformProp;
 		}
 		var i = enyo.indexOf(this.getStyleTransformProp(), styleTransformProps);
-		return this._cssTransformProp = cssTransformProps[i];
+		this._cssTransformProp = cssTransformProps[i];
+		return this._cssTransformProp;
 	};
 	enyo.dom.getStyleTransformProp = function() {
 		if (this._styleTransformProp || !document.body) {
 			return this._styleTransformProp;
 		}
-		for (var i = 0, p; p = styleTransformProps[i]; i++) {
+		for (var i = 0, p; (p = styleTransformProps[i]); i++) {
 			if (typeof document.body.style[p] != "undefined") {
-				return this._styleTransformProp = p;
+				this._styleTransformProp = p;
+				return this._styleTransformProp;
 			}
 		}
 	};
@@ -51,7 +53,9 @@
 		if (sp && cp) {
 			ds[cp] = t;
 			if (st) {
+				// Optimization: set transform directly to node when available
 				st[sp] = t;
+				inControl.invalidateStyles();
 			} else {
 				inControl.domStylesChanged();
 			}

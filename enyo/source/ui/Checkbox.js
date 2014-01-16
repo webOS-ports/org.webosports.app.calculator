@@ -3,14 +3,14 @@
 */
 enyo.kind({
 	name: "enyo.Checkbox",
-	kind: enyo.Input,
+	kind: "enyo.Input",
 	classes: "enyo-checkbox",
 	events: {
 		//* Fires when checkbox is tapped.
 		onActivate: ""
 	},
 	published: {
-		//* Value of checkbox; true if checked 
+		//* Value of checkbox; true if checked
 		checked: false,
 		//* Group API requirement for determining selected item
 		active: false,
@@ -24,20 +24,15 @@ enyo.kind({
 		onchange: "change",
 		onclick: "click"
 	},
-	create: function() {
-		this.inherited(arguments);
-	},
-	rendered: function() {
-		this.inherited(arguments);
-		if (this.active) {
-			this.activeChanged();
-		}
-		this.checkedChanged();
-	},
-	// instance 'checked' property is linked to DOM 'checked' property
-	getChecked: function() {
-		return enyo.isTrue(this.getNodeProperty("checked", this.checked));
-	},
+	rendered: enyo.inherit(function (sup) {
+		return function() {
+			sup.apply(this, arguments);
+			if (this.active) {
+				this.activeChanged();
+			}
+			this.checkedChanged();
+		};
+	}),
 	checkedChanged: function() {
 		this.setNodeProperty("checked", this.checked);
 		this.setAttribute("checked", this.checked ? "checked" : "");
@@ -59,14 +54,15 @@ enyo.kind({
 	},
 	valueChanged: function() {
 		// inherited behavior is to set "value" attribute and node-property
-		// which does not apply to checkbox (uses "checked") so 
+		// which does not apply to checkbox (uses "checked") so
 		// we squelch the inherited method
 	},
 	change: function() {
-		this.setActive(this.getChecked());
+		var nodeChecked = enyo.isTrue(this.getNodeProperty("checked"));
+		this.setActive(nodeChecked);
 	},
 	click: function(inSender, inEvent) {
-		// Various versions of IE (notably IE8) do not fire 'onchange' for 
+		// Various versions of IE (notably IE8) do not fire 'onchange' for
 		// checkboxes, so we discern change via 'click'.
 		// Note: keyboard interaction (e.g. pressing space when focused) fires
 		// a click event.

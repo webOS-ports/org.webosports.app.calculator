@@ -21,8 +21,7 @@
 	other event handlers further up the tree try to modify your item control.
 
 	For more information, see the documentation on
-	[Lists](https://github.com/enyojs/enyo/wiki/Lists) in the Enyo Developer
-	Guide.
+	[Lists](building-apps/layout/lists.html) in the Enyo Developer Guide.
 */
 enyo.kind({
 	name: "enyo.Repeater",
@@ -33,26 +32,27 @@ enyo.kind({
 	events: {
 		/**
 			Fires when each item is created.
-			
+
 			_inEvent.index_ contains the item's index.
-			
+
 			_inEvent.item_ contains the item control, for decoration.
 		*/
 		onSetupItem: ""
 	},
-	create: function() {
-		this.inherited(arguments);
-		this.countChanged();
-	},
+	create: enyo.inherit(function (sup) {
+		return function() {
+			sup.apply(this, arguments);
+			this.countChanged();
+		};
+	}),
 	//* @protected
-	initComponents: function() {
-		this.itemComponents = this.components || this.kindComponents;
-		this.components = this.kindComponents = null;
-		this.inherited(arguments);
-	},
-	setCount: function(inCount) {
-		this.setPropertyValue("count", inCount, "countChanged");
-	},
+	initComponents: enyo.inherit(function (sup) {
+		return function() {
+			this.itemComponents = this.components || this.kindComponents;
+			this.components = this.kindComponents = null;
+			sup.apply(this, arguments);
+		};
+	}),
 	countChanged: function() {
 		this.build();
 	},
@@ -93,16 +93,26 @@ enyo.kind({
 enyo.kind({
 	name: "enyo.OwnerProxy",
 	tag: null,
-	decorateEvent: function(inEventName, inEvent, inSender) {
-		if (inEvent) {
-			inEvent.index = this.index;
-		}
-		this.inherited(arguments);
-	},
-	delegateEvent: function(inDelegate, inName, inEventName, inEvent, inSender) {
-		if (inDelegate == this) {
-			inDelegate = this.owner.owner;
-		}
-		return this.inherited(arguments, [inDelegate, inName, inEventName, inEvent, inSender]);
-	}
+	decorateEvent: enyo.inherit(function (sup) {
+		return function(inEventName, inEvent, inSender) {
+			if (inEvent) {
+				// preserve an existing index property.
+				if (enyo.exists(inEvent.index)) {
+					// if there are nested indices, store all of them in an array
+					// but leave the innermost one in the index property
+					inEvent.indices = inEvent.indices || [inEvent.index];
+					inEvent.indices.push(this.index);
+				} else {
+					// for a single level, just decorate the index property
+					inEvent.index = this.index;
+				}
+				// update delegate during bubbling to account for proxy
+				// by moving the delegate up to the repeater level
+				if (inEvent.delegate && inEvent.delegate.owner === this) {
+					inEvent.delegate = this.owner;
+				}
+			}
+			sup.apply(this, arguments);
+		};
+	})
 });

@@ -34,7 +34,12 @@
 	white-space: nowrap;
 }
 
-.enyo-fittable-columns-layout.enyo-center {
+.enyo-locale-right-to-left .enyo-fittable-columns-layout {
+	text-align: right;
+}
+
+.enyo-fittable-columns-layout.enyo-center,
+.enyo-locale-right-to-left .enyo-fittable-columns-layout.enyo-center {
 	text-align: center;
 }
 
@@ -45,6 +50,10 @@
 	vertical-align: top;
 	display: inline-block;
 	white-space: normal;
+}
+
+.enyo-fittable-columns-layout > table {
+	display: inline-table;
 }
 
 .enyo-fittable-columns-layout.enyo-tool-decorator > * {
@@ -66,4 +75,9 @@
 	/* note: harsh resets */
 	margin-top: 0 !important;
 	margin-bottom: 0 !important;
+}
+
+.enyo-locale-right-to-left .enyo-fittable-columns-layout {
+	direction: rtl;
+	text-align: right;
 }

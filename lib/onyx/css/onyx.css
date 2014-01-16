@@ -1,5 +1,5 @@
 /* WARNING: This is a generated file for backward-compatibility.  Most      */
-/* usrs should instead modify LESS files.  If you choose to edit this CSS   */
+/* users should instead modify LESS files.  If you choose to edit this CSS  */
 /* directly rather than LESS files, you should make sure less.xx.yy.min.js  */
 /* is commented out in your debug.html, and run deploy.sh/bat using the     */
 /* '-c' flag to disable LESS compilation.  This will force the loader and   */
@@ -7,6 +7,9 @@
 /* LESS file.                                                               */
 
 /* Onyx default parameters defined here */
+/* Paths */
+/* application importing Onyx Less files will have to override this  */
+/* variable. Otherwise, Onyx image load will fail with a 404 error  */
 /* Fonts */
 /* ---------------------------------------*/
 /* Text Colors */
@@ -26,7 +29,7 @@
 /* Images */
 /* ---------------------------------------*/
 /* Onyx rules defined here */
-/* onyx-classes.less - combined CSS (less) files for all released Onyx controls 
+/* onyx-classes.less - combined CSS (less) files for all released Onyx controls
    into single onyx.less file to avoid IE bug that allows
    a maximum of 31 style sheets to be loaded before silently failing */
 .onyx {
@@ -60,16 +63,13 @@
   vertical-align: middle;
 }
 .onyx-icon.onyx-icon-button.active,
-.onyx-icon.onyx-icon-button:active:hover,
+.onyx-icon.onyx-icon-button.pressed,
 .onyx-icon-toggle.active {
   background-position: 0 -32px;
 }
 .onyx-icon.disabled {
   opacity: 0.4;
   filter: alpha(opacity=40);
-}
-.onyx-icon.disabled:active:hover {
-  background-position: 0 0px;
 }
 /* Button.css */
 .onyx-button {
@@ -97,7 +97,7 @@
   /* border-bottom: 1px solid rgba(15, 15, 15, 0.5); */
 
   box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.2);
-  background: #e1e1e1 url(../images/gradient.png) repeat-x bottom;
+  background: #e1e1e1 url("../images/gradient.png") repeat-x bottom;
   background-size: contain;
   /**/
 
@@ -116,14 +116,9 @@
 
 	the effect is as if .onyx-button.active doesn't exist
 */
-.onyx-button.active {
-  background-image: url(../images/gradient-invert.png);
-  background-position: top;
-  border-top: 1px solid rgba(15, 15, 15, 0.6);
-  box-shadow: inset 0px 1px 0px rgba(0, 0, 0, 0.1);
-}
-.onyx-button:active:hover:not([disabled]) {
-  background-image: url(../images/gradient-invert.png);
+.onyx-button.active,
+.onyx-button.pressed {
+  background-image: url("../images/gradient-invert.png");
   background-position: top;
   border-top: 1px solid rgba(15, 15, 15, 0.6);
   box-shadow: inset 0px 1px 0px rgba(0, 0, 0, 0.1);
@@ -144,7 +139,7 @@
   cursor: pointer;
   height: 32px;
   width: 32px;
-  background: url(../images/checkbox.png) no-repeat;
+  background: url("../images/checkbox.png") no-repeat;
   /* reset for ? */
 
   margin: 0px;
@@ -161,7 +156,7 @@
 }
 /* Grabber.css */
 .onyx-grabber {
-  background: url(../images/grabbutton.png) no-repeat center;
+  background: url("../images/grabbutton.png") no-repeat center;
   width: 23px;
   height: 27px;
 }
@@ -173,7 +168,7 @@
   border-radius: 8px;
   padding: 6px;
   color: #ffffff;
-  background: #4c4c4c url(../images/gradient.png) repeat-x 0 bottom;
+  background: #4c4c4c url("../images/gradient.png") repeat-x 0 bottom;
 }
 .onyx-popup-decorator {
   position: relative;
@@ -193,6 +188,10 @@
   border-radius: 0;
   margin: 0;
   font-size: 16px;
+}
+/* needed for MathJax support */
+.onyx-groupbox > script {
+  display: none;
 }
 .onyx-groupbox > *:first-child {
   border-top-color: #aaaaaa;
@@ -215,7 +214,7 @@
 
   background-color: #4c4c4c;
   border: none;
-  background: #4c4c4c url(../images/gradient.png) repeat-x 0 10px;
+  background: #4c4c4c url("../images/gradient.png") repeat-x 0 10px;
 }
 .onyx-groupbox .onyx-input-decorator {
   display: block;
@@ -265,6 +264,7 @@
   outline: none;
   cursor: pointer;
   background-color: transparent;
+  background-image: none;
   font-size: 16px;
   box-shadow: none;
   /* FIXME: hack for styling reset on Android */
@@ -334,6 +334,10 @@
   z-index: 10;
   overflow: visible;
 }
+/* Submenu.css */
+.onyx-submenu {
+  background: rgba(0, 0, 0, 0.25) url("../images/gradient-invert.png") repeat-x 0 top;
+}
 /* Picker.css */
 .onyx-picker-decorator .onyx-button {
   padding: 10px 18px;
@@ -389,6 +393,7 @@
   outline: none;
   cursor: pointer;
   background-color: transparent;
+  background-image: none;
   font-size: 16px;
   box-shadow: none;
   /* Remove scrollbars and resize handle */
@@ -421,6 +426,7 @@
   outline: none;
   cursor: pointer;
   background-color: transparent;
+  background-image: none;
   font-size: 16px;
   min-height: 20px;
   min-width: 100px;
@@ -446,7 +452,7 @@
   text-align: center;
   /**/
 
-  background: #e7e7e7 url(../images/gradient.png) repeat-x bottom;
+  background: #e7e7e7 url("../images/gradient.png") repeat-x bottom;
   /* IE8 */
 
   border: 1px solid #333333;
@@ -468,7 +474,7 @@
 }
 .onyx-radiobutton.active {
   color: #ffffff;
-  background: #0091f2 url(../images/gradient-invert.png) repeat-x top;
+  background: #0091f2 url("../images/gradient-invert.png") repeat-x top;
   border-top: 1px solid rgba(15, 15, 15, 0.6);
   box-shadow: inset 1px 2px 2px rgba(0, 0, 0, 0.2);
 }
@@ -499,6 +505,150 @@
   font-size: 20px;
   border-radius: 0px;
 }
+/* TabBar.css */
+.onyx-tab-bar {
+  width: 100%;
+  z-index: 10;
+  background-color: #cacaca;
+  padding-top: 1px;
+}
+.onyx-tab-bar-scroller {
+  padding-top: 2px;
+}
+.onyx-tab-bar-scroller > .enyo-thumb {
+  border: 0px;
+}
+.onyx-tab-wrapper {
+  padding: 3px 0px 3px 0px;
+}
+.onyx-tab-line {
+  position: relative;
+  margin-top: -0.1em;
+  border-top: 1px solid #646464;
+  z-index: 2;
+}
+.onyx-tab-rug {
+  position: relative;
+  padding: 0.3em;
+  background-color: #cacaca;
+  z-index: 4;
+}
+/* TabBarItem.css */
+.onyx-tab-item {
+  display: inline;
+  position: relative;
+  border: 1px solid #646464;
+  margin: 0px 2px 0px 2px;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  background-color: #b1b1b1;
+  z-index: 1;
+  padding-top: 0.2em;
+  padding-bottom: 0.7em ;
+  vertical-align: baseline;
+}
+.onyx-tab-item.active {
+  border-bottom: 1px solid #cacaca;
+  background-color: #cacaca;
+  z-index: 3;
+  padding-top: 0.3em;
+}
+.onyx-tab-item:hover {
+  background-color: #cacaca;
+}
+.onyx-tab-item button {
+  overflow: hidden;
+  margin: 3px;
+  border: 1px solid transparent;
+  background-color: transparent ;
+}
+.onyx-tab-item-dissolve {
+  display: inline-block;
+  height: 90%;
+  width: 2em;
+  top: 2px;
+  right: 19px;
+  position: absolute;
+  background: linear-gradient(to right, #b1b1b1 0%, rgba(177, 177, 177, 0) 100%);
+  /* W3C */
+
+  background: -moz-linear-gradient(right, #b1b1b1 0%, rgba(177, 177, 177, 0) 100%);
+  /* FF3.6+ */
+
+  background: -webkit-linear-gradient(left, rgba(177, 177, 177, 0), #b1b1b1);
+  /* Chrome10+,Safari5.1+ */
+
+  background: -webkit-gradient(linear, right top, left top, color-stop(0%, #b1b1b1), color-stop(100%, rgba(177, 177, 177, 0)));
+  /* Chrome,Safari4+ */
+
+  background: -o-linear-gradient(left, #b1b1b1 0%, rgba(177, 177, 177, 0) 100%);
+  /* Opera 11.10+ */
+
+  background: -ms-linear-gradient(left, rgba(177, 177, 177, 0) 0%, #b1b1b1 100%);
+  /* IE10+ */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00b1b1b1, endColorstr=#ffb1b1b1, GradientType=1);
+  /* IE6-9 */
+
+}
+.onyx-tab-item-dissolve.active {
+  background: linear-gradient(to right, #cacaca 0%, rgba(202, 202, 202, 0) 100%);
+  /* W3C */
+
+  background: -moz-linear-gradient(right, #cacaca 0%, rgba(202, 202, 202, 0) 100%);
+  /* FF3.6+ */
+
+  background: -webkit-linear-gradient(left, rgba(202, 202, 202, 0), #cacaca);
+  /* Chrome10+,Safari5.1+ */
+
+  background: -webkit-gradient(linear, right top, left top, color-stop(0%, #cacaca), color-stop(100%, rgba(202, 202, 202, 0)));
+  /* Chrome,Safari4+ */
+
+  background: -o-linear-gradient(left, #cacaca 0%, rgba(202, 202, 202, 0) 100%);
+  /* Opera 11.10+ */
+
+  background: -ms-linear-gradient(left, rgba(202, 202, 202, 0) 0%, #cacaca 100%);
+  /* IE10+ */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00cacaca, endColorstr=#ffcacaca, GradientType=1);
+  /* IE6-9 */
+
+}
+.onyx-tab-item-hovered {
+  background: linear-gradient(to right, #cacaca 0%, rgba(202, 202, 202, 0) 100%);
+  /* W3C */
+
+  background: -moz-linear-gradient(right, #cacaca 0%, rgba(202, 202, 202, 0) 100%);
+  /* FF3.6+ */
+
+  background: -webkit-linear-gradient(left, rgba(202, 202, 202, 0), #cacaca);
+  /* Chrome10+,Safari5.1+ */
+
+  background: -webkit-gradient(linear, right top, left top, color-stop(0%, #cacaca), color-stop(100%, rgba(202, 202, 202, 0)));
+  /* Chrome,Safari4+ */
+
+  background: -o-linear-gradient(left, #cacaca 0%, rgba(202, 202, 202, 0) 100%);
+  /* Opera 11.10+ */
+
+  background: -ms-linear-gradient(left, rgba(202, 202, 202, 0) 0%, #cacaca 100%);
+  /* IE10+ */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00cacaca, endColorstr=#ffcacaca, GradientType=1);
+  /* IE6-9 */
+
+}
+.onyx-tab-item-close {
+  display: inline-block;
+  margin-right: 3px;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  background-repeat: no-repeat;
+  background-image: url('../images/close-inactive.png');
+}
+.onyx-tab-item-close:hover {
+  background-image: url('../images/close-active.png');
+}
 /* ToggleButton.css */
 .onyx-toggle-button {
   display: inline-block;
@@ -511,7 +661,7 @@
 
   border-radius: 3px;
   box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.4);
-  background: #8bba3d url(../images/gradient-invert.png) repeat-x bottom;
+  background: #8bba3d url("../images/gradient-invert.png") repeat-x bottom;
   background-size: auto 100%;
   /* label */
 
@@ -529,7 +679,7 @@
   height: 30px;
   margin: 1px;
   border-radius: 3px;
-  background: #f6f6f6 url(../images/gradient.png) repeat-x;
+  background: #f6f6f6 url("../images/gradient.png") repeat-x;
   background-size: auto 100%;
 }
 .onyx-toggle-button .onyx-toggle-button-knob {
@@ -569,13 +719,13 @@
 
   padding: 9px 8px 10px 8px;
   border: 1px solid #3A3A3A;
-  background: #4c4c4c url(../images/gradient.png) repeat-x 0 bottom;
+  background: #4c4c4c url("../images/gradient.png") repeat-x 0 bottom;
   background-size: contain;
   color: #ffffff;
   /**/
 
   white-space: nowrap;
-  overflow: hidden;
+  overflow-y: visible;
   font-size: 20px;
 }
 .onyx-toolbar-inline > *,
@@ -584,6 +734,11 @@
   vertical-align: middle;
   margin: 4px 6px 5px;
   box-sizing: border-box;
+}
+/* needed for MathJax support */
+.onyx-toolbar-inline > script,
+.enyo-fittable-columns-layout.onyx-toolbar-inline > script {
+  display: none;
 }
 .onyx-toolbar .onyx-icon-button {
   margin: 3px 2px 1px;
@@ -616,7 +771,8 @@
 .onyx-toolbar .onyx-input-decorator .onyx-input:focus::-webkit-input-placeholder {
   color: #dddddd;
 }
-/* Tooltip.css */.onyx-tooltip {
+/* Tooltip.css */
+.onyx-tooltip {
   z-index: 20;
   left: 0;
   padding: 4px 6px;
@@ -625,7 +781,7 @@
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(0, 0, 0, 0.2);
   color: #ffffff;
-  background: #216593 url(../images/gradient.png) repeat-x 0 bottom;
+  background: #216593 url("../images/gradient.png") repeat-x 0 bottom;
   border-radius: 3px;
   white-space: nowrap;
 }
@@ -682,13 +838,13 @@
   height: 8px;
   border: 1px solid rgba(15, 15, 15, 0.2);
   border-radius: 3px;
-  background: #b8b8b8 url(../images/gradient-invert.png) repeat-x;
+  background: #b8b8b8 url("../images/gradient-invert.png") repeat-x;
   background-size: auto 100%;
 }
 .onyx-progress-bar-bar {
   height: 100%;
   border-radius: 3px;
-  background: #58abef url(../images/gradient.png) repeat-x;
+  background: #58abef url("../images/gradient.png") repeat-x;
   background-size: auto 100%;
 }
 .onyx-progress-bar-bar.striped {
@@ -767,6 +923,10 @@
 .onyx-progress-button-client > * {
   display: inline-block;
 }
+/* needed for MathJax support */
+.onyx-progress-button-client > script {
+  display: none;
+}
 /* Slider.css */
 .onyx-slider {
   position: relative;
@@ -782,11 +942,11 @@
   position: relative;
   height: 40px;
   width: 40px;
-  background: url(../images/slider-handle.png) left top no-repeat;
+  background: url("../images/slider-handle.png") left top no-repeat;
   margin: -23px -20px;
 }
 .onyx-slider-knob.active,
-.onyx-slider-knob:active:hover {
+.onyx-slider-knob.pressed {
   background-position: 0 -40px;
 }
 /* RangeSlider.css */
@@ -826,10 +986,10 @@
   width: 59px;
   height: 58px;
   display: inline-block;
-  background: url(../images/spinner-dark.gif) no-repeat 0 0;
+  background: url("../images/spinner-dark.gif") no-repeat 0 0;
 }
 .onyx-spinner.onyx-light {
-  background: url(../images/spinner-light.gif) no-repeat 0 0;
+  background: url("../images/spinner-light.gif") no-repeat 0 0;
 }
 /* MoreToolbar.css */
 .onyx-more-toolbar {
@@ -853,7 +1013,7 @@
   margin-bottom: 5px;
 }
 .onyx-more-button {
-  background-image: url(../images/more.png);
+  background-image: url("../images/more.png");
   width: 32px;
   height: 32px;
 }
@@ -897,6 +1057,236 @@
 .onyx-button.onyx-light {
   background-color: #cacaca;
   color: #2F2F2F;
+}
+/* ContextualPopup.css */
+.onyx-contextual-popup-title {
+  font-weight: bold;
+  padding: 24px 32px 0px;
+}
+.onyx-contextual-popup-scroller {
+  padding: 24px 32px;
+}
+.onyx-contextual-popup-action-buttons {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+.onyx-contextual-popup-action-button {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.onyx-contextual-popup,
+.onyx.onyx-contextual-popup {
+  font-size: 16px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 6px;
+  color: #ffffff;
+  background: #4c4c4c;
+}
+/*setup the nub*/
+.onyx-contextual-popup::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+/*for popups above activator*/
+.onyx-contextual-popup.vertical.above {
+  top: auto;
+  margin-top: -10px;
+  bottom: 100%;
+  margin-bottom: 10px;
+}
+/*for popups below activator*/
+.onyx-contextual-popup.vertical.below {
+  margin-top: 10px;
+}
+/*for popups on the left of the activator*/
+.onyx-contextual-popup.right.horizontal {
+  margin-left: -11px;
+}
+/*for popups on the right of the activator*/
+.onyx-contextual-popup.left.horizontal {
+  margin-left: 10px;
+}
+/*nub positioning*/
+/*horizontally centered nub*/
+.onyx-contextual-popup.vertical::after {
+  position: absolute;
+  left: 45%;
+  border-bottom: 10px solid #4c4c4c;
+  border-top: none;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+}
+/*nub near horizontal left*/
+.onyx-contextual-popup.vertical.right::after {
+  left: 0%;
+  margin-left: 20px;
+}
+/*nub near horizontal right*/
+.onyx-contextual-popup.vertical.left::after {
+  left: 100%;
+  margin-left: -55px;
+}
+/*downward facing nub*/
+.onyx-contextual-popup.vertical.above::after {
+  top: 100%;
+  border-top: 10px solid #4c4c4c;
+  border-bottom: none;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+}
+.onyx-contextual-popup.vertical.below.right::after {
+  top: 0%;
+  margin-top: -10px;
+  border-bottom: 10px solid #4c4c4c;
+  border-left: 10px solid transparent;
+}
+.onyx-contextual-popup.vertical.below.left::after {
+  top: 0%;
+  margin-top: -10px;
+  border-right: 10px solid transparent;
+}
+/*nub positioning for left/right popups*/
+/*vertically centered nub for popups on left of activator*/
+.onyx-contextual-popup.right::after {
+  left: 100%;
+  top: 47%;
+  margin-right: 20px;
+  border-left: 10px solid #4C4C4C;
+}
+/*nub near vertical top for popups on left of activator*/
+.onyx-contextual-popup.right.high::after {
+  top: 35px;
+  border-left: 10px solid #4C4C4C;
+}
+/*nub near vertical bottom for popups on left of activator*/
+.onyx-contextual-popup.right.low::after {
+  top: 100%;
+  margin-top: -55px;
+  border-left: 10px solid #4C4C4C;
+}
+/*vertically centered nub for popups on right of activator*/
+.onyx-contextual-popup.left::after {
+  left: 0%;
+  margin-left: -20px;
+  top: 45%;
+  border-right: 10px solid #4C4C4C;
+}
+/*nub near vertical top for popups on right of activator*/
+.onyx-contextual-popup.left.high::after {
+  top: 35px;
+  border-right: 10px solid #4C4C4C;
+}
+/*nub near vertical bottom for popups on right of activator*/
+.onyx-contextual-popup.left.low::after {
+  top: 100%;
+  margin-top: -55px;
+  border-right: 10px solid #4C4C4C;
+}
+/*corners*/
+/*vertical top corners*/
+/*for popups on the left of the activator*/
+.onyx-contextual-popup.vertical.right.corner {
+  margin-left: 0px;
+}
+/*for popups on the right of the activator*/
+.onyx-contextual-popup.vertical.left.corner {
+  margin-left: 0px;
+}
+.onyx-contextual-popup.vertical.below.left.corner {
+  border-top-right-radius: 0px;
+}
+.onyx-contextual-popup.vertical.below.right.corner {
+  border-top-left-radius: 0px;
+}
+.onyx-contextual-popup.vertical.below.left.corner::after {
+  top: 0%;
+  left: 100%;
+  margin-top: -10px;
+  margin-left: -19px;
+  border-right: 10px solid #4c4c4c;
+  border-top: 10px solid transparent;
+}
+.onyx-contextual-popup.vertical.below.right.corner::after {
+  top: 0%;
+  left: 0%;
+  margin-left: -1px;
+  border-left: 10px solid #4c4c4c;
+  border-top: 10px solid transparent;
+}
+/*vertical bottom corners*/
+.onyx-contextual-popup.left.above.corner {
+  border-bottom-right-radius: 0px;
+}
+.onyx-contextual-popup.right.above.corner {
+  border-bottom-left-radius: 0px;
+}
+.onyx-contextual-popup.vertical.left.above.corner::after {
+  top: 100%;
+  margin-left: -19px;
+  border-right: 10px solid #4C4C4C;
+  border-bottom: 10px solid transparent;
+  border-top: none;
+}
+.onyx-contextual-popup.vertical.right.above.corner::after {
+  top: 100%;
+  left: 0%;
+  margin-left: -1px;
+  border-left: 10px solid #4c4c4c;
+  border-bottom: 10px solid transparent;
+  border-top: none;
+}
+/*horizontal bottom corners*/
+.onyx-contextual-popup.left.low.corner {
+  border-bottom-left-radius: 0px;
+}
+.onyx-contextual-popup.right.low.corner {
+  border-bottom-right-radius: 0px;
+}
+.onyx-contextual-popup.left.low.corner::after {
+  top: 100%;
+  left: 0%;
+  margin-top: -19px;
+  margin-left: -12px;
+  border-bottom: 10px solid #4c4c4c;
+  border-right: 10px solid #4c4c4c;
+}
+.onyx-contextual-popup.right.low.corner::after {
+  top: 100%;
+  left: 100%;
+  margin-top: -19px;
+  border-bottom: 10px solid#4c4c4c;
+  border-left: none;
+}
+/*horizontal top corners*/
+.onyx-contextual-popup.left.high.corner {
+  border-top-left-radius: 0px;
+}
+.onyx-contextual-popup.right.high.corner {
+  border-top-right-radius: 0px;
+}
+.onyx-contextual-popup.left.high.corner::after {
+  top: 0%;
+  left: 0%;
+  margin-top: -1px;
+  margin-left: -12px;
+  border-top: 10px solid #4C4C4C;
+  border-bottom: none;
+}
+.onyx-contextual-popup.right.high.corner::after {
+  top: 0%;
+  left: 100%;
+  margin-top: -1px;
+  margin-left: -9px;
+  border-top: 10px solid #4C4C4C;
+  border-bottom: none;
 }
 /* some default colors */
 .onyx-dark {

@@ -42,14 +42,7 @@
 
 	the effect is as if .onyx-button.active doesn't exist
 */
-.onyx-button.active {
-	background-image: @onyx-button-active-gradient;
-	background-position: top;
-	border-top: 1px solid rgba(15, 15, 15, 0.6);
-	box-shadow: inset 0px 1px 0px rgba(0,0,0,0.1);
-}
-
-.onyx-button:active:hover:not([disabled]) {
+.onyx-button.active, .onyx-button.pressed {
 	background-image: @onyx-button-active-gradient;
 	background-position: top;
 	border-top: 1px solid rgba(15, 15, 15, 0.6);

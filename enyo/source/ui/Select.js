@@ -35,20 +35,18 @@ enyo.kind({
 	},
 	tag: "select",
 	defaultKind: "enyo.Option",
-	rendered: function() {
-		this.inherited(arguments);
-		//Trick to force IE8 onchange event bubble
-		if(enyo.platform.ie == 8){
-			this.setAttribute("onchange", enyo.bubbler);
-		}
-		this.selectedChanged();
-	},
+	rendered: enyo.inherit(function (sup) {
+		return function() {
+			sup.apply(this, arguments);
+			//Trick to force IE8 onchange event bubble
+			if(enyo.platform.ie == 8){
+				this.setAttribute("onchange", enyo.bubbler);
+			}
+			this.selectedChanged();
+		};
+	}),
 	getSelected: function() {
 		return Number(this.getNodeProperty("selectedIndex", this.selected));
-	},
-	setSelected: function(inIndex) {
-		// default property mechanism can't track changed correctly for virtual properties
-		this.setPropertyValue("selected", Number(inIndex), "selectedChanged");
 	},
 	selectedChanged: function() {
 		this.setNodeProperty("selectedIndex", this.selected);
@@ -56,15 +54,17 @@ enyo.kind({
 	change: function() {
 		this.selected = this.getSelected();
 	},
-	render: function() {
-		// work around IE bug with innerHTML setting of <select>, rerender parent instead
-		// http://support.microsoft.com/default.aspx?scid=kb;en-us;276228
-		if (enyo.platform.ie) {
-			this.parent.render();
-		} else {
-			this.inherited(arguments);
-		}
-	},
+	render: enyo.inherit(function (sup) {
+		return function() {
+			// work around IE bug with innerHTML setting of <select>, rerender parent instead
+			// http://support.microsoft.com/default.aspx?scid=kb;en-us;276228
+			if (enyo.platform.ie) {
+				this.parent.render();
+			} else {
+				sup.apply(this, arguments);
+			}
+		};
+	}),
 	//* @public
 	//* Returns the value of the selected option.
 	getValue: function() {
@@ -85,10 +85,12 @@ enyo.kind({
 	},
 	//* @protected
 	tag: "option",
-	create: function() {
-		this.inherited(arguments);
-		this.valueChanged();
-	},
+	create: enyo.inherit(function (sup) {
+		return function() {
+			sup.apply(this, arguments);
+			this.valueChanged();
+		};
+	}),
 	valueChanged: function() {
 		this.setAttribute("value", this.value);
 	}
@@ -106,10 +108,12 @@ enyo.kind({
 	//* @protected
 	tag: "optgroup",
 	defaultKind: "enyo.Option",
-	create: function() {
-		this.inherited(arguments);
-		this.labelChanged();
-	},
+	create: enyo.inherit(function (sup) {
+		return function() {
+			sup.apply(this, arguments);
+			this.labelChanged();
+		};
+	}),
 	labelChanged: function() {
 		this.setAttribute("label", this.label);
 	}

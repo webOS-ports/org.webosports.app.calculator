@@ -14,7 +14,7 @@
 	color: @onyx-toolbar-text-color;
 	/**/
 	white-space: nowrap;
-	overflow: hidden;
+	overflow-y: visible;
 	font-size: @onyx-toolbar-font-size;
 }
 
@@ -23,6 +23,11 @@
 	vertical-align: middle;
 	margin: 4px 6px 5px;
 	box-sizing: border-box;
+}
+
+/* needed for MathJax support */
+.onyx-toolbar-inline > script, .enyo-fittable-columns-layout.onyx-toolbar-inline > script {
+	display: none;
 }
 
 .onyx-toolbar .onyx-icon-button {

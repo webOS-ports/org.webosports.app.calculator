@@ -1,6 +1,7 @@
 ﻿enyo.kind({
 	name: "JSONTest",
 	kind: enyo.TestSuite,
+	noDefer: true,
 	testJsonStringifyExists: function() {
 		enyo.json.stringify();
 		this.finish();
@@ -11,7 +12,7 @@
 	},
 	testJsonParseSimple: function() {
 		var obj = enyo.json.parse('{"foo":"bar"}'), err;
-		if (!obj.foo || !(obj.foo === "bar")) {
+		if (!obj.foo || obj.foo !== "bar") {
 			err = "JSON string did not parse correctly";
 		}
 		this.finish(err);
