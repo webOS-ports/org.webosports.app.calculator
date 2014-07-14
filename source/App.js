@@ -26,42 +26,42 @@ enyo.kind({
 					}),
 					components:[
 						{components:[
-					/**{style: "visibility: hidden;"},*/
-					{content: "\u221a", ontap: "sqrtTapped"},		
-					{content: "("},
-					{content: ")"},
-					{content: "C", style: "margin-right: 0;", ontap: "cancelTapped"}
-				]},
+							/**{style: "visibility: hidden;"},*/
+							{content: "\u221a", ontap: "sqrtTapped"},		
+							{content: "("},
+							{content: ")"},
+							{content: "C", style: "margin-right: 0;", ontap: "cancelTapped"}
+						]},
 						{components:[
-					{content: "ln", ontap: "lnTapped"},
-					{content: "log", ontap: "logTapped"},
-					{content: "^2"},
-					{content: ""}
-				]},
+							{content: "ln", ontap: "lnTapped"},
+							{content: "log", ontap: "logTapped"},
+							{content: "^2"},
+							{content: "%", ontap: "percentTapped"},
+						]},
 						{components:[
-					{content: "7", classes: "number-button"},
-					{content: "8", classes: "number-button"},
-					{content: "9", classes: "number-button"},
-					{content: "+", style: "margin-right: 0;"}
-				]},
+							{content: "7", classes: "number-button"},
+							{content: "8", classes: "number-button"},
+							{content: "9", classes: "number-button"},
+							{content: "+", style: "margin-right: 0;"}
+						]},
 						{components:[
-					{content: "4", classes: "number-button"},
-					{content: "5", classes: "number-button"},
-					{content: "6", classes: "number-button"},
-					{content: "-", style: "margin-right: 0;"}
-				]},
+							{content: "4", classes: "number-button"},
+							{content: "5", classes: "number-button"},
+							{content: "6", classes: "number-button"},
+							{content: "-", style: "margin-right: 0;"}
+						]},
 						{components:[
-					{content: "1", classes: "number-button"},
-					{content: "2", classes: "number-button"},
-					{content: "3", classes: "number-button"},
-					{content: "*", style: "margin-right: 0;"}
-				]},
+							{content: "1", classes: "number-button"},
+							{content: "2", classes: "number-button"},
+							{content: "3", classes: "number-button"},
+							{content: "*", style: "margin-right: 0;"}
+						]},
 						{components:[
-					{content: "."},
-					{content: "0", classes: "number-button"},
-					{content: "=", ontap: "equalsTapped"},
-					{content: "/", style: "margin-right: 0;"}
-				]}
+							{content: "."},
+							{content: "0", classes: "number-button"},
+							{content: "=", ontap: "equalsTapped"},
+							{content: "/", style: "margin-right: 0;"}
+						]}
 					]}
 				]}   // end bezel
 			]}
@@ -108,6 +108,19 @@ enyo.kind({
 	backspaceTapped: function() {
 		var formula = this.$.Formula;
 		formula.setContent(formula.getContent().substr(0, formula.getContent().length - 1));
+	},
+	percentTapped: function() {
+		var string = this.$.Formula.getContent();
+		this.$.Result.setContent("");
+	
+		if (string.length <= 1){
+			string = ".0" + string;
+			this.$.Formula.setContent(string);
+		}else{
+			var res = string.slice(0,string.length - 2); 
+			this.$.Formula.setContent(res + "." + string.substr(-2,2));
+		}
+		
 	},
 	//Helper Functions
 	handleBackGesture: function(inSender, inEvent) {
