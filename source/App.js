@@ -49,7 +49,7 @@ enyo.kind({
                                         {content: "ln", ontap: "lnTapped"},
                                         {content: "log", ontap: "logTapped"},
                                         {content: "^2"},
-                                        {content: ""}
+                                        {content: "%"}
                                 ]},
 
 				{components:[
@@ -123,6 +123,19 @@ enyo.kind({
 	backspaceTapped: function() {
 		var formula = this.$.Formula;
 		formula.setContent(formula.getContent().substr(0, formula.getContent().length - 1));
+	},
+	percentTapped: function() {
+		var string = this.$.Formula.getContent();
+		this.$.Result.setContent("");
+
+		if (string.length <= 1){
+			string = ".0" + string;
+			this.$.Formula.setContent(string);
+		}else{
+			var res = string.slice(0,string.length - 2); 
+			this.$.Formula.setContent(res + "." + string.substr(-2,2));
+		}
+		
 	},
 	//Helper Functions
 	handleBackGesture: function(inSender, inEvent) {
