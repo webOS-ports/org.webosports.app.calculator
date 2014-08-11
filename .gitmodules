@@ -11,3 +11,6 @@
 	path = lib/webos-lib
 	url = git@github.com:webOS-ports/webos-lib.git
 	branch = master
+[submodule "lib/math-eval"]
+	path = lib/math-eval
+	url = git@github.com:pcworld/js-expression-eval.git
