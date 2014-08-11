@@ -1,0 +1,13 @@
+[submodule "enyo"]
+	path = enyo
+	url = git://github.com/enyojs/enyo.git
+[submodule "lib/layout"]
+	path = lib/layout
+	url = git@github.com:enyojs/layout.git
+[submodule "lib/onyx"]
+	path = lib/onyx
+	url = git@github.com:enyojs/onyx.git
+[submodule "lib/webos-lib"]
+	path = lib/webos-lib
+	url = git@github.com:webOS-ports/webos-lib.git
+	branch = master
