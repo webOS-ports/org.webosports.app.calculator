@@ -9,6 +9,7 @@ enyo.kind({
 		onCoreNaviDrag: "handleCoreNaviDrag",
 		onCoreNaviDragFinish: "handleCoreNaviDragFinish"},
 		{name: "tabletop", kind: "Control", style:"-webkit-flex: 1;   display: -webkit-flex; -webkit-flex-direction: row; -webkit-justify-content: center", components: [
+		
 			{kind: "Control", style: "-webkit-flex: 1; max-width: 550px;   display: -webkit-flex; -webkit-flex-direction: column;  -webkit-justify-content: center", components:[
 				{name: "bezel", kind: "FittableRows",
 				style: "-webkit-flex: 1; max-height: 665px; border: 5px solid #333; background-color: #777; padding: 10px; color: white; margin: 10px; border-radius: 16px; text-align: right;",
@@ -80,6 +81,14 @@ enyo.kind({
 				]}   // end bezel
 			]}
 		]},   // end tabletop
+		{kind:"AppMenu",
+		onSelect: "appMenuItemSelected",
+		components: [
+			{content: "Simple Math", ontap: "simpleMath"},
+			{content: "Advanced Math", ontap: "advancedMath"},
+			{content: "About", ontap: "about"}
+		]},
+		{name: "aboutPopup", kind: "About"},
 		{kind: "CoreNavi", fingerTracking: true}
 	],
 	//Action Handlers
@@ -142,6 +151,16 @@ enyo.kind({
 		}
 		
 	},
+	advanceMath: function (inSender, inEvent){ 
+		// to do advance math 
+	},
+	simpleMath: function (inSender, inEvent){ 
+		// to do simple math 
+	},
+	about: function (inSender, inEvent){ 
+		// todo add about stuff
+		this.$.aboutPopup.show();
+	},
 	//Helper Functions
 	handleBackGesture: function(inSender, inEvent) {
 		//this.$.AppPanels.setIndex(0);
@@ -168,3 +187,73 @@ enyo.kind({
 		*/
 	}
 });
+
+
+
+enyo.kind({
+	name: "About",
+	kind: "onyx.Popup",
+	modal: true,
+	centered: true,
+	floating: true,
+	autoDismiss: false,
+	classes:"classic-popup",
+	published: {
+	},
+	events: {
+		onError: ""
+	},
+	components: [
+		{kind: "enyo.FittableRows", components:[
+			{tag: "div", name: "title", classes:"title", content: "About"},
+			{kind: "enyo.Scroller", classes: "small-popup", components: [
+			{ name:"popupContent", fit: true,components:[
+				{kind: "FittableRows", style: "height: 100%;", name: "aboutDescription", components: [
+					{kind:"FittableColumns", components: [
+						{content: "Version: ", classes: "about-description"},
+						{name: "versionValue"}
+					]},
+					{kind:"FittableColumns", components: [				
+						{content: "In case of issue, please consider ", classes: "about-description"},
+						{name: "brValue", kind: "enyo.Control", tag: "a", content: "Reporting a bug", attributes: {"target": "_blank"}}
+					]},
+					{kind:"FittableColumns", components: [				
+						{content: "See ", classes: "about-description"},
+						{name: "homeValue", kind: "enyo.Control", tag: "a", content: "Project Homepage", attributes: {"target": "_blank"}}				
+					]},
+					{kind:"FittableColumns", style: "height: 100%;", components: [				
+						{content: "License: ", classes: "about-description"},
+						{name: "license",  style: "height: 100%;", classes: "about-description"}
+					]}
+				]}
+			]}
+		]},
+			{kind: "onyx.Toolbar", classes:"bottom-bar", name: "buttons", components: [
+				{name:"cancelButton", classes:"button", kind: "onyx.Button", content: "Close", ontap: "actionClose"}
+			]},
+		]}
+	],
+	
+	/**
+	 * @protected
+	 */
+	create: function(){
+		this.inherited(arguments);
+		this.aboutData();
+	},
+	
+	/**
+	 * @private
+	 */
+	aboutData: function(){
+		this.$.versionValue.content = "	" + "0.1.1";
+		this.$.brValue.setAttribute("href", "http://issues.webos-ports.org/");
+		this.$.homeValue.setAttribute("href", "https://github.com/webOS-ports/org.webosports.app.calculator");
+		this.$.license.content = "	";
+	},
+	actionClose: function(inSender, inEvent) {
+		this.hide();
+		return true;
+	}
+});
+
