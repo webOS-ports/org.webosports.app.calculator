@@ -83,6 +83,7 @@ enyo.kind({
 		]},   // end tabletop
 		{kind:"AppMenu",
 		onSelect: "appMenuItemSelected",
+		style: "border-radius: 16px;",
 		components: [
 			{content: "Simple Math", ontap: "simpleMath"},
 			{content: "Advanced Math", ontap: "advancedMath"},
@@ -211,19 +212,24 @@ enyo.kind({
 				{kind: "FittableRows", style: "height: 100%;", name: "aboutDescription", components: [
 					{kind:"FittableColumns", components: [
 						{content: "Version: ", classes: "about-description"},
-						{name: "versionValue"}
+						{content: "  ", style: "width: 20px;"},
+						{name: "versionValue"},
+
 					]},
 					{kind:"FittableColumns", components: [				
-						{content: "In case of issue, please consider ", classes: "about-description"},
+						{content: "In case of issue, please consider", classes: "about-description"},
+						{content: "  ", style: "width: 20px;"},
 						{name: "brValue", kind: "enyo.Control", tag: "a", content: "Reporting a bug", attributes: {"target": "_blank"}}
 					]},
 					{kind:"FittableColumns", components: [				
-						{content: "See ", classes: "about-description"},
+						{content: "See", classes: "about-description"},
+						{content: "  ", style: "width: 20px;"},
 						{name: "homeValue", kind: "enyo.Control", tag: "a", content: "Project Homepage", attributes: {"target": "_blank"}}				
 					]},
 					{kind:"FittableColumns", style: "height: 100%;", components: [				
 						{content: "License: ", classes: "about-description"},
-						{name: "license",  style: "height: 100%;", classes: "about-description"}
+						{content: "  ", style: "width: 20px;"},
+						{name: "license",  style: "height: 100%;", classes: "about-description"},
 					]}
 				]}
 			]}
@@ -246,7 +252,7 @@ enyo.kind({
 	 * @private
 	 */
 	aboutData: function(){
-		this.$.versionValue.content = "	" + "0.1.1";
+		this.$.versionValue.content = "\t" + "0.1.1";
 		this.$.brValue.setAttribute("href", "http://issues.webos-ports.org/");
 		this.$.homeValue.setAttribute("href", "https://github.com/webOS-ports/org.webosports.app.calculator");
 		this.$.license.content = "	";
@@ -254,6 +260,7 @@ enyo.kind({
 	actionClose: function(inSender, inEvent) {
 		this.hide();
 		return true;
-	}
+	},
 });
+
 
