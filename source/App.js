@@ -90,7 +90,6 @@ enyo.kind({
 			{content: "About", ontap: "about"}
 		]},
 		{name: "aboutPopup", kind: "About"},
-		{kind: "CoreNavi", fingerTracking: true}
 	],
 	//Action Handlers
 	keyTapped: function(inSender, inEvent) {
