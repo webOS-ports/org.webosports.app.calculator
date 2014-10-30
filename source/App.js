@@ -102,11 +102,7 @@ enyo.kind({
 	},
 	calculate: function(formula) {
 		try {
-			// Replace mathematical notation with JS here
-			var parsed;
-			parsed = formula.replace('sqrt', 'Math.sqrt');
-			
-			return eval(parsed);
+			return Parser.evaluate(formula);
 		}
 		catch(err) {
 			enyo.log(err);
