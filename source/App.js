@@ -15,14 +15,14 @@ enyo.kind({
 				style: "-webkit-flex: 1; max-height: 665px; border: 5px solid #333; background-color: #777; padding: 10px; color: white; margin: 10px; border-radius: 16px; text-align: right;",
 				components:[
 					{kind: "onyx.Toolbar", style: "margin-bottom: 5px;", components:[
-					{name: "Result", style: "font-size: 16pt; font-weight: bold;"}
+					{name: "Result", style: "font-size: 1.2em; font-weight: bold;"}
 				]},
 					{kind: "FittableColumns", style: "margin-bottom: 5px;", components:[
 						{kind: "onyx.Toolbar",
 						style: "width: 75%; height: 48px; margin-left: 12.5%; margin-right: 5px; text-align: right;",
 						fit: true,
 						components:[
-							{name: "Formula", style: "font-size: 12pt;"}
+							{name: "Formula", style: "font-size: 1em;"}
 						]},
 						{kind: "onyx.Button", style: "width: 48px; height: 48px; border-radius: 24px;", classes: "onyx-toolbar", content: "<", ontap: "backspaceTapped"}
 					]},
@@ -32,25 +32,27 @@ enyo.kind({
 						kind: "FittableColumns",
 						style: "height: 15.5%; margin: 0.5%;",
 						defaultKind: enyo.kind({
-						kind: "onyx.Button",
-						classes: "onyx-toolbar",
-						style: "width: 24%; margin: 0.5%; border-radius: 8px; font-size: 24pt; font-weight: bold;",
-						ontap: "keyTapped"
+							kind: "onyx.Button",
+							classes: "onyx-toolbar",
+							style: "width: 24%; margin: 0.5%; border-radius: 8px; font-size: 2em; font-weight: bold;",
+							ontap: "keyTapped",
+							allowHtml: true
 						})
 					}),
 					components:[
 						{components:[
 							/**{style: "visibility: hidden;"},*/
-							{content: "\u221a", ontap: "sqrtTapped"},		
+							{content: "\u221a", value: "sqrt("},		
 							{content: "("},
 							{content: ")"},
 							{content: "C", style: "margin-right: 0;", ontap: "cancelTapped"}
 						]},
 						{components:[
-							{content: "ln", ontap: "lnTapped"},
-							{content: "log", ontap: "logTapped"},
-							{content: "^2"},
-							{content: "%", ontap: "percentTapped"}
+							{content: "ln", value: "ln("},
+							{content: "log", value: "log("},
+							{content: "x<sup>2</sup>", value: "^2"},
+							{content: "^"},
+							//{content: "%", ontap: "percentTapped"} // TODO: make room for more buttons and fix percentTapped, or remove it
 						]},
 						{components:[
 							{content: "7", classes: "number-button"},
@@ -93,20 +95,17 @@ enyo.kind({
 	],
 	//Action Handlers
 	keyTapped: function(inSender, inEvent) {
-		var formula = this.$.Formula;
-		formula.setContent(formula.getContent() + inSender.getContent());
-		
+		this.formulaAppend(inSender.value || inSender.getContent());
+	},
+	formulaAppend: function(str) {
+		this.$.Formula.setContent(this.$.Formula.getContent() + str);
 	},
 	equalsTapped: function() {
 		this.$.Result.setContent(this.calculate(this.$.Formula.getContent()));
 	},
 	calculate: function(formula) {
 		try {
-			// Replace mathematical notation with JS here
-			var parsed;
-			parsed = formula.replace('sqrt', 'Math.sqrt');
-			
-			return eval(parsed);
+			return Parser.evaluate(formula);
 		}
 		catch(err) {
 			enyo.log(err);
@@ -116,18 +115,6 @@ enyo.kind({
 	cancelTapped: function() {
 		this.$.Result.setContent("");
 		this.$.Formula.setContent("");
-	},
-	sqrtTapped: function() {
-		this.$.Result.setContent("");
-		this.$.Formula.setContent("sqrt(");
-	},
-	lnTapped: function() {
-		this.$.Result.setContent("");
-		this.$.Formula.setContent("ln(");
-	},
-	logTapped: function() {
-		this.$.Result.setContent("");
-		this.$.Formula.setContent("log(");
 	},
 	backspaceTapped: function() {
 		var formula = this.$.Formula;
@@ -150,41 +137,6 @@ enyo.kind({
 			this.$.Formula.setContent(res + "." + string.substr(-2,2));
 		}
 		
-	},
-	advanceMath: function (inSender, inEvent){ 
-		// to do advance math 
-	},
-	simpleMath: function (inSender, inEvent){ 
-		// to do simple math 
-	},
-	about: function (inSender, inEvent){ 
-		// todo add about stuff
-		this.$.aboutPopup.show();
-	},
-	//Helper Functions
-	handleBackGesture: function(inSender, inEvent) {
-		//this.$.AppPanels.setIndex(0);
-	},
-	handleCoreNaviDragStart: function(inSender, inEvent) {
-		/*
-		if(enyo.Panels.isScreenNarrow()) {
-			this.$.AppPanels.dragstartTransition(inEvent);
-		}
-		*/
-	},
-	handleCoreNaviDrag: function(inSender, inEvent) {
-		/*
-		if(enyo.Panels.isScreenNarrow()) {
-			this.$.AppPanels.dragTransition(inEvent);
-		}
-		*/
-	},
-	handleCoreNaviDragFinish: function(inSender, inEvent) {
-		/*
-		if(enyo.Panels.isScreenNarrow()) {
-			this.$.AppPanels.dragfinishTransition(inEvent);
-		}
-		*/
 	}
 });
 
