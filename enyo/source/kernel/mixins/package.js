@@ -1,9 +1,10 @@
 enyo.depends(
-	"MixinSupport.js",
-	"ObserverSupport.js",
-	"ComputedSupport.js",
-	"BindingSupport.js",
-	"ApplicationSupport.js",
-	"MultipleDispatchSupport.js",
-	"RegisteredEventSupport.js"
+	'MixinSupport.js',
+	'ObserverSupport.js',
+	'ComputedSupport.js',
+	'BindingSupport.js',
+	'ApplicationSupport.js',
+	'MultipleDispatchSupport.js',
+	'EventEmitter.js',
+	'ProxyObject.js'
 );

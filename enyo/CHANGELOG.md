@@ -1,14 +1,87 @@
-## 2.3.1-pre.1
+## 2.4.0-pre.3
 
-_enyo.Collection.destroyAll()_ now accepts a boolean parameter to signify it will call the record's _destroyLocal()_ method as opposed to the default of _destroy()_.
+Added support for `mozAnon` and `mozSystem` properties to enyo.xhr. The mozSystem boolean enables cross-origin requests
+ and the mozAnon boolean enables anonymous xhr by not sending cookies or authentication headers. Both these
+settings are currently only working on Firefox OS.
+
+Added triggerHandler method to Component that invokes the handler for a given event type.
+
+## 2.4.0-pre.2
+
+_controller_ is no longer a special property. This affects _DataRepeater_,
+_DataList_ and _DataGridList_, _UiComponent_ (and child-kinds) and
+_Application_. For _DataRepeater_, _DataList_ and _DataGridList_ use
+_collection_ instead. For all other kinds there is no direct replacement for
+the previous functionality. Instead use a binding from the path to the local
+property desired.
+
+_Application.controllers_ has been removed. Declare controllers as normal
+_components_.
+
+_DataRepeater.length_ is no longer a bound property. In its place, you should
+check for the existence of _collection_ then the length. This value was not
+very useful as it was and became a performance hog. This change affects
+_DataRepeater_, _DataList_ and _DataGridList_.
+
+_Collection_ no longer has _filtered_, _filters_, _filterProps_, and
+_activeFilter_ properties and the _filter_ method no longer can be used to
+clear the active filter.  This whole filtering feature is being rewritten to
+be more flexible and performant.
+
+
+## 2.4.0-pre.1
+
+Added isFetching property to enyo.Collection, for common use case of showing loader spnner via binding.
+
+Add sizing property to enyo.Image, which renders image as <div> with background-image, and allows use
+of contain or cover background-size properties.  Also added `position` property for use with sizing property,
+for setting background-position
+
+Updated lessc.js and minify.js to use relative URL's when compiling less files, to be compatible with the
+bootplate `Theme.less` scheme for importing and then overriding library variables in application less file.S
+
+_enyo.asyncMethod()_ now accepts an anonymous function as a single parameter.
+Previous asnyncMethod signature remains supported as well.
+
+_enyo.Collection.destroyAll()_ now accepts a boolean parameter to signify it
+will call the record's _destroyLocal()_ method as opposed to the default of
+_destroy()_.
 
 Added _enyo.Collection.destroyAllLocal()_ as a convenience method.
 
-Added _enyo.Collection.fetchAndDestroyLocal()_ method to do the same as _fetchAndDestroy()_ except it will call _destroyLocal()_ on the records instead of _destroy()_. This also means you could call _fetch()_ with the options property _destroyLocal_ set to _true_ to have the same effect.
+Added _enyo.Collection.fetchAndDestroyLocal()_ method to do the same as
+_fetchAndDestroy()_ except it will call _destroyLocal()_ on the records
+instead of _destroy()_. This also means you could call _fetch()_ with the
+options property _destroyLocal_ set to _true_ to have the same effect.
 
-Added support for the Page Visibility API by normalizing  visibilitychange events, the document.hidden and the document.visibilityState properties. Uses fallbacks to support older browsers.
+Added support for the Page Visibility API by normalizing  visibilitychange
+events, the document.hidden and the document.visibilityState properties. Uses
+fallbacks to support older browsers.
 
-## 2.3.0-rc5
+## 2.3.0-rc.6
+
+A new method, `enyo.dom.getAbsoluteBounds`, has been added. This method is more sophisticated than
+previous methods for getting a node's absolute bounds, taking into account translateX, translateY
+and matrix3d transforms. The existing `enyo.Control.getAbsoluteBounds` API remains unchanged, but its
+implementation has been changed to utilize the new `enyo.dom.getAbsoluteBounds` method.
+
+Added _configureHoldPulse_ method to "down" event for configuring subsequent "holdpulse" events. Pass in a
+hash of options that can include "delay" (ms delay between "holdpulse" events), "moveTolerance" (threshold
+for determining cursor has left original location), "endHold" (values include "onMove" and "onLeave",
+determines whether "holdpulse" should be cancelled when cursor leaves tolerant target area or the control
+itself, respectively), and "resume" (whether or not "holdpulse" should resume when re-entering either the
+control ["onLeave" endHold value] or the thresholded original coordinates ["onMove" endHold value]).
+
+Add _enyo.toUpperCase()_ and _enyo.toLowerCase()_ methods. Use these to replace calls to
+_String.toUpperCase()_ and _String.toLowerCase()_ in code that needs to be locale-aware.
+
+## 2.3.0-rc.5
+
+From this release forward, the `display` style attribute will no longer be synced back to the
+`showing` property after Control creation to avoid inconsistent state situations when `getShowing`
+is called in a `showingChanged` handler before the `showing` and `display` values are synced.
+Changing `showing` will update the `display` style, but changes to the style will not be reflected
+in the showing property.
 
 Added _fixedChildSize_ public property to _enyo.DataList_ to allow the list to optimize performance when
 list items will have fixed dimensions. Whenever items in the list will be uniform this option should be
@@ -22,7 +95,7 @@ the control is actually visible. Setting the _showing_ property to `false` for a
 properties value to `false` for all children. This property can then be reliably used to separate logic that
 should only occur when a control is visible.
 
-## 2.3.0-rc4
+## 2.3.0-rc.4
 
 Added _enyo.perfNow()_, a high-precision, high performance monotonic timestamp, which is independent of changes
 to the system clock and safer for use in animation, etc.  Falls back to _enyo.now()_ (based on the JS _Date_
@@ -35,7 +108,7 @@ public API.
 _enyo.Scroller_ has been updated such that it will only propagate _resize_ events to children when its'
 _showing_ property is `true`.
 
-## 2.3.0-rc1
+## 2.3.0-rc.1
 
 _enyo.dispatcher.capture_ API no longer bubbles all captured events through the normal event chain, but
 rather notifies the captureTarget when specific events occur through a map of callbacks passed as a parameter

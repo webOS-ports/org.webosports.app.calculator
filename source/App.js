@@ -89,10 +89,17 @@ enyo.kind({
 		components: [
 			{content: "Simple Math", ontap: "simpleMath"},
 			{content: "Advanced Math", ontap: "advancedMath"},
-			{content: "About", ontap: "about"}
+			{content: "About", ontap: "aboutMe"}
 		]},
 		{name: "aboutPopup", kind: "About"},
 	],
+	create: function(){
+		this.inherited(arguments);
+    },
+	aboutMe: function (inSender, inEvent){ 
+		// todo add about stuff
+		this.$.aboutPopup.show();
+	},
 	//Action Handlers
 	keyTapped: function(inSender, inEvent) {
 		this.formulaAppend(inSender.value || inSender.getContent());

@@ -12,17 +12,17 @@ enyo.kind({
 			], bindings: [
 				{from: ".model.firstName", to: ".$.firstName.content"},
 				{from: ".model.lastName", to: ".$.lastName.content"},
-				{from: ".model.lastName", to: ".$.lastNameLetter.content", transform: function (v) { return v.charAt(0); }},
+				{from: ".model.lastName", to: ".$.lastNameLetter.content", transform: function (v) { return v && v.charAt(0); }},
 				{from: ".model.classes", to: ".classes"}
 			]}
 		], minWidth: 320, minHeight: 100, spacing: 10}
 	],
 	bindings: [
-		{from: ".controller", to: ".$.repeater.controller"}
+		{from: ".collection", to: ".$.repeater.collection"}
 	],
 	create: enyo.inherit(function (sup) {
 		return function () {
-			this.controller = new enyo.Collection(this.data);
+			this.collection = new enyo.Collection(this.data);
 			sup.apply(this, arguments);
 		};
 	}),

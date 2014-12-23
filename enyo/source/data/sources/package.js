@@ -1,4 +1,6 @@
 enyo.depends(
-	"localStorage.js",
-	"xhr.js"
+	'localStorage.js',
+	'xhr.js',
+	'Ajax.js',
+	'Jsonp.js'
 );
