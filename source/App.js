@@ -202,14 +202,6 @@ enyo.kind({
 			style: "border-radius: 16px;",
 			components: [
 			{
-				content: "Simple Math",
-				ontap: "simpleMath"
-			},
-			{
-				content: "Advanced Math",
-				ontap: "advancedMath"
-			},
-			{
 				content: "About",
 				ontap: "aboutMe"
 			}]
