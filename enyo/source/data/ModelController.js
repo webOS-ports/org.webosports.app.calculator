@@ -1,125 +1,223 @@
-//*@public
-/**
-	The _enyo.ModelController_ kind is designed as a proxy for other objects
-	to bind to properties of a _model_ safely, even when the model is changing.
-	It also allows for extended logic capabilities beyond that of the _model_
-	alone without modifying the _model_ kind. Its primary purpose is to _proxy_
-	the underlying data from the _model_. Like _enyo.Model_, the use of the _get_
-	and _set_ methods are restricted to _attributes_ of the _model_ schema. There
-	are convenience methods _localGet_ and _localSet_ that will act like the _get_
-	and _set_ of _enyo.Object_ and subkinds. This _controller_ has the ability
-	to interact with the _enyo.Component_ event system but also proxies the _event_
-	API of _enyo.Model_ and _enyo.Controller_.
-*/
-enyo.kind({
-	name: "enyo.ModelController",
-	kind: enyo.Controller,
+(function (enyo, scope) {
+	
+	var kind = enyo.kind;
+	
+	var ProxyObject = enyo.ProxyObject,
+		Component = enyo.Component,
+		ComputedSupport = enyo.ComputedSupport,
+		EventEmitter = enyo.EventEmitter,
+		oObject = enyo.Object;
+	
 	/**
-		This property must be set to an instance of _enyo.Model_ for it
-		to function as expected.
+	* Only necessary because of the order in which mixins are applied.
+	*
+	* @class
+	* @private
 	*/
-	model: null,
+	var BaseModelController = kind({
+		kind: Component,
+		mixins: [ComputedSupport, EventEmitter, ProxyObject]
+	});
+	
 	/**
-		Retrieve an _attribute_ from the _model_ (if it exists). The only exceptions
-		are the _model_ property itself may be returned from this method or _computed_
-		properties of the _controller_. This way, _bindings_ can correctly bind to
-		a _model controller's computed properties_ without modifying the _model_ definition.
-		There is a limitation here that a computed property with the same name as an _attribute_
-		or _computed property_ of the _model_ will not be accessible to _bindings_ on the
-		_model controller_.
+	* A controller designed to proxy an underlying {@link enyo.Model}. Other
+	* [kinds]{@glossary kind} may [bind]{@link enyo.BindingSupport.bindings} to this
+	* controller as if it were an `enyo.Model`. Using the
+	* [model]{@link enyo.ModelController#model} reserved property, the actual model
+	* may be changed without the bindings' needing to know. It will also propagate
+	* events [emitted]{@link enyo.EventEmitter.emit} by the underlying model.
+	* 
+	* It is important to note that `"model"` is a reserved property name. Also
+	* note that bindings should **never** bind through the controller to the model
+	* directly.
+	* 
+	* **Rules of property resolution**
+	*
+	* If the controller can call [hasOwnProperty()]{@glossary Object.hasOwnProperty}
+	* and it returns `true`, it will look locally; if the property is resolved to
+	* be a computed property, the requested property will be proxied from the given
+	* model, when available.
+	* 
+	* @class enyo.ModelController
+	* @extends enyo.Component
+	* @mixes enyo.ComputedSupport
+	* @mixes enyo.EventEmitter
+	* @mixes enyo.ProxyObject
+	* @public
 	*/
-	get: function (prop) {
-		if (prop == "model") {
-			return this.getLocal(prop);
-		} else if (this._isComputed(prop)) {
-			return this._getComputed(prop);
-		} else if (this.model) {
-			return this.model.get.apply(this.model, arguments);
-		} else {
-			// to ensure that bindings will clear according to their api
-			return null;
-		}
-	},
-	/**
-		Will allow the retrieval of local properties and computed properties
-		according to the _enyo.Object.get_ method.
-	*/
-	getLocal: function () {
-		return enyo.getPath.apply(this, arguments);
-	},
-	/**
-		Set an _attribute_ (or _attributes_ if an object) on the _model_
-		(if it exists). Returns the _model_ if it exists otherwise _undefined_.
-		The only exception is the _model_ properties itself may be set using
-		this method as well.
-	*/
-	set: function (prop, value) {
-		if (prop == "model") { return this.setLocal(prop, value); }
-		if (this.model) { return this.model.set.apply(this.model, arguments); }
-	},
-	/**
-		Will allow the setting of local properties according to the _enyo.Object.set_
-		method.
-	*/
-	setLocal: function () {
-		return enyo.setPath.apply(this, arguments);
-	},
-	/**
-		To arbitrarily update any bindings to known _attributes_ of the
-		_model_ (if it exists), call this method. Optionally provide
-		a hash of properties and values with which to notify observers noting
-		that the values will be used as the _previous_ values if there is
-		no `model` present on the _controller_.
-	*/
-	sync: function (props) {
-		var m  = this.model,
-			aa = props || (this.model && this.model.attributes);
-		for (var k in aa) { this.notifyObservers(k, m? m.previous[k]: aa[k], m? this.model.get(k): null); }
-	},
-	/**
-		This method responds to the _model_ property being set on this _controller_.
-		Overload this method for additional behaviors.
-	*/
-	modelChanged: function (previous, model) {
-		var p = previous,
-			m = model;
-		// remove our listeners from the model that is no longer ours
-		if (p) {
-			p.removeListener("change", this._modelChanged);
-			p.removeListener("destroy", this._modelDestroyed);
-			// if we're removing the current record and there isn't a replacement
-			// we need to synchronize observers related to this record
-			if (!m) { this.sync(p.attributes); }
-		}
-		if (m) {
-			// assign listeners to respond to events from the model
-			m.addListener("change", this._modelChanged);
-			m.addListener("destroy", this._modelDestroyed);
-			this.sync();
-		}
-	},
-	//*@protected
-	create: enyo.inherit(function (sup) {
-		return function () {
-			sup.apply(this, arguments);
-			if (this.model) {
-				this.notifyObservers("model", null, this.model);
+	kind(
+		/** @lends enyo.ModelController.prototype */ {
+		
+		/**
+		* @private
+		*/
+		name: 'enyo.ModelController',
+		
+		/**
+		* @private
+		*/
+		kind: BaseModelController,
+		
+		/**
+		* The {@link enyo.Model} to proxy. If this is set to an instance of `enyo.Model`,
+		* the [controller]{@link enyo.ModelController} will propagate `enyo.Model`
+		* [events]{@glossary event} and [notifications]{@link enyo.ObserverSupport.notify}.
+		* **No bindings should ever bind directly to attributes of this property.**
+		*
+		* Also note that this is a reserved property name and will collide with any
+		* [attribute]{@link enyo.Model#attributes} named `"model"`. This scenario should
+		* be avoided.
+		*
+		* @type enyo.Model
+		* @default null
+		* @public
+		*/
+		model: null,
+		
+		/**
+		* @private
+		*/
+		proxyObjectKey: 'model',
+		
+		/**
+		* @method
+		* @private
+		*/
+		get: enyo.inherit(function (sup) {
+			return function (path) {
+				
+				if (this.hasOwnProperty(path) || this.isComputed(path)) {
+					return this._getComputed(path);
+				}
+				
+				return sup.apply(this, arguments);
+			};
+		}),
+		
+		/**
+		* @method
+		* @private
+		*/
+		set: enyo.inherit(function (sup) {
+			return function (path) {
+				
+				if (typeof path == 'string') {
+					if (this.hasOwnProperty(path)) {
+						return this.isComputed(path) ? this : enyo.setPath.apply(this, arguments);
+					}
+				}
+				
+				return sup.apply(this, arguments);
+			};
+		}),
+		
+		/**
+		* @method
+		* @private
+		*/
+		_getComputed: ComputedSupport.get.fn(oObject.prototype.get),
+		
+		/**
+		* @type enyo.ObserverSupport~Observer
+		* @private
+		*/
+		modelChanged: function (was, is, path) {
+			// unregister previous model if any
+			if (was) was.off('*', this._modelEvent, this);
+			// register for events on new model if any
+			if (is) is.on('*', this._modelEvent, this);
+			
+			// either way we need to update any observers that might be related
+			// to the model
+			var props = this.modelObservedProperties();
+			for (var key in props) {
+				if ((!was && is) || (was && !is) || (was && is && was.attributes[key] !== is.attributes[key])) {
+					this.notify(key, was && was.get(key), is && is.get(key));
+				}
 			}
-		};
-	}),
-	constructor: enyo.inherit(function (sup) {
-		return function () {
-			sup.apply(this, arguments);
-			this._modelChanged = this.bindSafely("_modelChanged");
-		};
-	}),
-	_modelChanged: function (r) {
-		var ch = r.changed;
-		for (var k in ch) { this.notifyObservers(k, r.previous[k], ch[k]); }
-	},
-	_modelDestroyed: function (r) {
-		if (r === this.model) {
-			this.setLocal("model", null);
-		}
-	}
-});
+			
+			this.emit('model', {was: was, is: is});
+		},
+		
+		/**
+		* @method
+		* @private
+		*/
+		_modelEvent: function (model, e, props) {
+			// re-emit the event as expected with the only change being the originator (first param)
+			// will be this controller but all listeners should expect to use the third parameter as
+			// is the convention for model listeners
+			this.emit(e, props, model);
+			
+			switch (e) {
+			case 'change':
+				if (props) for (var key in props) this.notify(key, model.previous[key], props[key]);
+				break;
+			case 'destroy':
+				this.set('model', null);
+				break;
+			}
+		},
+		
+		/**
+		* @method
+		* @private
+		*/
+		modelObservedProperties: function () {
+			return this._observedProps || (this._observedProps = {});
+		},
+		
+		/**
+		* @method
+		* @private
+		*/
+		observe: enyo.inherit(function (sup) {
+			return function (path) {
+				var part = path
+					, parts;
+				
+				if (path.indexOf('.') > -1) {
+					parts = path.split('.');
+					part = parts.shift();
+				}
+				
+				if (!this.hasOwnProperty(part) && !this.isComputed(part)) this.modelObservedProperties()[path] = null;
+				return sup.apply(this, arguments);
+			};
+		}),
+		
+		/**
+		* @private
+		*/
+		addObserver: function () {
+			return this.observe.apply(this, arguments);
+		},
+		
+		/**
+		* @private
+		*/
+		constructor: enyo.inherit(function (sup) {
+			return function (props) {
+				// ensure we have our own model property
+				this.model = null;
+			
+				// adhere to normal approach to constructor properties hash
+				props && enyo.mixin(this, props);
+				sup.apply(this, arguments);
+			};
+		}),
+		
+		/**
+		* @method
+		* @private
+		*/
+		destroy: enyo.inherit(function (sup) {
+			return function () {
+				sup.apply(this, arguments);
+				this.model && this.model.off('*', this._modelEvent, this);
+			};
+		})
+		
+	});
+	
+})(enyo, this);

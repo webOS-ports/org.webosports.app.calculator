@@ -11,6 +11,8 @@
 	var basename = path.basename(__filename),
 		w = console.log,
 		e = console.error,
+		defaultEnyoLoc = "enyo",
+		defaultLibLoc = "lib",
 		opt;
 
 	// Shimming path.relative with 0.8.8's version if it doesn't exist
@@ -32,6 +34,7 @@
 		w("-beautify:", "Output pretty version that's less compressed but has code on separate lines");
 		w("-f", "Remote source mapping: from local path");
 		w("-t", "Remote source mapping: to remote path");
+		w("-gathering:", "Gathering libs to default location, so rewrite urls accordingly");
 		w("-h, -?, -help:", "Show this message");
 	}
 
@@ -45,6 +48,9 @@
 		w("");
 		var blob = "";
 		var addToBlob = function(sheet, code) {
+			// for the "gathering" feature, we need to determine whether this sheet lives
+			// inside a lib directory; normalizing the path makes it easier to check, below
+			sheet = path.normalize(sheet);
 			// fix url paths
 			code = code.replace(/url\([^)]*\)/g, function(inMatch) {
 				// find the url path, ignore quotes in url string
@@ -55,22 +61,24 @@
 				if(!urlPath){
 					return "url()";
 				}
-
-				// skip data urls
-				if (/^data:/.test(urlPath)) {
+				// skip an external url (one that starts with <protocol>: or just //, includes data:)
+				if (/^([\w-]*:)|(\/\/)/.test(urlPath)) {
 					return "url('" + urlPath + "')";
 				}
-				// skip an external link
-				if (/^http(:?s)?:/.test(urlPath)) {
-					return "url('" + urlPath + "'')";
-				}
+
+				// if we are gathering libs to default location, rewrite urls beneath lib folder
+				var dstSheet = (opt.gathering && sheet.indexOf(opt.lib) == 0) ?
+					defaultLibLoc + sheet.substr(opt.lib.length) :
+					sheet;
+
 				// Make relative asset path from 'top-of-the-tree/build'
-				var relPath = path.join("..", opt.relsrcdir, path.dirname(sheet), urlPath);
+				var relPath = path.join("..", opt.relsrcdir, path.dirname(dstSheet), urlPath);
 				if (process.platform == "win32") {
 					relPath = pathSplit(relPath).join("/");
 				}
 				console.log("opt.relsrcdir:", opt.relsrcdir);
 				console.log("sheet:", sheet);
+				console.log("dstSheet:", dstSheet);
 				console.log("urlPath:", urlPath);
 				console.log("relPath:", relPath);
 				return "url('" + relPath + "')";
@@ -91,7 +99,7 @@
 				}
 				var code = fs.readFileSync(sheet, "utf8");
 				if (isLess) {
-					var parser = new(less.Parser)({filename:sheet, paths:[path.dirname(sheet)]});
+					var parser = new(less.Parser)({filename:sheet, paths:[path.dirname(sheet)], relativeUrls:true});
 					parser.parse(code, function (err, tree) {
 						if (err) {
 							console.error(err);
@@ -218,7 +226,8 @@
 		"help": Boolean,
 		"beautify": Boolean,
 		"mapfrom": [String, Array],
-		"mapto": [String, Array]
+		"mapto": [String, Array],
+		"gathering": Boolean
 	};
 
 	var shortHands = {
@@ -280,8 +289,13 @@
 		throw new Error("-output must be a relative path prefix");
 	}
 
+	opt.enyo = opt.enyo || defaultEnyoLoc;
+
+	opt.lib = opt.lib || path.join(opt.enyo, "../lib");
+	opt.gathering = opt.gathering && (opt.lib != defaultLibLoc);
+
 	w(opt);
-	walker.init(opt.enyo, opt.lib || opt.enyo + "/../lib", opt.mapfrom, opt.mapto);
+	walker.init(opt.enyo, opt.lib, opt.mapfrom, opt.mapto);
 	walker.walk(path.basename(opt.packagejs), walkerFinished);
 
 })();

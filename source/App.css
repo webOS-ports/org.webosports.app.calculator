@@ -21,3 +21,25 @@ sup {
 	vertical-align: super !important;
 	font-size: 0.5em;
 }
+
+.about-description        {
+	color: #000000;
+	font-size: 14px;
+	font-family: Helvetica ;
+}
+
+
+.classic-popup       {
+	border-radius: 16px;
+	width: 352px;
+	background-color: #555;
+}
+
+.button   {
+	background-color: green;
+	float: right;
+}
+
+.bottom-bar  {
+	height: 55px;
+}
