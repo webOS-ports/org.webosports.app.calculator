@@ -1,0 +1,6 @@
+{
+	"enyo": "./enyo",
+	"packagejs": "./package.js",
+	"assets": ["./icon.png", "./icon-1024.png", "./index.html", "./appinfo.json", "./framework_config.json"],
+	"libs": ["./lib/onyx", "./lib/layout", "./lib/math-eval", "./lib/webos-lib"]
+}
