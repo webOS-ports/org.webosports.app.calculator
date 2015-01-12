@@ -6,5 +6,7 @@ enyo.depends(
 	"$lib/math-eval/parser.js",
 	//Main App
 	"App.css",
+	"About.js",
+	"FormulaEntry.js",
 	"App.js"
 );
