@@ -1,7 +1,7 @@
 /*jslint browser: true, debug: true, sloppy: true, stupid: true, todo: true, white: true */
 /*global enyo, isNaN */
 enyo.kind({
-    name: "FormulaEntry",
+    name: "StandardEntry",
     kind: "FittableRows",
     style: "-webkit-flex: 1; background-color: #777; padding: 5px; color: white; border-radius: 16px;",
     components: [
@@ -132,7 +132,7 @@ enyo.kind({
 		{
 		    components: [
 			{
-			    content: "1",
+			    content: "3",
 			    classes: "number-button"
 			},
 			{
@@ -140,7 +140,7 @@ enyo.kind({
 			    classes: "number-button"
 			},
 			{
-			    content: "3",
+			    content: "1",
 			    classes: "number-button"
 			},
 			{

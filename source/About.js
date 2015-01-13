@@ -142,7 +142,7 @@ enyo.kind({
 	 * @private
 	 */
 	aboutData: function () {
-		this.$.versionValue.content = "\t" + "0.1.2";
+		this.$.versionValue.content = "\t" + "0.2.0";
 		this.$.brValue.setAttribute("href", "http://issues.webos-ports.org/");
 		this.$.homeValue.setAttribute("href", "https://github.com/webOS-ports/org.webosports.app.calculator");
 		this.$.license.content = "	";

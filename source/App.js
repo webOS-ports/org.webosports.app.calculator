@@ -22,7 +22,12 @@ enyo.kind({
 					kind: "Control",
 					style: "-webkit-flex: 1; max-width: 550px;   display: -webkit-flex; -webkit-flex-direction: column;  -webkit-justify-content: center",
 					components: [{
-					    kind: "FormulaEntry"
+					    kind: "Panels",
+					    style: "-webkit-flex: 1; max-height: 665px; border: 5px solid #333; background-color: #777; padding: 10px; color: white; margin: 10px; border-radius: 16px; text-align: right;",
+					    components: [
+						{ kind: "StandardEntry" },
+						{ kind: "FormulaEntry" }
+					    ]
 					}]
 				}
 			]
