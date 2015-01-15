@@ -3,18 +3,31 @@
 	This way, you can minify your application, and just remove the "source" folder for production
 */
 #app {
-	background-color: #000000;
+	background-color: black;
 }
 
 .onyx-toolbar {
-	height: 54px;
-	border-radius: 16px;
+	height: 108px;
+	border-radius: 8px;
 	background-color: #555;
+}
+
+.function-button {
+	color: white;
+	background-color: cyan;
+	border-color: black;
 }
 
 .number-button {
 	color: black;
 	background-color: white;
+	border-color: black;
+}
+
+.cancel-button {
+	color: white;
+	background-color: orange;
+	border-color: black;
 }
 
 sup {
@@ -23,9 +36,9 @@ sup {
 }
 
 .about-description        {
-	color: #000000;
+	color: black;
 	font-size: 14px;
-	font-family: Helvetica ;
+	font-family: Helvetica;
 }
 
 
