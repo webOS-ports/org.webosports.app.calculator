@@ -22,11 +22,12 @@ enyo.kind({
 					kind: "Control",
 					style: "-webkit-flex: 1; max-width: 550px;   display: -webkit-flex; -webkit-flex-direction: column;  -webkit-justify-content: center",
 					components: [{
+					    name: "calculatorhost",
 					    kind: "Panels",
 					    style: "-webkit-flex: 1; max-height: 665px; border: 5px solid #333; background-color: #777; padding: 10px; color: white; margin: 10px; border-radius: 16px; text-align: right;",
 					    components: [
-						{ kind: "StandardEntry" },
-						{ kind: "FormulaEntry" }
+						{ name: "standardpanel", kind: "StandardEntry" },
+						{ name: "formulapanel", kind: "FormulaEntry" }
 					    ]
 					}]
 				}
@@ -37,10 +38,10 @@ enyo.kind({
 			onSelect: "appMenuItemSelected",
 			style: "border-radius: 16px;",
 			components: [
-			{
-				content: "About",
-				ontap: "aboutMe"
-			}]
+			    { content: "Traditional Style", ontap: "selectTraditional" },
+			    { content: "Formula Style", ontap: "selectFormulaEntry" },
+			    { content: "About", ontap: "aboutMe"}
+			]
 		},
 		{
 			name: "aboutPopup",
@@ -50,8 +51,13 @@ enyo.kind({
 	create: function () {
 		this.inherited(arguments);
 	},
+    selectTraditional: function () {
+	this.$.calculatorhost.selectPanelByName("standardpanel");
+    },
+    selectFormulaEntry: function () {
+	this.$.calculatorhost.selectPanelByName("formulapanel");
+    },
 	aboutMe: function () {
-		// todo add about stuff
 		this.$.aboutPopup.show();
 	}
 });
