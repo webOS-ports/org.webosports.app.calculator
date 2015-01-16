@@ -11,7 +11,7 @@ enyo.kind({
 	    components: [
 		{
 		    name: "Result",
-		    style: "font-size: 1.2em; font-weight: bold;"
+		    style: "font-size: 2em; font-weight: bold;"
 		}]
 	},
 	{
@@ -23,7 +23,7 @@ enyo.kind({
 		defaultKind: enyo.kind({
 		    kind: "onyx.Button",
 		    classes: "function-button",
-		    style: "width: 24%; margin-right: 1%; border-radius: 8px; font-size: 2em; font-weight: bold;",
+		    style: "width: 24%; margin-right: 1%; border-radius: 8px; font-size: 1.5em; font-weight: bold;",
 		    ontap: "keyTapped",
 		    allowHtml: true
 		})
@@ -41,7 +41,7 @@ enyo.kind({
 			    content: "MC"
 			},
 			{
-			    content: "&#247;"
+			    content: "&#247;" // Divide
 			}
 		    ]
 		},
@@ -60,7 +60,7 @@ enyo.kind({
 			    classes: "number-button"
 			},
 			{
-			    content: "&#215;"
+			    content: "&#215;" // Multiply
 			}]
 		},
 		{
