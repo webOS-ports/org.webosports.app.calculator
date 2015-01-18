@@ -123,14 +123,14 @@ enyo.kind({
 	    ]
 	}],
     //Action Handlers
-    keyTapped: function (inSender) {
+    keyTapped: function(inSender) {
     },
-    equalsTapped: function () {
+    equalsTapped: function() {
 	this.$.Result.setContent("Equals Tapped");
     },
-    cancelTapped: function () {
+    cancelTapped: function() {
 	this.$.Result.setContent("");
     },
-    backspaceTapped: function () {
+    backspaceTapped: function() {
     }
 });
