@@ -10,7 +10,7 @@ enyo.kind({
     value: "0",
     arg: "0",
     enteringArg: false, // implies also displaying it
-    op: "noOp",
+    op: "noOp", // add, subtract, multiply, divide
     events: {
 	onDisplayChanged:""
     },
@@ -20,6 +20,14 @@ enyo.kind({
     },
     pressedKey: function(key) {
 	switch (key) {
+	case "clear":
+	    this.value = "0";
+	    this.arg = "0";
+	    this.enteringArg = false;
+	    this.op = "noOp";
+	    this.display = this.value;
+	    this.doDisplayChanged();
+	    break;
 	case "0":
 	case "1":
 	case "2":
@@ -30,7 +38,10 @@ enyo.kind({
 	case "7":
 	case "8":
 	case "9":
-	case "point": {
+	case "point":
+	    if (this.enteringArg === false) {
+		this.arg = "0";
+	    }
 	    this.enteringArg = true;
 	    switch (key) {
 	    case "0":
@@ -54,7 +65,26 @@ enyo.kind({
 	    this.display = this.arg;
 	    this.doDisplayChanged();
 	    break;
-	}
+	case "plus":
+	    this.enteringArg = false;
+	    this.op = "add";
+	    this.value = +this.value + +this.arg;
+	    this.display = this.value;
+	    this.doDisplayChanged();
+	    break;
+	case "equals":
+	    this.enteringArg = false;
+	    switch (this.op) {
+	    case "noOp":
+		this.value = this.arg;
+		break;
+	    case "add":
+		this.value = +this.value + +this.arg;
+		break;
+	    }
+	    this.display = this.value;
+	    this.doDisplayChanged();
+	    break;
 	}
     }
 });

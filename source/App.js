@@ -24,6 +24,7 @@ enyo.kind({
 					components: [{
 					    name: "calculatorhost",
 					    kind: "Panels",
+//					    draggable: false,
 					    style: "-webkit-flex: 1; max-height: 665px; border: 5px solid #333; background-color: #777; padding: 10px; color: white; margin: 10px; border-radius: 16px; text-align: right;",
 					    components: [
 						{ name: "standardpanel", kind: "StandardEntry" },
