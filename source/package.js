@@ -4,7 +4,14 @@ enyo.depends(
 	//"Theme.less",	// uncomment this line, and follow the steps described in Theme.less
 	"$lib/webos-lib",
 	"$lib/math-eval/parser.js",
+	// CSS/LESS style files
+	"style",
+	// Model and data definitions
+	"data",
+	// View kind definitions
+	"views",
 	//Main App
-	"App.css",
-	"App.js"
+	// Include our default entry point
+	"app.js"
+
 );
