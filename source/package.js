@@ -8,6 +8,7 @@ enyo.depends(
 	"App.css",
 	"About.js",
 	"FormulaEntry.js",
+	"StandardCalculator.js",
 	"StandardEntry.js",
 	"App.js"
 );
