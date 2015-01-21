@@ -139,7 +139,6 @@ enyo.kind({
 			    content: "&equals;"
 			}]
 		}
-
 	    ]
 	}],
     create: function() {

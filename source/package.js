@@ -10,5 +10,6 @@ enyo.depends(
 	"FormulaEntry.js",
 	"StandardCalculator.js",
 	"StandardEntry.js",
+	"StandardTests.js",
 	"App.js"
 );
