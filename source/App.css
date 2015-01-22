@@ -12,6 +12,13 @@
 	background-color: #555;
 }
 
+.test-record {
+	height: 40px;
+	border-radius: 8px;
+	color: black;
+	background-color: #CCC;
+}
+
 .function-button {
 	color: white;
 	background-color: cyan;
