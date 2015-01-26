@@ -68,7 +68,7 @@ enyo.kind({
 	case "plus":
 	    this.enteringArg = false;
 	    this.op = "add";
-	    this.value = +this.value + +this.arg;
+	    this.value = (+this.value + +this.arg).toString();
 	    this.display = this.value;
 	    this.doDisplayChanged();
 	    break;
@@ -79,7 +79,7 @@ enyo.kind({
 		this.value = this.arg;
 		break;
 	    case "add":
-		this.value = +this.value + +this.arg;
+		this.value = (+this.value + +this.arg).toString();
 		break;
 	    }
 	    this.display = this.value;
