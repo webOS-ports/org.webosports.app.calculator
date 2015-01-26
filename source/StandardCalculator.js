@@ -67,10 +67,12 @@ enyo.kind({
 	    break;
 	case "plus":
 	    this.enteringArg = false;
-	    this.op = "add";
-	    this.value = (+this.value + +this.arg).toString();
-	    this.display = this.value;
-	    this.doDisplayChanged();
+	    if (this.op !== "add") {
+		this.op = "add";
+		this.value = (+this.value + +this.arg).toString();
+		this.display = this.value;
+		this.doDisplayChanged();
+	    }
 	    break;
 	case "equals":
 	    this.enteringArg = false;

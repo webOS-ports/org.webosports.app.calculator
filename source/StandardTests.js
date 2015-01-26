@@ -115,6 +115,9 @@ enyo.kind({
 	{ desc: "1+1=", keys: ["clear", "1", "plus", "1", "equals"], expect: "2" },
 	{ desc: "1+2=", keys: ["clear", "1", "plus", "2", "equals"], expect: "3" },
 	{ desc: "2+1=", keys: ["clear", "2", "plus", "1", "equals"], expect: "3" },
-	{ desc: "2++1=", keys: ["clear", "2", "plus", "plus", "1", "equals"], expect: "3" }
+	{ desc: "2++1=", keys: ["clear", "2", "plus", "plus", "1", "equals"], expect: "3" },
+	{ desc: "1+1+", keys: ["clear", "1", "plus", "1", "plus"], expect: "2" },
+	{ desc: "1+1+1", keys: ["clear", "1", "plus", "1", "plus", "1"], expect: "1" },
+	{ desc: "1+1+1=", keys: ["clear", "1", "plus", "1", "plus", "1", "equals"], expect: "3" }
     ]
 });
