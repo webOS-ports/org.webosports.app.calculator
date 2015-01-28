@@ -66,42 +66,10 @@ enyo.kind({
 	    this.doDisplayChanged();
 	    break;
 	case "plus":
-	    if (this.enteringArg) {
-		this.enteringArg = false;
-		switch (this.op) {
-		case "noOp":
-		    this.value = this.arg;
-		    break;
-		case "add":
-		    this.value = (+this.value + +this.arg).toString();
-		    break;
-		case "subtract":
-		    this.value = (+this.value - +this.arg).toString();
-		    break;
-		}
-		this.display = this.value;
-		this.doDisplayChanged();
-	    }
-	    this.op = "add";
+	    this.beginNewOperation("add");
 	    break;
 	case "minus":
-	    if (this.enteringArg) {
-		this.enteringArg = false;
-		switch (this.op) {
-		case "noOp":
-		    this.value = this.arg;
-		    break;
-		case "add":
-		    this.value = (+this.value + +this.arg).toString();
-		    break;
-		case "subtract":
-		    this.value = (+this.value - +this.arg).toString();
-		    break;
-		}
-		this.display = this.value;
-		this.doDisplayChanged();
-	    }
-	    this.op = "subtract";
+	    this.beginNewOperation("subtract");
 	    break;
 	case "equals":
 	    this.enteringArg = false;
@@ -120,5 +88,24 @@ enyo.kind({
 	    this.doDisplayChanged();
 	    break;
 	}
+    },
+    beginNewOperation: function(op) {
+	if (this.enteringArg) {
+	    this.enteringArg = false;
+	    switch (this.op) {
+	    case "noOp":
+		this.value = this.arg;
+		break;
+	    case "add":
+		this.value = (+this.value + +this.arg).toString();
+		break;
+	    case "subtract":
+		this.value = (+this.value - +this.arg).toString();
+		break;
+	    }
+	    this.display = this.value;
+	    this.doDisplayChanged();
+	}
+	this.op = op;
     }
 });
