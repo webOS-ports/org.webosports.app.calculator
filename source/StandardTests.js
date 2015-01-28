@@ -1,24 +1,6 @@
 /*jslint browser: true, debug: true, sloppy: true, stupid: true, todo: true, white: true */
 /*global enyo, isNaN */
 enyo.kind({
-    name: "TestResult",
-    kind: "onyx.Toolbar",
-    components: [
-	{ name: "label", content: "Hello" }
-    ],
-    constructor: function(desc, expect, result) {
-	this.inherited(arguments);
-	this.expect = expect;
-	this.result = result;
-	this.desc = desc;
-    },
-    create: function() {
-	this.inherited(arguments);
-	this.$.label.setContent(this.desc);
-    }
-});
-
-enyo.kind({
     name: "StandardTests",
     kind: "FittableRows",
     style: "-webkit-flex: 1; background-color: #777; padding: 5px; color: white; border-radius: 16px;",
@@ -43,7 +25,7 @@ enyo.kind({
 	}],
     create: function() {
 	this.inherited(arguments);
-	this.job = setInterval(enyo.bind(this, "timerExpired"), 500);
+	this.job = setInterval(enyo.bind(this, "timerExpired"), 200);
     },
     destroy: function() {
 	clearInterval(this.job);
@@ -61,21 +43,22 @@ enyo.kind({
 	    var result = (testOutput === this.tests[i].expect);
 	    this.nTestsRun += 1;
 	    if (result) {
-		var resultStyle = "background-color: green";
+		var resultStyle = "background-color: green;";
 	    } else {
 		this.nTestsFailed += 1;
-		var resultStyle = "background-color: red";
+		var resultStyle = "background-color: red;";
 	    }
 	    this.$.resultsSummary.setContent("Fail " + this.nTestsFailed + " of " + this.nTestsRun);
-//	    var r = new TestResult(this.tests[i].desc, "", this.tests[i].expect);
 	    this.$.testRows.createComponent( {
 		kind: "onyx.Toolbar",
 		classes: "test-record",
 		components: [
-		    { content: this.tests[i].desc },
-		    { content: "Expect: " + this.tests[i].expect },
-		    { content: "Get: " + testOutput },
-		    { kind: "onyx.Button", style: resultStyle }
+		    { kind: "onyx.Button", style: resultStyle },
+		    { content: this.tests[i].desc, style: "width: 155px;" },
+		    { kind: "FittableRows", style: "min-width: 150px;", components: [
+			{ content: "Expect: " + this.tests[i].expect },
+			{ content: "Get: " + testOutput }
+		    ] }
 		] } );
 	    this.$.testRows.render();
 	} else {

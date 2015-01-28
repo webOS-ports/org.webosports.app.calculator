@@ -13,10 +13,12 @@
 }
 
 .test-record {
-	height: 40px;
+	height: 55px;
 	border-radius: 8px;
 	color: black;
 	background-color: #CCC;
+	text-align: left;
+	padding: 2px;
 }
 
 .function-button {
