@@ -127,6 +127,14 @@ enyo.kind({
 	{ desc: "3*2*", keys: ["clear", "3", "multiply", "2", "multiply"], expect: "6" },
 	{ desc: "5*2*3", keys: ["clear", "5", "multiply", "2", "multiply", "3"], expect: "3" },
 	{ desc: "5*2*3=", keys: ["clear", "5", "multiply", "2", "multiply", "3", "equals"], expect: "30" },
-	{ desc: "*1=", keys: ["clear", "multiply", "1", "equals"], expect: "0" }
+	{ desc: "*1=", keys: ["clear", "multiply", "1", "equals"], expect: "0" },
+	{ desc: "5+2*", keys: ["clear", "5", "plus", "2", "multiply"], expect: "2" },
+	{ desc: "5+2*3=", keys: ["clear", "5", "plus", "2", "multiply", "3", "equals"], expect: "11" },
+	{ desc: "5*2+", keys: ["clear", "5", "multiply", "2", "plus"], expect: "10" },
+	{ desc: "5*2+3=", keys: ["clear", "5", "multiply", "2", "plus", "3", "equals"], expect: "13" },
+	{ desc: "5-2*", keys: ["clear", "5", "minus", "2", "multiply"], expect: "2" },
+	{ desc: "5-2*3=", keys: ["clear", "5", "minus", "2", "multiply", "3", "equals"], expect: "-1" },
+	{ desc: "5*2-", keys: ["clear", "5", "multiply", "2", "minus"], expect: "10" },
+	{ desc: "5*2-3=", keys: ["clear", "5", "multiply", "2", "minus", "3", "equals"], expect: "7" }
     ]
 });
