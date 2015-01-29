@@ -71,6 +71,9 @@ enyo.kind({
 	case "minus":
 	    this.beginNewOperation("subtract");
 	    break;
+	case "multiply":
+	    this.beginNewOperation("multiply");
+	    break;
 	case "equals":
 	    this.enteringArg = false;
 	    switch (this.op) {
@@ -82,6 +85,9 @@ enyo.kind({
 		break;
 	    case "subtract":
 		this.value = (+this.value - +this.arg).toString();
+		break;
+	    case "multiply":
+		this.value = (+this.value * +this.arg).toString();
 		break;
 	    }
 	    this.display = this.value;
@@ -101,6 +107,9 @@ enyo.kind({
 		break;
 	    case "subtract":
 		this.value = (+this.value - +this.arg).toString();
+		break;
+	    case "multiply":
+		this.value = (+this.value * +this.arg).toString();
 		break;
 	    }
 	    this.display = this.value;
