@@ -7,25 +7,28 @@ enyo.kind({
     published: {
 	display: "Error"
     },
-    value: "0",
-    arg: "0",
-    enteringArg: false, // implies also displaying it
-    op: "noOp", // add, subtract, multiply, divide
     events: {
 	onDisplayChanged:""
     },
+    // result = x op y
+    // We "enter y" when hit number keys
+    // We calculate and display a running total ("x") until we hit "equals"
+    // If we select an operator with a higher precedence than the last one,
+    // we push that last "x op" pair onto the stack
+    y: "0",
+    enteringY: false, // implies also displaying it
+    stack: [], // x, op pairs
     create: function() {
 	this.inherited(arguments);
-	this.display = this.value;
+	this.display = this.y;
     },
     pressedKey: function(key) {
 	switch (key) {
 	case "clear":
-	    this.value = "0";
-	    this.arg = "0";
-	    this.enteringArg = false;
-	    this.op = "noOp";
-	    this.display = this.value;
+	    this.y = "0";
+	    this.enteringY = false;
+	    this.stack = [];
+	    this.display = this.y;
 	    this.doDisplayChanged();
 	    break;
 	case "0":
@@ -39,30 +42,30 @@ enyo.kind({
 	case "8":
 	case "9":
 	case "point":
-	    if (this.enteringArg === false) {
-		this.arg = "0";
+	    if (this.enteringY === false) {
+		this.y = "0";
 	    }
-	    this.enteringArg = true;
+	    this.enteringY = true;
 	    switch (key) {
 	    case "0":
-		if (this.arg !== "0") {
-		    this.arg += key;
+		if (this.y !== "0") {
+		    this.y += key;
 		}
 		break;
 	    case "point":
-		if (this.arg.indexOf(".") === -1) {
-		    this.arg += ".";
+		if (this.y.indexOf(".") === -1) {
+		    this.y += ".";
 		}
 		break;
 	    default:
-		if (this.arg === "0") {
-		    this.arg = key;
+		if (this.y === "0") {
+		    this.y = key;
 		} else {
-		    this.arg += key;
+		    this.y += key;
 		}
 		break;
 	    }
-	    this.display = this.arg;
+	    this.display = this.y;
 	    this.doDisplayChanged();
 	    break;
 	case "plus":
@@ -75,46 +78,55 @@ enyo.kind({
 	    this.beginNewOperation("multiply");
 	    break;
 	case "equals":
-	    this.enteringArg = false;
-	    switch (this.op) {
-	    case "noOp":
-		this.value = this.arg;
-		break;
-	    case "add":
-		this.value = (+this.value + +this.arg).toString();
-		break;
-	    case "subtract":
-		this.value = (+this.value - +this.arg).toString();
-		break;
-	    case "multiply":
-		this.value = (+this.value * +this.arg).toString();
-		break;
-	    }
-	    this.display = this.value;
+	    this.enteringY = false;
+	    this.calculate();
+	    this.display = this.y;
 	    this.doDisplayChanged();
 	    break;
 	}
     },
-    beginNewOperation: function(op) {
-	if (this.enteringArg) {
-	    this.enteringArg = false;
-	    switch (this.op) {
-	    case "noOp":
-		this.value = this.arg;
-		break;
+    calculate: function() {
+	while (this.stack.length > 0) {
+	    var obj = this.stack.shift();
+	    switch (obj.op) {
 	    case "add":
-		this.value = (+this.value + +this.arg).toString();
+		this.y = (+obj.x + +this.y).toString();
 		break;
 	    case "subtract":
-		this.value = (+this.value - +this.arg).toString();
+		this.y = (+obj.x - +this.y).toString();
 		break;
 	    case "multiply":
-		this.value = (+this.value * +this.arg).toString();
+		this.y = (+obj.x * +this.y).toString();
 		break;
 	    }
-	    this.display = this.value;
+	}
+    },
+    beginNewOperation: function(newOp) {
+	if (this.enteringY) {
+	    this.enteringY = false;
+	    switch (newOp) {
+	    case "add":
+	    case "subtract":
+		this.calculate();
+		this.stack.unshift({ x: this.y, op: newOp });
+		break;
+	    case "multiply":
+		// This has greater precedence than addition and subtraction
+		if (this.stack.length > 0) {
+		    switch (this.stack[0].op) {
+		    case "add":
+		    case "subtract":
+			break;
+		    default:
+			this.calculate();
+			break;
+		    }
+		}
+		this.stack.unshift({ x: this.y, op: newOp });
+		break;
+	    }
+	    this.display = this.y;
 	    this.doDisplayChanged();
 	}
-	this.op = op;
     }
 });
