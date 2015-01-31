@@ -137,6 +137,10 @@ enyo.kind({
 		    switch (this.stack[0].op) {
 		    case "add":
 		    case "subtract":
+			// One special case (0-1/ should give -1 immediately)
+			if (this.stack[0].x === "0") {
+			    this.calculate();
+			}
 			break;
 		    default:
 			this.calculate();
