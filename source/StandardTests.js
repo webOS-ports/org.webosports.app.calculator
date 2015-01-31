@@ -148,6 +148,16 @@ enyo.kind({
 	{ desc: "3/2/", keys: ["clear", "3", "divide", "2", "divide"], expect: "1.5" },
 	{ desc: "9/2/3", keys: ["clear", "9", "divide", "2", "divide", "3"], expect: "3" },
 	{ desc: "9/2/3=", keys: ["clear", "9", "divide", "2", "divide", "3", "equals"], expect: "1.5" },
-	{ desc: "/1=", keys: ["clear", "divide", "1", "equals"], expect: "0" }
+	{ desc: "/1=", keys: ["clear", "divide", "1", "equals"], expect: "0" },
+	{ desc: "5+4/", keys: ["clear", "5", "plus", "4", "divide"], expect: "4" },
+	{ desc: "5+2/1=", keys: ["clear", "5", "plus", "2", "divide", "1", "equals"], expect: "7" },
+	{ desc: "5/2+", keys: ["clear", "5", "divide", "2", "plus"], expect: "2.5" },
+	{ desc: "5/2+3=", keys: ["clear", "5", "divide", "2", "plus", "3", "equals"], expect: "5.5" },
+	{ desc: "9-8/", keys: ["clear", "9", "minus", "8", "divide"], expect: "8" },
+	{ desc: "9-8/4=", keys: ["clear", "9", "minus", "8", "divide", "4", "equals"], expect: "7" },
+	{ desc: "5/2-", keys: ["clear", "5", "divide", "2", "minus"], expect: "2.5" },
+	{ desc: "12/2-126=", keys: ["clear", "1", "2", "divide", "2", "minus", "1", "2", "6", "equals"], expect: "-120" },
+	{ desc: "12/2-126/3=", keys: ["clear", "1", "2", "divide", "2", "minus", "1", "2", "6",
+				     "divide", "3", "equals"], expect: "-36" }
    ]
 });
