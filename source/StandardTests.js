@@ -161,6 +161,16 @@ enyo.kind({
 				      "divide", "3", "equals"], expect: "-36" },
 	{ desc: "1/0=", keys: ["clear", "1", "divide", "0", "equals"], expect: "Infinity" },
 	{ desc: "-1/", keys: ["clear", "minus", "1", "divide"], expect: "-1" },
-	{ desc: "-1/0=", keys: ["clear", "minus", "1", "divide", "0", "equals"], expect: "-Infinity" }
+	{ desc: "-1/0=", keys: ["clear", "minus", "1", "divide", "0", "equals"], expect: "-Infinity" },
+	{ desc: "1 MC 3", keys: ["clear", "1", "memoryClear", "3"], expect: "13" },
+	{ desc: "1 M+ 3", keys: ["clear", "1", "memoryPlus", "3"], expect: "3" },
+	{ desc: "9 MC MR", keys: ["clear", "9", "memoryClear", "memoryRecall"], expect: "0" },
+	{ desc: "MC M+ MR", keys: ["clear", "memoryClear", "memoryPlus", "memoryRecall"], expect: "0" },
+	{ desc: "MC 8 M+ MR", keys: ["clear", "memoryClear", "8", "memoryPlus", "memoryRecall"], expect: "8" },
+	{ desc: "MC 8 M+ 1 MR", keys: ["clear", "memoryClear", "8", "memoryPlus", "1", "memoryRecall"], expect: "8" },
+	{ desc: "MC 8 M+ 1 M+", keys: ["clear", "memoryClear", "8", "memoryPlus",
+					 "1", "memoryPlus"], expect: "1" },
+	{ desc: "MC 8 M+ 1 M+ MR", keys: ["clear", "memoryClear", "8", "memoryPlus",
+					 "1", "memoryPlus", "memoryRecall"], expect: "9" }
    ]
 });

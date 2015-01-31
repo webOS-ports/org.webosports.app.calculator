@@ -18,6 +18,7 @@ enyo.kind({
     y: "0",
     enteringY: false, // implies also displaying it
     stack: [], // x, op pairs
+    memory: "0",
     create: function() {
 	this.inherited(arguments);
 	this.display = this.y;
@@ -28,6 +29,19 @@ enyo.kind({
 	    this.y = "0";
 	    this.enteringY = false;
 	    this.stack = [];
+	    this.display = this.y;
+	    this.doDisplayChanged();
+	    break;
+	case "memoryClear":
+	    this.memory = "0";
+	    break;
+	case "memoryPlus":
+	    this.enteringY = false;
+	    this.memory = (+this.memory + +this.y).toString();
+	    break;
+	case "memoryRecall":
+	    this.enteringY = false;
+	    this.y = this.memory;
 	    this.display = this.y;
 	    this.doDisplayChanged();
 	    break;
