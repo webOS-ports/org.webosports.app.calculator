@@ -77,6 +77,9 @@ enyo.kind({
 	case "multiply":
 	    this.beginNewOperation("multiply");
 	    break;
+	case "divide":
+	    this.beginNewOperation("divide");
+	    break;
 	case "equals":
 	    this.enteringY = false;
 	    this.calculate();
@@ -98,6 +101,9 @@ enyo.kind({
 	    case "multiply":
 		this.y = (+obj.x * +this.y).toString();
 		break;
+	    case "divide":
+		this.y = (+obj.x / +this.y).toString();
+		break;
 	    }
 	}
     },
@@ -111,7 +117,8 @@ enyo.kind({
 		this.stack.unshift({ x: this.y, op: newOp });
 		break;
 	    case "multiply":
-		// This has greater precedence than addition and subtraction
+	    case "divide":
+		// These have greater precedence than addition and subtraction
 		if (this.stack.length > 0) {
 		    switch (this.stack[0].op) {
 		    case "add":
