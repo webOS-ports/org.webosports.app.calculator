@@ -158,6 +158,9 @@ enyo.kind({
 	{ desc: "5/2-", keys: ["clear", "5", "divide", "2", "minus"], expect: "2.5" },
 	{ desc: "12/2-126=", keys: ["clear", "1", "2", "divide", "2", "minus", "1", "2", "6", "equals"], expect: "-120" },
 	{ desc: "12/2-126/3=", keys: ["clear", "1", "2", "divide", "2", "minus", "1", "2", "6",
-				     "divide", "3", "equals"], expect: "-36" }
+				      "divide", "3", "equals"], expect: "-36" },
+	{ desc: "1/0=", keys: ["clear", "1", "divide", "0", "equals"], expect: "Infinity" },
+	{ desc: "-1/", keys: ["clear", "minus", "1", "divide"], expect: "-1" },
+	{ desc: "-1/0=", keys: ["clear", "minus", "1", "divide", "0", "equals"], expect: "-Infinity" }
    ]
 });
