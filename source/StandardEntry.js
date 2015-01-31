@@ -70,7 +70,7 @@ enyo.kind({
 			},
 			{
 			    name: "multiply",
-			    content: "&#215;" // Multiply
+			    content: "&#215;"
 			}]
 		},
 		{
