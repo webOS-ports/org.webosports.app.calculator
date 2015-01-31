@@ -127,6 +127,14 @@ enyo.kind({
 	    }
 	    this.display = this.y;
 	    this.doDisplayChanged();
+	} else {
+	    // We either have already begun an operation
+	    // or we have not entered a number at all
+	    if (this.stack.length > 0) {
+		this.stack[0].op = newOp;
+	    } else {
+		this.stack.unshift({ x: this.y, op: newOp });
+	    }
 	}
     }
 });
