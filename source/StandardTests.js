@@ -21,7 +21,8 @@ enyo.kind({
 		}]
 	},
 	{
-	    name: "testRows", kind: "enyo.Scroller", fit: true, components: []
+	    name: "testRows", kind: "enyo.Scroller", fit: true,
+	    strategyKind: "TouchScrollStrategy", components: []
 	}],
     create: function() {
 	this.inherited(arguments);
