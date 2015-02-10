@@ -14,9 +14,10 @@ enyo.kind({
 	    kind: "onyx.Toolbar",
 	    style: "margin-bottom: 5px;",
 	    components: [
+		{ kind: onyx.Button, name: "theButton", content: "Start", ontap: "tapped" },
 		{
 		    name: "resultsSummary",
-		    content: "Empty",
+		    content: "",
 		    style: "font-size: 2em; font-weight: bold;"
 		}]
 	},
@@ -26,10 +27,18 @@ enyo.kind({
 	}],
     create: function() {
 	this.inherited(arguments);
-	this.job = setInterval(enyo.bind(this, "timerExpired"), 200);
     },
     destroy: function() {
 	clearInterval(this.job);
+    },
+    tapped: function() {
+	if (this.$.theButton.content === "Start") {
+	    this.$.theButton.setContent("Stop");
+	    this.job = setInterval(enyo.bind(this, "timerExpired"), 200);
+	} else {
+	    this.$.theButton.setContent("Start");
+	    clearInterval(this.job);
+	}
     },
     //Action Handlers
     timerExpired: function() {
@@ -63,8 +72,10 @@ enyo.kind({
 		] } );
 	    this.$.testRows.render();
 	} else {
-	    enyo.log("Finished testing");
+	    enyo.log("Finished testing. Fail " + this.nTestsFailed + " of " + this.nTestsRun);
 	    clearInterval(this.job);
+	    this.$.theButton.setContent("Done");
+	    this.$.theButton.setDisabled(true);
 	}
     },
     keyTapped: function(inSender) {
