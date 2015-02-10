@@ -53,12 +53,18 @@ enyo.kind({
 		if (window.PalmSystem) {
 		    this.$.calculatorHost.setDraggable(false);
 		}
+		var p = enyo.getCookie("likePanel");
+		if (p) {
+		    this.$.calculatorHost.selectPanelByName(p);
+		}
 	},
 	selectTraditional: function () {
 		this.$.calculatorHost.selectPanelByName("standardPanel");
+		enyo.setCookie("likePanel", "standardPanel");
 	},
 	selectFormulaEntry: function () {
 		this.$.calculatorHost.selectPanelByName("formulaPanel");
+		enyo.setCookie("likePanel", "formulaPanel");
 	},
 	selectTestsPanel: function () {
 		this.$.calculatorHost.selectPanelByName("standardTestsPanel");
