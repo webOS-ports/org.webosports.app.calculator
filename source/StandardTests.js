@@ -75,7 +75,7 @@ enyo.kind({
 	} else {
 	    enyo.log("Finished testing. Fail " + this.nTestsFailed + " of " + this.nTestsRun);
 	    clearInterval(this.job);
-	    this.$.theButton.setContent("Done");
+	    this.$.theButton.setContent($L("Done"));
 	    this.$.theButton.setDisabled(true);
 	}
     },
@@ -90,9 +90,9 @@ enyo.kind({
 	return true;
     },
     tests: [
-	{ desc: "Initial state", keys: [], expect: "0" }, // Being the first test is very much implied!
+	{ desc: $L("Initial state"), keys: [], expect: "0" }, // Being the first test is very much implied!
 	{ desc: "=", keys: ["equals"], expect: "0" },
-	{ desc: "Clear", keys: ["clear"], expect: "0" },
+	{ desc: $L("Clear"), keys: ["clear"], expect: "0" },
 	{ desc: "==", keys: ["equals", "equals"], expect: "0" },
 	{ desc: "CC", keys: ["clear", "clear"], expect: "0" },
 	{ desc: "0", keys: ["clear", "0"], expect: "0" },

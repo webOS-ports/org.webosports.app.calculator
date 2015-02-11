@@ -37,10 +37,10 @@ enyo.kind({
 		{
 			kind: "AppMenu",
 			components: [
-			    { content: "Traditional Style", ontap: "selectTraditional" },
-			    { content: "Formula Style", ontap: "selectFormulaEntry" },
-			    { content: "Tests", ontap: "selectTestsPanel" },
-			    { content: "About", ontap: "aboutMe"}
+			    { content: "$L(Traditional Style)", ontap: "selectTraditional" },
+			    { content: "$L(Formula Style)", ontap: "selectFormulaEntry" },
+			    { content: "$L(Tests)", ontap: "selectTestsPanel" },
+			    { content: "$L(About)", ontap: "aboutMe"}
 			]
 		},
 		{
