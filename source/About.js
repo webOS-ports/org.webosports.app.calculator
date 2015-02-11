@@ -20,7 +20,7 @@ enyo.kind({
 			tag: "div",
 			name: "title",
 			classes: "title",
-			content: "About"
+			content: $L("About")
 		},
 		{
 			kind: "enyo.Scroller",
@@ -56,7 +56,7 @@ enyo.kind({
 						kind: "FittableColumns",
 						components: [
 						{
-							content: "In case of issue, please consider",
+							content: $L("In case of issue, please consider"),
 							classes: "about-description"
 						},
 						{
@@ -67,7 +67,7 @@ enyo.kind({
 							name: "brValue",
 							kind: "enyo.Control",
 							tag: "a",
-							content: "Reporting a bug",
+							content: $L("Reporting a bug"),
 							attributes: {
 								"target": "_blank"
 							}
@@ -77,7 +77,7 @@ enyo.kind({
 						kind: "FittableColumns",
 						components: [
 						{
-							content: "See",
+							content: $L("See"),
 							classes: "about-description"
 						},
 						{
@@ -88,7 +88,7 @@ enyo.kind({
 							name: "homeValue",
 							kind: "enyo.Control",
 							tag: "a",
-							content: "Project Homepage",
+							content: $L("Project Homepage"),
 							attributes: {
 								"target": "_blank"
 							}
@@ -124,7 +124,7 @@ enyo.kind({
 				name: "cancelButton",
 				classes: "button",
 				kind: "onyx.Button",
-				content: "Close",
+				content: $L("Close"),
 				ontap: "actionClose"
 			}]
 		}]
