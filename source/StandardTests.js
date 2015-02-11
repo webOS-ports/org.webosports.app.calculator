@@ -9,7 +9,8 @@ enyo.kind({
     nTestsRun: 0,
     nTestsFailed: 0,
     components: [
-	{ name: "calc", kind: "StandardCalculator", onDisplayChanged: "displayChanged" },
+	{ name: "calc", kind: "StandardCalculator", onDisplayChanged: "displayChanged",
+	  onMemoryActiveChanged: "memoryActiveChanged" },
 	{
 	    kind: "onyx.Toolbar",
 	    style: "margin-bottom: 5px;",
@@ -83,6 +84,9 @@ enyo.kind({
     },
     //Calculator Event Handlers
     displayChanged: function(inSender, inEvent) {
+	return true;
+    },
+    memoryActiveChanged: function(inSender, inEvent) {
 	return true;
     },
     tests: [
