@@ -11,7 +11,7 @@ enyo.kind({
 	    components: [
 		{
 		    name: "Result",
-		    style: "font-size: 1.2em; font-weight: bold;"
+		    style: "font-size: 2em; font-weight: bold;"
 		}]
 	},
 	{
@@ -44,7 +44,7 @@ enyo.kind({
 		style: "height: 15.5%; margin: 0.5%;",
 		defaultKind: enyo.kind({
 		    kind: "onyx.Button",
-		    classes: "onyx-toolbar",
+		    classes: "function-button",
 		    style: "width: 24%; margin: 0.5%; border-radius: 8px; font-size: 2em; font-weight: bold;",
 		    ontap: "keyTapped",
 		    allowHtml: true
@@ -65,9 +65,8 @@ enyo.kind({
 			    content: ")"
 			},
 			{
-			    content: "C",
-			    style: "margin-right: 0;",
-			    ontap: "cancelTapped"
+			    content: "^",
+			    style: "margin-right: 0;"
 			}
 		    ]
 		},
@@ -86,9 +85,9 @@ enyo.kind({
 			    value: "^2"
 			},
 			{
-			    content: "^"
+			    content: "/",
+			    style: "margin-right: 0;"
 			}
-			//{content: "%", ontap: "percentTapped"} // TODO: make room for more buttons and fix percentTapped, or remove it
 		    ]
 		},
 		{
@@ -106,7 +105,7 @@ enyo.kind({
 			    classes: "number-button"
 			},
 			{
-			    content: "+",
+			    content: "*",
 			    style: "margin-right: 0;"
 			}]
 		},
@@ -144,29 +143,31 @@ enyo.kind({
 			    classes: "number-button"
 			},
 			{
-			    content: "*",
+			    content: "+",
 			    style: "margin-right: 0;"
 			}]
 		},
 		{
 		    components: [
 			{
-			    content: "."
+			    content: "C",
+			    classes: "cancel-button",
+			    ontap: "cancelTapped"
 			},
 			{
 			    content: "0",
 			    classes: "number-button"
 			},
 			{
-			    content: "=",
-			    ontap: "equalsTapped"
+			    content: ".",
+			    classes: "number-button"
 			},
 			{
-			    content: "/",
-			    style: "margin-right: 0;"
+			    content: "=",
+			    style: "margin-right: 0;",
+			    ontap: "equalsTapped"
 			}]
 		}
-
 	    ]
 	}],
     //Action Handlers
