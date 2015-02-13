@@ -5,16 +5,15 @@ enyo.kind({
     kind: "FittableRows",
     style: "-webkit-flex: 1; background-color: #777; padding: 5px; color: white; border-radius: 16px;",
     components: [
-	{ name: "calc", kind: "StandardCalculator", onDisplayChanged: "displayChanged" },
+	{ name: "calc", kind: "StandardCalculator", onDisplayChanged: "displayChanged",
+	  onMemoryActiveChanged: "memoryActiveChanged" },
 	{
 	    kind: "onyx.Toolbar",
 	    style: "margin-bottom: 5px;",
-	    components: [
-		{
-		    name: "result",
-		    content: "Empty",
-		    style: "font-size: 2em; font-weight: bold;"
-		}]
+	    components: [{ kind: "FittableRows", components: [
+		{ name: "result", content: "Empty", style: "font-size: 2em; font-weight: bold;" },
+		{ name: "memoryIndicator", content: "" }
+	    ]}]
 	},
 	{
 	    kind: "FittableRows",
@@ -152,6 +151,14 @@ enyo.kind({
     //Calculator Event Handlers
     displayChanged: function(inSender, inEvent) {
 	this.$.result.setContent(this.$.calc.getDisplay());
+	return true;
+    },
+    memoryActiveChanged: function(inSender, inEvent) {
+	if (this.$.calc.getMemoryActive()) {
+	    this.$.memoryIndicator.setContent("M");
+	} else {
+	    this.$.memoryIndicator.setContent("");
+	}
 	return true;
     }
 });

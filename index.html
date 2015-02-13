@@ -12,9 +12,9 @@
 		<link href="build/enyo.css" rel="stylesheet"/>
 		<link href="build/app.css" rel="stylesheet"/>
 		<!-- js -->
-		<script src="cordova.js"></script>
 		<script src="build/enyo.js"></script>
 		<script src="build/app.js"></script>
+		<script type="text/javascript" charset="utf-8">window.PalmSystem && window.PalmSystem.stageReady();</script>
 	</head>
 	<body class="enyo-unselectable">
 		<script>
@@ -23,10 +23,6 @@
 				location = 'debug.html';
 			}
 			new App().renderInto(document.body);
-			
-			if(window.PalmSystem) {
-				PalmSystem.stageReady();
-			}
 		</script>
 	</body>
 </html>

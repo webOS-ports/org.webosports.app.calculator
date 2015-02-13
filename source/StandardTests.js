@@ -9,14 +9,16 @@ enyo.kind({
     nTestsRun: 0,
     nTestsFailed: 0,
     components: [
-	{ name: "calc", kind: "StandardCalculator", onDisplayChanged: "displayChanged" },
+	{ name: "calc", kind: "StandardCalculator", onDisplayChanged: "displayChanged",
+	  onMemoryActiveChanged: "memoryActiveChanged" },
 	{
 	    kind: "onyx.Toolbar",
 	    style: "margin-bottom: 5px;",
 	    components: [
+		{ kind: onyx.Button, name: "theButton", content: "Start", ontap: "tapped" },
 		{
 		    name: "resultsSummary",
-		    content: "Empty",
+		    content: "",
 		    style: "font-size: 2em; font-weight: bold;"
 		}]
 	},
@@ -26,10 +28,18 @@ enyo.kind({
 	}],
     create: function() {
 	this.inherited(arguments);
-	this.job = setInterval(enyo.bind(this, "timerExpired"), 200);
     },
     destroy: function() {
 	clearInterval(this.job);
+    },
+    tapped: function() {
+	if (this.$.theButton.content === "Start") {
+	    this.$.theButton.setContent("Stop");
+	    this.job = setInterval(enyo.bind(this, "timerExpired"), 200);
+	} else {
+	    this.$.theButton.setContent("Start");
+	    clearInterval(this.job);
+	}
     },
     //Action Handlers
     timerExpired: function() {
@@ -63,8 +73,10 @@ enyo.kind({
 		] } );
 	    this.$.testRows.render();
 	} else {
-	    enyo.log("Finished testing");
+	    enyo.log("Finished testing. Fail " + this.nTestsFailed + " of " + this.nTestsRun);
 	    clearInterval(this.job);
+	    this.$.theButton.setContent($L("Done"));
+	    this.$.theButton.setDisabled(true);
 	}
     },
     keyTapped: function(inSender) {
@@ -74,10 +86,13 @@ enyo.kind({
     displayChanged: function(inSender, inEvent) {
 	return true;
     },
+    memoryActiveChanged: function(inSender, inEvent) {
+	return true;
+    },
     tests: [
-	{ desc: "Initial state", keys: [], expect: "0" }, // Being the first test is very much implied!
+	{ desc: $L("Initial state"), keys: [], expect: "0" }, // Being the first test is very much implied!
 	{ desc: "=", keys: ["equals"], expect: "0" },
-	{ desc: "Clear", keys: ["clear"], expect: "0" },
+	{ desc: $L("Clear"), keys: ["clear"], expect: "0" },
 	{ desc: "==", keys: ["equals", "equals"], expect: "0" },
 	{ desc: "CC", keys: ["clear", "clear"], expect: "0" },
 	{ desc: "0", keys: ["clear", "0"], expect: "0" },

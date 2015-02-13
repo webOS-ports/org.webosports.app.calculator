@@ -5,10 +5,12 @@ enyo.kind({
     name: "StandardCalculator",
     kind: "enyo.Component",
     published: {
-	display: "Error"
+	display: "Error",
+	memoryActive: false
     },
     events: {
-	onDisplayChanged:""
+	onDisplayChanged:"",
+	onMemoryActiveChanged:""
     },
     // result = x op y
     // We "enter y" when hit number keys
@@ -34,10 +36,14 @@ enyo.kind({
 	    break;
 	case "memoryClear":
 	    this.memory = "0";
+	    this.memoryActive = false;
+	    this.doMemoryActiveChanged();
 	    break;
 	case "memoryPlus":
 	    this.enteringY = false;
 	    this.memory = (+this.memory + +this.y).toString();
+	    this.memoryActive = true;
+	    this.doMemoryActiveChanged();
 	    break;
 	case "memoryRecall":
 	    this.enteringY = false;
