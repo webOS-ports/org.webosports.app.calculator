@@ -24,7 +24,7 @@ enyo.kind({
 		defaultKind: enyo.kind({
 		    kind: "onyx.Button",
 		    classes: "function-button",
-		    style: "width: 24%; margin-right: 1%; border-radius: 8px; font-size: 1.5em; font-weight: bold;",
+		    style: "width: 24%; margin-right: 1%; border-radius: 8px; font-size: 1.6em; font-weight: bold;",
 		    ontap: "keyTapped",
 		    allowHtml: true
 		})
