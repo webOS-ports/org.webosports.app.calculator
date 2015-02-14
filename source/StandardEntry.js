@@ -11,7 +11,14 @@ enyo.kind({
 	    kind: "onyx.Toolbar",
 	    style: "margin-bottom: 5px;",
 	    components: [{ kind: "FittableRows", components: [
-		{ name: "result", content: "Empty", style: "font-size: 2em; font-weight: bold;" },
+		{ kind: "FittableColumns", components: [
+		    { name: "result", content: "Empty", style: "font-size: 2em; font-weight: bold;" },
+		    { kind : "FittableRows", components: [
+			{ style: "height: 8px;" },
+			{ name: "backspace", kind: "onyx.IconButton", src: "assets/Calc-backspace.png",
+			  style: "width: 32px; height: 32px;",
+			  ontap: "keyTapped" }]}
+		]},
 		{ name: "memoryIndicator", content: "" }
 	    ]}]
 	},

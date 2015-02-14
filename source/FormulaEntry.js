@@ -20,21 +20,16 @@ enyo.kind({
 	    components: [
 		{
 		    kind: "onyx.Toolbar",
-		    style: "width: 75%; height: 48px; margin-left: 12.5%; margin-right: 5px; text-align: right;",
+		    style: "height: 48px; margin-left: 5px; margin-right: 5px; text-align: right;",
 		    fit: true,
 		    components: [
-			{
-			    name: "Formula",
-			    style: "font-size: 1em;"
-			}]
-		},
-		{
-		    kind: "onyx.Button",
-		    style: "width: 48px; height: 48px; border-radius: 24px;",
-		    classes: "onyx-toolbar",
-		    content: "<",
-		    ontap: "backspaceTapped"
-		}]
+			{ name: "Formula", style: "font-size: 1em;"},
+			{ kind: "onyx.IconButton", src: "assets/Calc-backspace.png",
+			  style: "width: 32px; height: 32px",
+			  ontap: "backspaceTapped" }
+		    ]
+		}
+	    ]
 	},
 	{
 	    kind: "FittableRows",

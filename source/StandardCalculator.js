@@ -13,7 +13,7 @@ enyo.kind({
 	onMemoryActiveChanged:""
     },
     // result = x op y
-    // We "enter y" when hit number keys
+    // We "enter y" when we hit number keys
     // We calculate and display a running total ("x") until we hit "equals"
     // If we select an operator with a higher precedence than the last one,
     // we push that last "x op" pair onto the stack
@@ -87,6 +87,17 @@ enyo.kind({
 	    }
 	    this.display = this.y;
 	    this.doDisplayChanged();
+	    break;
+	case "backspace":
+	    if (this.enteringY) {
+		if (this.y.length > 1) {
+		    this.y = this.y.substring(0, this.y.length - 1);
+		} else {
+		    this.y = "0";
+		}
+		this.display = this.y;
+		this.doDisplayChanged();
+	    }
 	    break;
 	case "plus":
 	    this.beginNewOperation("add");
