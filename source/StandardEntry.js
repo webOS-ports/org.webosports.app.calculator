@@ -11,7 +11,14 @@ enyo.kind({
 	    kind: "onyx.Toolbar",
 	    style: "margin-bottom: 5px;",
 	    components: [{ kind: "FittableRows", components: [
-		{ name: "result", content: "Empty", style: "font-size: 2em; font-weight: bold;" },
+		{ kind: "FittableColumns", components: [
+		    { name: "result", content: "Empty", style: "font-size: 2em; font-weight: bold;" },
+		    { kind : "FittableRows", components: [
+			{ style: "height: 8px;" },
+			{ name: "backspace", kind: "onyx.IconButton", src: "assets/Calc-backspace.png",
+			  style: "width: 32px; height: 32px;",
+			  ontap: "keyTapped" }]}
+		]},
 		{ name: "memoryIndicator", content: "" }
 	    ]}]
 	},
@@ -24,7 +31,7 @@ enyo.kind({
 		defaultKind: enyo.kind({
 		    kind: "onyx.Button",
 		    classes: "function-button",
-		    style: "width: 24%; margin-right: 1%; border-radius: 8px; font-size: 1.5em; font-weight: bold;",
+		    style: "width: 24%; margin-right: 1%; border-radius: 8px; font-size: 1.6em; font-weight: bold;",
 		    ontap: "keyTapped",
 		    allowHtml: true
 		})
