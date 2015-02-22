@@ -193,6 +193,14 @@ enyo.kind({
 	{ desc: "MC 8 M+ 1 M+", keys: ["clear", "memoryClear", "8", "memoryPlus",
 					 "1", "memoryPlus"], expect: "1" },
 	{ desc: "MC 8 M+ 1 M+ MR", keys: ["clear", "memoryClear", "8", "memoryPlus",
-					 "1", "memoryPlus", "memoryRecall"], expect: "9" }
+					  "1", "memoryPlus", "memoryRecall"], expect: "9" },
+	// Fundamental: http://ecma262-5.com/ELS5_HTML.htm#Section_8.5
+	// With 2em font there's only room for 13 characters in the results display
+	// (sign, digits, point)
+	// Need to control how many the user can enter.
+	// Need to prevent results overflow.
+	// Also ought to round results to sensible precision in the more obvious cases.
+	{ desc: ".0001*.0001=", keys: ["clear", "point", "0", "0", "0", "1", "multiply",
+				    "point", "0", "0", "0", "1", "equals"], expect: "0.00000001" }
    ]
 });
