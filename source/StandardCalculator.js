@@ -68,19 +68,19 @@ enyo.kind({
 	    this.enteringY = true;
 	    switch (key) {
 	    case "0":
-		if (this.y !== "0") {
+		if (this.y !== "0" && this.y.length < 13) {
 		    this.y += key;
 		}
 		break;
 	    case "point":
-		if (this.y.indexOf(".") === -1) {
+		if (this.y.indexOf(".") === -1 && this.y.length < 13) {
 		    this.y += ".";
 		}
 		break;
 	    default:
 		if (this.y === "0") {
 		    this.y = key;
-		} else {
+		} else if (this.y.length < 13) {
 		    this.y += key;
 		}
 		break;

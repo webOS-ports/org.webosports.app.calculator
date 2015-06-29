@@ -57,7 +57,7 @@ enyo.kind({
 		var resultStyle = "background-color: green;";
 	    } else {
 		this.nTestsFailed += 1;
-		var resultStyle = "background-color: red;";
+		resultStyle = "background-color: red;";
 	    }
 	    this.$.resultsSummary.setContent("Fail " + this.nTestsFailed + " of " + this.nTestsRun);
 	    this.$.testRows.createComponent( {
@@ -199,6 +199,12 @@ enyo.kind({
 	// (sign, digits, point)
 	// Need to control how many the user can enter.
 	// Need to prevent results overflow.
+	{ desc: "13 digits", keys: ["clear", "0", "1", "2", "3", "4", "5",
+	                   "6", "7", "8", "9", "0", "1",
+	                   "2", "3", "4"], expect: "1234567890123"},
+	{ desc: "13 digits", keys: ["clear", "0", "1", "2", "3", "4", "5",
+	                   "6", "7", "8", "9", "0", "1", "point",
+	                   "2", "3", "4"], expect: "12345678901.2"},
 	// Also ought to round results to sensible precision in the more obvious cases.
 	{ desc: ".0001*.0001=", keys: ["clear", "point", "0", "0", "0", "1", "multiply",
 				    "point", "0", "0", "0", "1", "equals"], expect: "0.00000001" }
