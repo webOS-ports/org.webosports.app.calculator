@@ -137,6 +137,10 @@ enyo.kind({
 		break;
 	    }
 	}
+
+	    if (this.y.length > 13) {
+		    this.y = "Error";
+	    }
     },
     beginNewOperation: function(newOp) {
 	if (this.enteringY) {
