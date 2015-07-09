@@ -18,7 +18,7 @@ enyo.kind({
 		{ kind: onyx.Button, name: "theButton", content: "Start", ontap: "tapped" },
 		{
 		    name: "resultsSummary",
-		    content: "",
+		    content: "Tests",
 		    style: "font-size: 2em; font-weight: bold;"
 		}]
 	},
@@ -41,7 +41,7 @@ enyo.kind({
 	    clearInterval(this.job);
 	}
     },
-    //Action Handlers
+    // Action Handlers
     timerExpired: function() {
 	if (this.currentTest < this.tests.length) {
 	    var i = this.currentTest;
@@ -82,7 +82,7 @@ enyo.kind({
     keyTapped: function(inSender) {
 	this.$.calc.pressedKey(inSender.name);
     },
-    //Calculator Event Handlers
+    // Calculator Event Handlers
     displayChanged: function(inSender, inEvent) {
 	return true;
     },
