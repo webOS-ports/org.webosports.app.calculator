@@ -37,13 +37,12 @@ enyo.kind({
 		v = Math.round(+v);
 	    } else {
 		var dp = this.MAXDISPLAYLEN - pointix - 1;
-		// Unfortunately, toFixed() is unpredictable
+		// Unfortunately, toFixed() by itself is unpredictable
+		v = v + 'e' + dp;
+		v = Math.round(+v);
+		v = v.toString().split('e');
+		v = +(v[0] + 'e-' + dp);
 		v = (+v).toFixed(dp).toString();
-		// So this may be preferable
-		//v = v + 'e' + dp;
-		//v = Math.round(+v);
-		//v = v.toString().split('e');
-		//v = +(v[0] + 'e-' + dp);
 	    }
 	}
 	this.display = v.toString();

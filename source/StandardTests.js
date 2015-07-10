@@ -224,6 +224,10 @@ enyo.kind({
 	                   "6", "7", "4", "5", "divide", "1",
 	                   "0", "0", "0", "0", "equals"], expect: "0.00012345675"},
 	{ desc: "Underflow / 10", keys: ["divide", "1", "0", "equals"], expect: "0.00001234567"},
+	{ desc: "-ve underflow", keys: ["clear", "0", "minus",
+                           "1", "point", "2", "3", "4", "5",
+	                   "6", "7", "4", "5", "divide", "1",
+	                   "0", "0", "0", "0", "equals"], expect: "-0.0001234567"},
 	// Also ought to round results to sensible precision in the more obvious cases.
 	{ desc: ".0001*.0001=", keys: ["clear", "point", "0", "0", "0", "1", "multiply",
 				    "point", "0", "0", "0", "1", "equals"], expect: "0.00000001" }
