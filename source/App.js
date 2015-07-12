@@ -3,6 +3,7 @@
 enyo.kind({
 	name: "App",
 	style: "display: -webkit-flex; -webkit-flex-direction: column;  -webkit-justify-content: center",
+	palm: false,
 	components: [
 		{
 			kind: "Signals",
@@ -39,16 +40,20 @@ enyo.kind({
 			components: [
 			    { content: $L("Traditional Style"), ontap: "selectTraditional" },
 			    { content: $L("Formula Style"), ontap: "selectFormulaEntry" },
-			    { content: $L("Tests"), ontap: "selectTestsPanel" },
-			    { content: $L("About"), ontap: "aboutMe"}
+			    { content: $L("Tests"), ontap: "selectTestsPanel",
+			      name: "testsMenuEntry", showing: false },
+			    { content: $L("About"), ontap: "aboutMe" }
 			]
 		},
 		{
 			name: "aboutPopup",
 			kind: "About"
-		}
+		},
+		{name: "GetDevModeStatus", kind: "enyo.LunaService",
+		 service: "palm://org.webosports.service.devmode/",
+		 method: "getStatus", onComplete: "onGetDevModeStatusResponse"}
 	],
-	create: function () {
+	create: function() {
 		this.inherited(arguments);
 		if (window.PalmSystem) {
 		    this.$.calculatorHost.setDraggable(false);
@@ -57,19 +62,32 @@ enyo.kind({
 		if (p) {
 		    this.$.calculatorHost.selectPanelByName(p);
 		}
+		if (!window.PalmSystem) {
+			enyo.log("Non-palm platform, service requests disabled.");
+			return;
+		}
+		this.palm = true;
+		this.$.GetDevModeStatus.send({});
 	},
-	selectTraditional: function () {
+	selectTraditional: function() {
 		this.$.calculatorHost.selectPanelByName("standardPanel");
 		enyo.setCookie("likePanel", "standardPanel");
 	},
-	selectFormulaEntry: function () {
+	selectFormulaEntry: function() {
 		this.$.calculatorHost.selectPanelByName("formulaPanel");
 		enyo.setCookie("likePanel", "formulaPanel");
 	},
-	selectTestsPanel: function () {
+	selectTestsPanel: function() {
 		this.$.calculatorHost.selectPanelByName("standardTestsPanel");
 	},
-	aboutMe: function () {
+	aboutMe: function() {
 		this.$.aboutPopup.show();
+	},
+	/* Service response handlers */
+	onGetDevModeStatusResponse: function(inSender, inResponse) {
+	    // Enable the Tests menu item if we are in developer mode
+		if (inResponse.status === "enabled") {
+		    this.$.testsMenuEntry.setShowing(true);
+		}
 	}
 });
