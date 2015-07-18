@@ -36,6 +36,7 @@ enyo.kind({
 			]
 		}, // end tabletop
 		{
+			name: "menu",
 			kind: "AppMenu",
 			components: [
 			    { content: $L("Traditional Style"), ontap: "selectTraditional" },
@@ -58,6 +59,8 @@ enyo.kind({
 		if (window.PalmSystem) {
 		    this.$.calculatorHost.setDraggable(false);
 		}
+		// Magic numbers, sorry.
+		this.$.menu.setMaxHeight(34 * 3);
 		var p = enyo.getCookie("likePanel");
 		if (p) {
 		    this.$.calculatorHost.selectPanelByName(p);
@@ -87,6 +90,7 @@ enyo.kind({
 	onGetDevModeStatusResponse: function(inSender, inResponse) {
 	    // Enable the Tests menu item if we are in developer mode
 		if (inResponse.status === "enabled") {
+		    this.$.menu.setMaxHeight(34 * 4);
 		    this.$.testsMenuEntry.setShowing(true);
 		}
 	}
