@@ -1,11 +1,11 @@
 {
   "id": "org.webosports.app.calculator",
   "name": "Calculator",
-  "version": "0.2.0",
-  "title": "WebOS-Ports Calculator ",
-  "description": "WebOS-Ports Calculator App!",
+  "version": "0.3.0",
+  "title": "LuneOS Calculator",
+  "description": "LuneOS Calculator App",
   "author": {
-    "name": "An Example Company",
+    "name": "WebOS Ports",
     "href": "http://www.example.com"
   },
   "providers": {

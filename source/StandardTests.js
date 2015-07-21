@@ -18,7 +18,7 @@ enyo.kind({
 		{ kind: onyx.Button, name: "theButton", content: "Start", ontap: "tapped" },
 		{
 		    name: "resultsSummary",
-		    content: "",
+		    content: "Tests",
 		    style: "font-size: 2em; font-weight: bold;"
 		}]
 	},
@@ -41,7 +41,7 @@ enyo.kind({
 	    clearInterval(this.job);
 	}
     },
-    //Action Handlers
+    // Action Handlers
     timerExpired: function() {
 	if (this.currentTest < this.tests.length) {
 	    var i = this.currentTest;
@@ -57,7 +57,7 @@ enyo.kind({
 		var resultStyle = "background-color: green;";
 	    } else {
 		this.nTestsFailed += 1;
-		var resultStyle = "background-color: red;";
+		resultStyle = "background-color: red;";
 	    }
 	    this.$.resultsSummary.setContent("Fail " + this.nTestsFailed + " of " + this.nTestsRun);
 	    this.$.testRows.createComponent( {
@@ -82,7 +82,7 @@ enyo.kind({
     keyTapped: function(inSender) {
 	this.$.calc.pressedKey(inSender.name);
     },
-    //Calculator Event Handlers
+    // Calculator Event Handlers
     displayChanged: function(inSender, inEvent) {
 	return true;
     },
@@ -193,6 +193,43 @@ enyo.kind({
 	{ desc: "MC 8 M+ 1 M+", keys: ["clear", "memoryClear", "8", "memoryPlus",
 					 "1", "memoryPlus"], expect: "1" },
 	{ desc: "MC 8 M+ 1 M+ MR", keys: ["clear", "memoryClear", "8", "memoryPlus",
-					 "1", "memoryPlus", "memoryRecall"], expect: "9" }
+					  "1", "memoryPlus", "memoryRecall"], expect: "9" },
+	// Fundamental: http://ecma262-5.com/ELS5_HTML.htm#Section_8.5
+	// With 2em font there's only room for 13 characters in the results display
+	// (sign, digits, point)
+	// Need to control how many the user can enter.
+	// Need to prevent results overflow.
+	{ desc: "13 digits", keys: ["clear", "0", "1", "2", "3", "4", "5",
+	                   "6", "7", "8", "9", "0", "1",
+	                   "2", "3", "4"], expect: "1234567890123"},
+	{ desc: "13 digits .", keys: ["clear", "0", "1", "2", "3", "4", "5",
+	                   "6", "7", "8", "9", "0", "1", "point",
+	                   "2", "3", "4"], expect: "12345678901.2"},
+	{ desc: "Overflow =", keys: ["clear", "1", "2", "3", "4", "5",
+	                   "6", "7", "8", "9", "0", "multiply", "1",
+	                   "0", "0", "0", "0", "equals"], expect: "Error"},
+	{ desc: "Overflow *", keys: ["clear", "1", "2", "3", "4", "5",
+	                   "6", "7", "8", "9", "0", "multiply", "1",
+	                   "0", "0", "0", "0", "multiply"], expect: "Error"},
+	{ desc: "Overflow /", keys: ["clear", "1", "2", "3", "4", "5",
+	                   "6", "7", "8", "9", "0", "multiply", "1",
+	                   "0", "0", "0", "0", "divide"], expect: "Error"},
+	{ desc: "Overflow +", keys: ["clear", "1", "2", "3", "4", "5",
+	                   "6", "7", "8", "9", "0", "multiply", "1",
+	                   "0", "0", "0", "0", "plus"], expect: "Error"},
+	{ desc: "Overflow -", keys: ["clear", "1", "2", "3", "4", "5",
+	                   "6", "7", "8", "9", "0", "multiply", "1",
+	                   "0", "0", "0", "0", "minus"], expect: "Error"},
+	{ desc: "Underflow", keys: ["clear", "1", "point", "2", "3", "4", "5",
+	                   "6", "7", "4", "5", "divide", "1",
+	                   "0", "0", "0", "0", "equals"], expect: "0.00012345675"},
+	{ desc: "Underflow / 10", keys: ["divide", "1", "0", "equals"], expect: "0.00001234567"},
+	{ desc: "-ve underflow", keys: ["clear", "0", "minus",
+                           "1", "point", "2", "3", "4", "5",
+	                   "6", "7", "4", "5", "divide", "1",
+	                   "0", "0", "0", "0", "equals"], expect: "-0.0001234567"},
+	// Also ought to round results to sensible precision in the more obvious cases.
+	{ desc: ".0001*.0001=", keys: ["clear", "point", "0", "0", "0", "1", "multiply",
+				    "point", "0", "0", "0", "1", "equals"], expect: "0.00000001" }
    ]
 });

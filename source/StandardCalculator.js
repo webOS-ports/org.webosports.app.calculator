@@ -18,12 +18,35 @@ enyo.kind({
     // If we select an operator with a higher precedence than the last one,
     // we push that last "x op" pair onto the stack
     y: "0",
-    enteringY: false, // implies also displaying it
+    enteringY: false, // true implies also displaying it
     stack: [], // x, op pairs
     memory: "0",
+    MAXDISPLAYLEN: 13,
     create: function() {
 	this.inherited(arguments);
 	this.display = this.y;
+    },
+    show: function(v) {
+	if (v.length > this.MAXDISPLAYLEN) {
+	    var pointix = v.indexOf(".");
+	    if (pointix === -1 || pointix > this.MAXDISPLAYLEN) {
+		// Just too long to display
+		v = "Error";
+	    } else if (pointix === this.MAXDISPLAYLEN ||
+		       pointix === this.MAXDISPLAYLEN - 1) {
+		v = Math.round(+v);
+	    } else {
+		var dp = this.MAXDISPLAYLEN - pointix - 1;
+		// Unfortunately, toFixed() by itself is unpredictable
+		v = v + 'e' + dp;
+		v = Math.round(+v);
+		v = v.toString().split('e');
+		v = +(v[0] + 'e-' + dp);
+		v = (+v).toFixed(dp).toString();
+	    }
+	}
+	this.display = v.toString();
+	this.doDisplayChanged();
     },
     pressedKey: function(key) {
 	switch (key) {
@@ -31,8 +54,7 @@ enyo.kind({
 	    this.y = "0";
 	    this.enteringY = false;
 	    this.stack = [];
-	    this.display = this.y;
-	    this.doDisplayChanged();
+	    this.show(this.y);
 	    break;
 	case "memoryClear":
 	    this.memory = "0";
@@ -48,8 +70,7 @@ enyo.kind({
 	case "memoryRecall":
 	    this.enteringY = false;
 	    this.y = this.memory;
-	    this.display = this.y;
-	    this.doDisplayChanged();
+	    this.show(this.y);
 	    break;
 	case "0":
 	case "1":
@@ -68,25 +89,24 @@ enyo.kind({
 	    this.enteringY = true;
 	    switch (key) {
 	    case "0":
-		if (this.y !== "0") {
+		if (this.y !== "0" && this.y.length < this.MAXDISPLAYLEN) {
 		    this.y += key;
 		}
 		break;
 	    case "point":
-		if (this.y.indexOf(".") === -1) {
+		if (this.y.indexOf(".") === -1 && this.y.length < this.MAXDISPLAYLEN) {
 		    this.y += ".";
 		}
 		break;
 	    default:
 		if (this.y === "0") {
 		    this.y = key;
-		} else {
+		} else if (this.y.length < this.MAXDISPLAYLEN) {
 		    this.y += key;
 		}
 		break;
 	    }
-	    this.display = this.y;
-	    this.doDisplayChanged();
+	    this.show(this.y);
 	    break;
 	case "backspace":
 	    if (this.enteringY) {
@@ -95,8 +115,7 @@ enyo.kind({
 		} else {
 		    this.y = "0";
 		}
-		this.display = this.y;
-		this.doDisplayChanged();
+		this.show(this.y);
 	    }
 	    break;
 	case "plus":
@@ -114,8 +133,7 @@ enyo.kind({
 	case "equals":
 	    this.enteringY = false;
 	    this.calculate();
-	    this.display = this.y;
-	    this.doDisplayChanged();
+	    this.show(this.y);
 	    break;
 	}
     },
@@ -167,8 +185,7 @@ enyo.kind({
 		this.stack.unshift({ x: this.y, op: newOp });
 		break;
 	    }
-	    this.display = this.y;
-	    this.doDisplayChanged();
+	    this.show(this.y);
 	} else {
 	    // We either have already begun an operation
 	    // or we have not entered a number at all
