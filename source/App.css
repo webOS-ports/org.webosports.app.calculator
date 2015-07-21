@@ -6,8 +6,12 @@
 	background-color: black;
 }
 
+.bezel {
+	background-color: #777;
+}
+
 .onyx-toolbar {
-	height: 108px;
+/*	height: 108px;*/
 	border-radius: 8px;
 	background-color: #555;
 }
@@ -25,18 +29,21 @@
 	color: white;
 	background-color: lightblue;
 	border-color: black;
+	border-radius: 8px;
 }
 
 .number-button {
 	color: black;
 	background-color: white;
 	border-color: black;
+	border-radius: 8px;
 }
 
 .cancel-button {
 	color: white;
 	background-color: orange;
 	border-color: black;
+	border-radius: 8px;
 }
 
 sup {
@@ -44,24 +51,23 @@ sup {
 	font-size: 0.5em;
 }
 
-.about-description        {
+.about-description {
 	color: black;
 	font-size: 14px;
 	font-family: Helvetica;
 }
 
-
-.classic-popup       {
+.classic-popup {
 	border-radius: 16px;
 	width: 352px;
 	background-color: #555;
 }
 
-.button   {
+.button {
 	background-color: green;
 	float: right;
 }
 
-.bottom-bar  {
+.bottom-bar {
 	height: 55px;
 }

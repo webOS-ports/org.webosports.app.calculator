@@ -2,7 +2,6 @@
 /*global enyo, isNaN */
 enyo.kind({
 	name: "App",
-	style: "display: -webkit-flex; -webkit-flex-direction: column;  -webkit-justify-content: center",
 	palm: false,
 	components: [
 		{
@@ -14,27 +13,15 @@ enyo.kind({
 			onCoreNaviDragFinish: "handleCoreNaviDragFinish"
 		},
 		{
-			name: "tabletop",
-			kind: "Control",
-			style: "-webkit-flex: 1;   display: -webkit-flex; -webkit-flex-direction: row; -webkit-justify-content: center",
-			components: [
-
-				{
-					kind: "Control",
-					style: "-webkit-flex: 1; max-width: 550px;   display: -webkit-flex; -webkit-flex-direction: column;  -webkit-justify-content: center",
-					components: [{
-					    name: "calculatorHost",
-					    kind: "Panels",
-					    style: "-webkit-flex: 1; max-height: 665px; border: 5px solid #333; background-color: #777; padding: 10px; color: white; margin: 10px; border-radius: 16px; text-align: right;",
-					    components: [
-						{ name: "standardPanel", kind: "StandardEntry" },
-						{ name: "formulaPanel", kind: "FormulaEntry" },
-						{ name: "standardTestsPanel", kind: "StandardTests" }
-					    ]
-					}]
-				}
-			]
-		}, // end tabletop
+		    name: "calculatorHost",
+		    kind: "enyo.Panels",
+		    style: "height: 100%",
+		    components: [
+			{ name: "standardPanel", kind: "StandardEntry" },
+			{ name: "formulaPanel", kind: "FormulaEntry" },
+			{ name: "standardTestsPanel", kind: "StandardTests" }
+		    ]
+		},
 		{
 			name: "menu",
 			kind: "AppMenu",
@@ -51,7 +38,7 @@ enyo.kind({
 			kind: "About"
 		},
 		{name: "GetDevModeStatus", kind: "enyo.LunaService",
-		 service: "palm://org.webosports.service.devmode/",
+		 service: "luna://org.webosports.service.devmode/",
 		 method: "getStatus", onComplete: "onGetDevModeStatusResponse"}
 	],
 	create: function() {

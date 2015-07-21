@@ -2,46 +2,35 @@
 /*global enyo, isNaN */
 enyo.kind({
     name: "StandardEntry",
-    kind: "FittableRows",
-    style: "-webkit-flex: 1; background-color: #777; padding: 5px; color: white; border-radius: 16px;",
     components: [
 	{ name: "calc", kind: "StandardCalculator", onDisplayChanged: "displayChanged",
 	  onMemoryActiveChanged: "memoryActiveChanged" },
 	{
 	    kind: "onyx.Toolbar",
-	    style: "margin-bottom: 5px;",
 	    components: [{ kind: "FittableRows", components: [
 		{ kind: "FittableColumns", components: [
-		    { name: "result", content: "Empty", style: "font-size: 2em; font-weight: bold;" },
+		    { name: "result", content: "Empty" },
 		    { kind : "FittableRows", components: [
-			{ style: "height: 8px;" },
-			{ name: "backspace", kind: "onyx.IconButton", src: "assets/Calc-backspace.png",
-			  style: "width: 32px; height: 32px;",
+			{ name: "backspace", kind: "onyx.IconButton",
+			  src: "assets/Calc-backspace.png",
 			  ontap: "keyTapped" }]}
 		]},
 		{ name: "memoryIndicator", content: "" }
 	    ]}]
 	},
 	{
-	    kind: "FittableRows",
-	    fit: true,
+	    name: "buttonContainer",
+	    classes: "bezel",
 	    defaultKind: enyo.kind({
-		kind: "FittableColumns",
-		style: "height: 15%; margin-left: 0; margin-top: 5%;",
-		defaultKind: enyo.kind({
-		    kind: "onyx.Button",
-		    classes: "function-button",
-		    style: "width: 24%; margin-right: 1%; border-radius: 8px; font-size: 1.6em; font-weight: bold;",
-		    ontap: "keyTapped",
-		    allowHtml: true
-		})
+		kind: "onyx.Button",
+		classes: "function-button",
+		ontap: "keyTapped",
+		allowHtml: true
 	    }),
 	    components: [
-		{
-		    components: [
 			{
 			    name: "memoryPlus",
-			    content: "M+",
+			    content: "M+"
 			},
 			{
 			    name: "memoryRecall",
@@ -54,11 +43,7 @@ enyo.kind({
 			{
 			    name: "divide",
 			    content: "&#247;"
-			}
-		    ]
-		},
-		{
-		    components: [
+			},
 			{
 			    name: "7",
 			    content: "7",
@@ -77,10 +62,7 @@ enyo.kind({
 			{
 			    name: "multiply",
 			    content: "&#215;"
-			}]
-		},
-		{
-		    components: [
+			},
 			{
 			    name: "4",
 			    content: "4",
@@ -99,10 +81,7 @@ enyo.kind({
 			{
 			    name: "minus",
 			    content: "&minus;"
-			}]
-		},
-		{
-		    components: [
+			},
 			{
 			    name: "1",
 			    content: "1",
@@ -121,10 +100,7 @@ enyo.kind({
 			{
 			    name: "plus",
 			    content: "&plus;"
-			}]
-		},
-		{
-		    components: [
+			},
 			{
 			    name: "clear",
 			    content: "C",
@@ -143,13 +119,53 @@ enyo.kind({
 			{
 			    name: "equals",
 			    content: "&equals;"
-			}]
-		}
+			}
 	    ]
 	}],
     create: function() {
 	this.inherited(arguments);
 	this.$.result.setContent(this.$.calc.getDisplay());
+    },
+    reflow: function(inSender) {
+	this.inherited(arguments);
+	var buttons = [
+	    this.$["memoryPlus"],
+	    this.$["memoryRecall"],
+	    this.$["memoryClear"],
+	    this.$["divide"],
+	    this.$["7"],
+	    this.$["8"],
+	    this.$["9"],
+	    this.$["multiply"],
+	    this.$["4"],
+	    this.$["5"],
+	    this.$["6"],
+	    this.$["minus"],
+	    this.$["1"],
+	    this.$["2"],
+	    this.$["3"],
+	    this.$["plus"],
+	    this.$["clear"],
+	    this.$["0"],
+	    this.$["point"],
+	    this.$["equals"]
+	];
+	var bw = parseInt(this.hasNode().offsetWidth / 4);
+	var bh = Math.min(parseInt(bw * 3 / 5), parseInt(this.hasNode().offsetHeight / 7));
+	var bwm = 8;
+	var bhm = 4;
+	buttons.forEach(
+	    function (x, index, array) {
+	    x.applyStyle("margin-left", bwm + "px");
+	    x.applyStyle("margin-right", bwm + "px");
+	    x.applyStyle("width", bw - 2 * bwm + "px");
+	    x.applyStyle("margin-top", bhm + "px");
+	    x.applyStyle("margin-bottom", bhm + "px");
+	    x.applyStyle("height", bh - 2 * bhm + "px");
+	});
+
+	if (enyo.Panels.isScreenNarrow()) {
+	}
     },
     //Action Handlers
     keyTapped: function(inSender) {
