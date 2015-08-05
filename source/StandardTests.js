@@ -228,6 +228,10 @@ enyo.kind({
                            "1", "point", "2", "3", "4", "5",
 	                   "6", "7", "4", "5", "divide", "1",
 	                   "0", "0", "0", "0", "equals"], expect: "-0.0001234567"},
+	{ desc: "No trailing zeros", keys: ["clear", "1", "2", "3", "4", "5",
+	                   "6", "7", "8", "9", "point", "1", "2", "3", "minus",
+	                   "1", "2", "3", "0", "0", "0", "0", "0", "0", "equals"],
+	                   expect: "456789.123"},
 	// Also ought to round results to sensible precision in the more obvious cases.
 	{ desc: ".0001*.0001=", keys: ["clear", "point", "0", "0", "0", "1", "multiply",
 				    "point", "0", "0", "0", "1", "equals"], expect: "0.00000001" }
