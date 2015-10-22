@@ -15,7 +15,6 @@ enyo.kind({
 		{
 		    name: "calculatorHost",
 		    kind: "enyo.Panels",
-		    style: "height: 100%",
 		    components: [
 			{ name: "standardPanel", kind: "StandardEntry" },
 			{ name: "formulaPanel", kind: "FormulaEntry" },
