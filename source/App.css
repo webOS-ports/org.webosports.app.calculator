@@ -1,39 +1,78 @@
 /*
-	Put anything you reference with "url()" in ../assets/
-	This way, you can minify your application, and just remove the "source" folder for production
+ Put anything you reference with "url()" in ../assets/
+ This way, you can minify your application, and just remove the "source" folder for production
+
+ Note: Magic numbers calculated based on the assumed 96px per "inch" idea.
+ Note: Calculations performed, on principle, using the calculator itself!
+
+ 11cm ~ 416px allow double that 832px
+  6cm ~ 227px allow double that 454px
 */
+
 @media all and (orientation:portrait) {
-#app {
-	background-color: black;
+body {
+    background-color: yellow;
+    max-height: 832px;
+    max-width: 454px;
 }
 
-#app_calculatorHost {
-    height: 100%;
-}
-
-.bezel {
-	background-color: #777;
+.onyx-toolbar {
+    height: 55px;
+    margin: 0.5%;
+    border-radius: 8px;
+    background-color: #555;
 }
 }
 
 @media all and (orientation:landscape) {
-#app {
-	background-color: green;
+body {
+    background-color: yellow;
+    max-height: 454px;
+    max-width: 832px;
 }
 
+.onyx-toolbar {
+    height: 55px;
+    max-width: 454px;
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px;
+    background-color: #555;
+}
+}
+
+#app {
+    background-color: #777;
+}
+
+/* This panels host collapses unless we give it a height */
 #app_calculatorHost {
     height: 100%;
 }
 
 .bezel {
-	background-color: #DDD;
-}
+    height: calc(100% - 55px);
 }
 
-.onyx-toolbar {
-/*	height: 108px;*/
-	border-radius: 8px;
-	background-color: #555;
+.function-button {
+    width: 24%;
+    margin: 0.5%;
+    height: 15%;
+    color: white;
+    background-color: lightblue;
+    border-color: black;
+    border-radius: 8px;
+}
+
+.number-button {
+    color: black;
+    background-color: white;
+}
+
+.cancel-button {
+    background-color: orange;
 }
 
 .test-record {
@@ -45,25 +84,9 @@
 	padding: 2px;
 }
 
-.function-button {
-	color: white;
-	background-color: lightblue;
-	border-color: black;
-	border-radius: 8px;
-}
-
-.number-button {
-	color: black;
-	background-color: white;
-	border-color: black;
-	border-radius: 8px;
-}
-
-.cancel-button {
-	color: white;
-	background-color: orange;
-	border-color: black;
-	border-radius: 8px;
+.button {
+	background-color: green;
+	float: right;
 }
 
 sup {
@@ -81,11 +104,6 @@ sup {
 	border-radius: 16px;
 	width: 352px;
 	background-color: #555;
-}
-
-.button {
-	background-color: green;
-	float: right;
 }
 
 .bottom-bar {
