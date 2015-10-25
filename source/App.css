@@ -35,8 +35,8 @@ body {
 }
 
 .onyx-toolbar {
-    height: 21.5%;
-    max-width: 10em;/*454px;*/
+    height: 17%;
+    max-width: 10em; /* By trial and error */
     margin-top: 0.5%;
     margin-bottom: 0.5%;
     margin-left: auto;
@@ -45,7 +45,7 @@ body {
     background-color: #555;
     text-align: right;
     font-size: 7vh !important;
-    line-height: 10vh !important;
+    line-height: 9vh !important;
 }
 }
 
@@ -53,25 +53,25 @@ body {
     background-color: #777;
 }
 
-/* This panels host collapses unless we give it a height */
+/* The panels host collapses unless we give it a height */
 #app_calculatorHost {
     height: 100%;
 }
 
 .bezel {
-    height: calc(100% - 55px);
+    height: 82%;
 }
 
 .function-button {
     width: 24%;
     margin: 0.5%;
-    height: 14%;
+    height: 14vh;
     color: white;
     background-color: lightblue;
     border-color: black;
     border-radius: 8px;
     font-size: 6vh;
-    line-height: 20px !important;
+    line-height: 20px !important; /* Otherwise it is based on the font size */
 }
 
 .number-button {
@@ -112,8 +112,4 @@ sup {
 	border-radius: 16px;
 	width: 352px;
 	background-color: #555;
-}
-
-.bottom-bar {
-	height: 55px;
 }
