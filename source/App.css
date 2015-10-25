@@ -12,34 +12,40 @@
 @media all and (orientation:portrait) {
 body {
     background-color: yellow;
-    max-height: 832px;
-    max-width: 454px;
+/*    max-height: 832px;
+    max-width: 454px;*/
 }
 
 .onyx-toolbar {
-    height: 55px;
+    height: 21.5%;
     margin: 0.5%;
     border-radius: 8px;
     background-color: #555;
+    text-align: right;
+    font-size: 7vh !important;
+    line-height: 10vh !important;
 }
 }
 
 @media all and (orientation:landscape) {
 body {
     background-color: yellow;
-    max-height: 454px;
-    max-width: 832px;
+/*    max-height: 454px;
+    max-width: 832px;*/
 }
 
 .onyx-toolbar {
-    height: 55px;
-    max-width: 454px;
+    height: 21.5%;
+    max-width: 10em;/*454px;*/
     margin-top: 0.5%;
     margin-bottom: 0.5%;
     margin-left: auto;
     margin-right: auto;
     border-radius: 8px;
     background-color: #555;
+    text-align: right;
+    font-size: 7vh !important;
+    line-height: 10vh !important;
 }
 }
 
@@ -59,11 +65,13 @@ body {
 .function-button {
     width: 24%;
     margin: 0.5%;
-    height: 15%;
+    height: 14%;
     color: white;
     background-color: lightblue;
     border-color: black;
     border-radius: 8px;
+    font-size: 6vh;
+    line-height: 20px !important;
 }
 
 .number-button {

@@ -128,41 +128,6 @@ enyo.kind({
     },
     reflow: function(inSender) {
 	this.inherited(arguments);
-//	var buttons = [
-//	    this.$["memoryPlus"],
-//	    this.$["memoryRecall"],
-//	    this.$["memoryClear"],
-//	    this.$["divide"],
-//	    this.$["7"],
-//	    this.$["8"],
-//	    this.$["9"],
-//	    this.$["multiply"],
-//	    this.$["4"],
-//	    this.$["5"],
-//	    this.$["6"],
-//	    this.$["minus"],
-//	    this.$["1"],
-//	    this.$["2"],
-//	    this.$["3"],
-//	    this.$["plus"],
-//	    this.$["clear"],
-//	    this.$["0"],
-//	    this.$["point"],
-//	    this.$["equals"]
-//	];
-//	var bw = parseInt(this.hasNode().offsetWidth / 4);
-//	var bh = Math.min(parseInt(bw * 3 / 5), parseInt(this.hasNode().offsetHeight / 7));
-//	var bwm = 8;
-//	var bhm = 4;
-//	buttons.forEach(
-//	    function (x, index, array) {
-//	    x.applyStyle("margin-left", bwm + "px");
-//	    x.applyStyle("margin-right", bwm + "px");
-//	    x.applyStyle("width", bw - 2 * bwm + "px");
-//	    x.applyStyle("margin-top", bhm + "px");
-//	    x.applyStyle("margin-bottom", bhm + "px");
-//	    x.applyStyle("height", bh - 2 * bhm + "px");
-//	});
     },
     //Action Handlers
     keyTapped: function(inSender) {
