@@ -26,7 +26,7 @@ body {
     background-color: #555;
     text-align: right;
     font-size: 7vh !important;
-    line-height: 9vh !important;
+    line-height: 8vh !important;
 }
 }
 
@@ -48,7 +48,7 @@ body {
     background-color: #555;
     text-align: right;
     font-size: 7vh !important;
-    line-height: 9vh !important;
+    line-height: 8vh !important;
 }
 }
 
@@ -59,6 +59,10 @@ body {
 /* The panels host collapses unless we give it a height */
 #app_calculatorHost {
     height: 100%;
+}
+
+.flags {
+    font-size: 50%;
 }
 
 .bezel {

@@ -15,7 +15,7 @@ enyo.kind({
 			  src: "assets/Calc-backspace.png",
 			  ontap: "keyTapped" }]}
 		]},
-		{ name: "memoryIndicator", content: "" }
+		{ name: "memoryIndicator", classes:"flags", content: "" }
 	    ]}]
 	},
 	{
