@@ -93,6 +93,35 @@ body {
     background-color: orange;
 }
 
+.formula-bar {
+    height: 10vh;
+    max-width: 100%;
+}
+
+.function-button-6rows {
+    width: 24%;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+    height: 10vh;
+    color: white;
+    background-color: lightblue;
+    border-color: black;
+    border-radius: 8px;
+    font-size: 6vh;
+    line-height: 1vh !important; /* Otherwise it is based on the font size */
+}
+
+.number-button-6rows {
+    color: black;
+    background-color: white;
+}
+
+.cancel-button-6rows {
+    background-color: orange;
+}
+
 .test-record {
 	height: 55px;
 	border-radius: 8px;
