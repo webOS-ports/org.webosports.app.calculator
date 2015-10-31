@@ -3,7 +3,6 @@
 enyo.kind({
     name: "StandardTests",
     kind: "FittableRows",
-    style: "-webkit-flex: 1; background-color: #777; padding: 5px; color: white; border-radius: 16px;",
     job: "",
     currentTest: 0,
     nTestsRun: 0,
@@ -13,13 +12,11 @@ enyo.kind({
 	  onMemoryActiveChanged: "memoryActiveChanged" },
 	{
 	    kind: "onyx.Toolbar",
-	    style: "margin-bottom: 5px;",
 	    components: [
 		{ kind: onyx.Button, name: "theButton", content: "Start", ontap: "tapped" },
 		{
 		    name: "resultsSummary",
-		    content: "Tests",
-		    style: "font-size: 2em; font-weight: bold;"
+		    content: "Tests"
 		}]
 	},
 	{
@@ -65,8 +62,8 @@ enyo.kind({
 		classes: "test-record",
 		components: [
 		    { kind: "onyx.Button", style: resultStyle },
-		    { content: this.tests[i].desc, style: "width: 155px;" },
-		    { kind: "FittableRows", style: "min-width: 150px;", components: [
+		    { content: this.tests[i].desc, style: "width: 10em;" },
+		    { kind: "FittableRows", components: [
 			{ content: "Expect: " + this.tests[i].expect },
 			{ content: "Get: " + testOutput }
 		    ] }

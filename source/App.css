@@ -123,12 +123,14 @@ body {
 }
 
 .test-record {
-	height: 55px;
-	border-radius: 8px;
+	height: 10vh;
+	max-width: 100%;
 	color: black;
 	background-color: #CCC;
 	text-align: left;
-	padding: 2px;
+	font-size: 3.5vh !important;
+	line-height: 3.5vh !important;
+/*	padding: 2px;*/
 }
 
 .button {
