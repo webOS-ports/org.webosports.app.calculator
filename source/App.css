@@ -16,11 +16,24 @@
     font-size: 7vh !important;
     line-height: 8vh;
 }
+
+.onyx-toolbar-6rows {
+    height: 14vh;
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+    border-radius: 8px;
+    background-color: #555;
+    text-align: right;
+    font-size: 7vh !important;
+    line-height: 8vh;
+}
 }
 
 @media all and (orientation:landscape) {
 .onyx-toolbar {
-    height: 17vh;
+    height: 15vh;
     max-width: 10em; /* By trial and error */
     margin-top: 0.5vh;
     margin-bottom: 0.5vh;
@@ -30,7 +43,21 @@
     background-color: #555;
     text-align: right;
     font-size: 7vh !important;
-    line-height: 8vh;
+    line-height: 6vh;
+}
+
+.onyx-toolbar-6rows {
+    height: 10vh;
+    max-width: 10em; /* By trial and error */
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px;
+    background-color: #555;
+    text-align: right;
+    font-size: 7vh !important;
+    line-height: 6vh;
 }
 }
 
@@ -67,7 +94,7 @@ body {
     background-color: lightblue;
     border-color: black;
     border-radius: 8px;
-    font-size: 6vh;
+    font-size: 5vh;
     line-height: 1vh !important; /* Otherwise it is based on the font size */
 }
 
@@ -81,7 +108,7 @@ body {
 }
 
 .formula-bar {
-    height: 10vh;
+    height: 9vh;
     max-width: 100%;
 }
 
@@ -96,7 +123,7 @@ body {
     background-color: lightblue;
     border-color: black;
     border-radius: 8px;
-    font-size: 6vh;
+    font-size: 5vh;
     line-height: 1vh !important; /* Otherwise it is based on the font size */
 }
 

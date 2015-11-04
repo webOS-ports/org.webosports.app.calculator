@@ -5,6 +5,7 @@ enyo.kind({
     components: [
 	{
 	    kind: "onyx.Toolbar",
+	    classes: "onyx-toolbar-6rows",
 	    components: [
 		{
 		    name: "Result"
