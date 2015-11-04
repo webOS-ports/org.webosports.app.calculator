@@ -7,10 +7,10 @@ enyo.kind({
 	  onMemoryActiveChanged: "memoryActiveChanged" },
 	{
 	    kind: "onyx.Toolbar",
-	    components: [{ kind: "FittableRows", components: [
+	    components: [{ components: [
 		{ kind: "FittableColumns", components: [
 		    { name: "result", content: "Empty" },
-		    { kind : "FittableRows", components: [
+		    { components: [
 			{ name: "backspace", kind: "onyx.IconButton",
 			  src: "assets/Calc-backspace.png",
 			  ontap: "keyTapped" }]}

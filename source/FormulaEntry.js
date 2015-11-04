@@ -49,7 +49,7 @@ enyo.kind({
 		    value: "log("
 		},
 		{
-		    content: "x<sup>2</sup>",
+		    content: "x&sup2;",
 		    value: "^2"
 		},
 		{

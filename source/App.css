@@ -1,23 +1,11 @@
 /*
  Put anything you reference with "url()" in ../assets/
  This way, you can minify your application, and just remove the "source" folder for production
-
- Note: Magic numbers calculated based on the assumed 96px per "inch" idea.
- Note: Calculations performed, on principle, using the calculator itself!
-
- 11cm ~ 416px allow double that 832px
-  6cm ~ 227px allow double that 454px
 */
 
 @media all and (orientation:portrait) {
-body {
-    background-color: yellow;
-/*    max-height: 832px;
-    max-width: 454px;*/
-}
-
 .onyx-toolbar {
-    height: 21.5vh;
+    height: 18vh;
     margin-top: 0.5vh;
     margin-bottom: 0.5vh;
     margin-left: 0.5%;
@@ -26,17 +14,11 @@ body {
     background-color: #555;
     text-align: right;
     font-size: 7vh !important;
-    line-height: 8vh !important;
+    line-height: 8vh;
 }
 }
 
 @media all and (orientation:landscape) {
-body {
-    background-color: yellow;
-/*    max-height: 454px;
-    max-width: 832px;*/
-}
-
 .onyx-toolbar {
     height: 17vh;
     max-width: 10em; /* By trial and error */
@@ -48,12 +30,17 @@ body {
     background-color: #555;
     text-align: right;
     font-size: 7vh !important;
-    line-height: 8vh !important;
+    line-height: 8vh;
 }
 }
 
 #app {
     background-color: #777;
+}
+
+body {
+    /* Shouldn't see this. You'll know if you do. */
+    background-color: yellow;
 }
 
 /* The panels host collapses unless we give it a height */
@@ -66,7 +53,7 @@ body {
 }
 
 .bezel {
-    height: 82vh;
+    height: 77vh;
 }
 
 .function-button {
@@ -75,7 +62,7 @@ body {
     margin-right: 0.5%;
     margin-top: 0.5vh;
     margin-bottom: 0.5vh;
-    height: 14vh;
+    height: 14.5vh;
     color: white;
     background-color: lightblue;
     border-color: black;
@@ -130,17 +117,11 @@ body {
 	text-align: left;
 	font-size: 3.5vh !important;
 	line-height: 3.5vh !important;
-/*	padding: 2px;*/
 }
 
 .button {
 	background-color: green;
 	float: right;
-}
-
-sup {
-	vertical-align: super !important;
-	font-size: 0.5em;
 }
 
 .about-description {
