@@ -46,24 +46,26 @@ enyo.kind({
 	    }
 	}
 	this.display = v.toString();
-	/* Trim off trailing zeroes beyond the decimal point */
-	pointix = this.display.indexOf(".");
-	if (pointix !== -1) {
-	    keepChecking = true;
-	    while (keepChecking) {
-		switch(this.display.charAt(this.display.length - 1)) {
-		case '0':
-		    this.display =
-			this.display.substring(0, this.display.length - 1);
-		    break
-		case '.':
-		    this.display =
-			this.display.substring(0, this.display.length - 1);
-		    keepChecking = false;
-		    break;
-		default:
-		    keepChecking = false;
-		    break;
+	if (this.enteringY === false) {
+	    /* Trim off trailing zeros beyond the decimal point */
+	    pointix = this.display.indexOf(".");
+	    if (pointix !== -1) {
+		keepChecking = true;
+		while (keepChecking) {
+		    switch(this.display.charAt(this.display.length - 1)) {
+		    case '0':
+			this.display =
+			    this.display.substring(0, this.display.length - 1);
+			break
+		    case '.':
+			this.display =
+			    this.display.substring(0, this.display.length - 1);
+			keepChecking = false;
+			break;
+		    default:
+			keepChecking = false;
+			break;
+		    }
 		}
 	    }
 	}
