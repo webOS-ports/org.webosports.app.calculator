@@ -1,67 +1,164 @@
 /*
-	Put anything you reference with "url()" in ../assets/
-	This way, you can minify your application, and just remove the "source" folder for production
+ Put anything you reference with "url()" in ../assets/
+ This way, you can minify your application, and just remove the "source" folder for production
 */
-#app {
-	background-color: black;
-}
 
+@media all and (orientation:portrait) {
 .onyx-toolbar {
-	height: 108px;
-	border-radius: 8px;
-	background-color: #555;
+    height: 18vh;
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+    border-radius: 8px;
+    background-color: #555;
+    text-align: right;
+    font-size: 7vh !important;
+    line-height: 8vh;
 }
 
-.test-record {
-	height: 55px;
-	border-radius: 8px;
-	color: black;
-	background-color: #CCC;
-	text-align: left;
-	padding: 2px;
+.onyx-toolbar-6rows {
+    height: 14vh;
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+    border-radius: 8px;
+    background-color: #555;
+    text-align: right;
+    font-size: 7vh !important;
+    line-height: 8vh;
+}
+}
+
+@media all and (orientation:landscape) {
+.onyx-toolbar {
+    height: 15vh;
+    max-width: 10em; /* By trial and error */
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px;
+    background-color: #555;
+    text-align: right;
+    font-size: 7vh !important;
+    line-height: 6vh;
+}
+
+.onyx-toolbar-6rows {
+    height: 10vh;
+    max-width: 10em; /* By trial and error */
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px;
+    background-color: #555;
+    text-align: right;
+    font-size: 7vh !important;
+    line-height: 6vh;
+}
+}
+
+#app {
+    background-color: #777;
+}
+
+body {
+    /* Shouldn't see this. You'll know if you do. */
+    background-color: yellow;
+}
+
+/* The panels host collapses unless we give it a height */
+#app_calculatorHost {
+    height: 100%;
+}
+
+.flags {
+    font-size: 3.5vh;
+}
+
+.bezel {
+    height: 77vh;
 }
 
 .function-button {
-	color: white;
-	background-color: lightblue;
-	border-color: black;
+    width: 24%;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+    height: 14.5vh;
+    color: white;
+    background-color: lightblue;
+    border-color: black;
+    border-radius: 8px;
+    font-size: 5vh;
+    line-height: 1vh !important; /* Otherwise it is based on the font size */
 }
 
 .number-button {
-	color: black;
-	background-color: white;
-	border-color: black;
+    color: black;
+    background-color: white;
 }
 
 .cancel-button {
-	color: white;
-	background-color: orange;
-	border-color: black;
+    background-color: orange;
 }
 
-sup {
-	vertical-align: super !important;
-	font-size: 0.5em;
+.formula-bar {
+    height: 9vh;
+    max-width: 100%;
 }
 
-.about-description        {
+.function-button-6rows {
+    width: 24%;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+    height: 10vh;
+    color: white;
+    background-color: lightblue;
+    border-color: black;
+    border-radius: 8px;
+    font-size: 5vh;
+    line-height: 1vh !important; /* Otherwise it is based on the font size */
+}
+
+.number-button-6rows {
+    color: black;
+    background-color: white;
+}
+
+.cancel-button-6rows {
+    background-color: orange;
+}
+
+.test-record {
+	height: 10vh;
+	max-width: 100%;
+	color: black;
+	background-color: #CCC;
+	text-align: left;
+	font-size: 3.5vh !important;
+	line-height: 3.5vh !important;
+}
+
+.button {
+	background-color: green;
+	float: right;
+}
+
+.about-description {
 	color: black;
 	font-size: 14px;
 	font-family: Helvetica;
 }
 
-
-.classic-popup       {
+.classic-popup {
 	border-radius: 16px;
 	width: 352px;
 	background-color: #555;
-}
-
-.button   {
-	background-color: green;
-	float: right;
-}
-
-.bottom-bar  {
-	height: 55px;
 }

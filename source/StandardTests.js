@@ -3,7 +3,6 @@
 enyo.kind({
     name: "StandardTests",
     kind: "FittableRows",
-    style: "-webkit-flex: 1; background-color: #777; padding: 5px; color: white; border-radius: 16px;",
     job: "",
     currentTest: 0,
     nTestsRun: 0,
@@ -13,13 +12,11 @@ enyo.kind({
 	  onMemoryActiveChanged: "memoryActiveChanged" },
 	{
 	    kind: "onyx.Toolbar",
-	    style: "margin-bottom: 5px;",
 	    components: [
 		{ kind: onyx.Button, name: "theButton", content: "Start", ontap: "tapped" },
 		{
 		    name: "resultsSummary",
-		    content: "Tests",
-		    style: "font-size: 2em; font-weight: bold;"
+		    content: "Tests"
 		}]
 	},
 	{
@@ -65,8 +62,8 @@ enyo.kind({
 		classes: "test-record",
 		components: [
 		    { kind: "onyx.Button", style: resultStyle },
-		    { content: this.tests[i].desc, style: "width: 155px;" },
-		    { kind: "FittableRows", style: "min-width: 150px;", components: [
+		    { content: this.tests[i].desc, style: "width: 10em;" },
+		    { kind: "FittableRows", components: [
 			{ content: "Expect: " + this.tests[i].expect },
 			{ content: "Get: " + testOutput }
 		    ] }
@@ -105,6 +102,8 @@ enyo.kind({
 	{ desc: "11", keys: ["clear", "1", "1"], expect: "11" },
 	{ desc: "0123456789..001", keys: ["clear", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "point", "point", "0", "0", "1" ],
 	  expect: "123456789.001" },
+	{ desc: "0.", keys: ["clear", "0", "point"], expect: "0." },
+	{ desc: "0.0", keys: ["clear", "0", "point", "0"], expect: "0.0" },
 	{ desc: "0123456789.001=", keys: ["clear", "0", "1", "2", "3", "4", "5",
 					  "6", "7", "8", "9", "point", "0", "0", "1", "equals"],
 	  expect: "123456789.001" },
@@ -228,6 +227,13 @@ enyo.kind({
                            "1", "point", "2", "3", "4", "5",
 	                   "6", "7", "4", "5", "divide", "1",
 	                   "0", "0", "0", "0", "equals"], expect: "-0.0001234567"},
+	{ desc: "No trailing zeros", keys: ["clear", "1", "2", "3", "4", "5",
+	                   "6", "7", "8", "9", "point", "1", "2", "3", "minus",
+	                   "1", "2", "3", "0", "0", "0", "0", "0", "0", "equals"],
+	                   expect: "456789.123"},
+	{ desc: "No trailing decimal", keys: ["clear", "1", "2", "3", "4", "5",
+	                   "point", "0", "0", "0", "equals"],
+	                   expect: "12345"},
 	// Also ought to round results to sensible precision in the more obvious cases.
 	{ desc: ".0001*.0001=", keys: ["clear", "point", "0", "0", "0", "1", "multiply",
 				    "point", "0", "0", "0", "1", "equals"], expect: "0.00000001" }
