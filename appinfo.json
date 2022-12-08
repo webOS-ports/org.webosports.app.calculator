@@ -8,6 +8,6 @@
 	"main": "index.html",
 	"icon": "icon.png",
 	"uiRevision": "2",
-	"requiredPermissions": ["settings"]
+	"requiredPermissions": ["devmode-service.operation"]
 }
 
