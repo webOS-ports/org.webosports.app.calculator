@@ -191,7 +191,7 @@
 						document['on' + e] = enyo.dispatch;
 					} else {
 						// on iOS7 document.ongesturechange is never called
-						document.addEventListener(e, enyo.dispatch, false);
+						document.addEventListener(e, enyo.dispatch, {passive:false});
 					}
 				});
 
